@@ -43,14 +43,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  user-select: none;
+  outline: none;
 }
 
 .scroll-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
   box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
   background: linear-gradient(135deg, #2980b9, #3498db);
+}
+
+.scroll-btn:active {
+  transform: translateY(0) translateZ(0);
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
 .categories-scroll {
@@ -59,6 +68,8 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-behavior: smooth;
+  padding: 5px;
+  margin: -5px;
 }
 
 .categories-scroll::-webkit-scrollbar {
@@ -68,8 +79,9 @@
 .categories-track {
   display: flex;
   gap: 20px;
-  padding: 10px 0;
+  padding: 15px 5px;
   min-width: fit-content;
+  position: relative;
 }
 
 .category-card {
@@ -79,15 +91,17 @@
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-  transition: all 0.4s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-decoration: none;
   color: inherit;
   position: relative;
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
 }
 
 .category-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  transform: translateY(-8px) translateZ(0);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
 }
 
 .category-image {
@@ -100,11 +114,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .category-card:hover .category-image img {
-  transform: scale(1.1);
+  transform: scale(1.05) translateZ(0);
 }
 
 .category-overlay {
@@ -228,5 +244,40 @@
   .category-info h3 {
     font-size: 0.7rem;
     line-height: 1.2;
+  }
+}
+
+/* Performance optimizations */
+.categories-section {
+  contain: layout style paint;
+}
+
+.categories-scroll {
+  contain: layout;
+  overflow-anchor: none;
+}
+
+.categories-track {
+  contain: layout;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth scroll behavior */
+@media (prefers-reduced-motion: no-preference) {
+  .categories-scroll {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-card,
+  .category-image img,
+  .scroll-btn {
+    transition: none;
+  }
+  
+  .categories-scroll {
+    scroll-behavior: auto;
   }
 }

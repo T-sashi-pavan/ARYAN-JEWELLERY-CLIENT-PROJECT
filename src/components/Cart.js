@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { handleCartWhatsAppCheckout } from '../utils/whatsappUtils';
 import './Cart.css';
 
 const Cart = () => {
@@ -12,6 +13,29 @@ const Cart = () => {
     } else {
       updateQuantity(id, newQuantity);
     }
+  };
+
+  // Helper function to extract numeric value from price (handles both string and number)
+  const getPriceValue = (price) => {
+    if (typeof price === 'number') {
+      return price;
+    }
+    if (typeof price === 'string') {
+      return parseInt(price.replace(/[^\d]/g, ''));
+    }
+    return 0;
+  };
+
+  // Helper function to format price for display
+  const formatPrice = (price) => {
+    if (typeof price === 'string' && price.includes('₹')) {
+      return price;
+    }
+    return `₹${price?.toLocaleString() || '0'}`;
+  };
+
+  const handleWhatsAppCheckout = () => {
+    handleCartWhatsAppCheckout(cartItems, getCartTotal());
   };
 
   if (cartItems.length === 0) {
@@ -53,7 +77,7 @@ const Cart = () => {
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item">
                 <div className="cart-item-image">
-                  <span className="cart-item-emoji">{item.image}</span>
+                  <img src={item.image} alt={item.name} className="cart-item-img" />
                 </div>
                 
                 <div className="cart-item-details">
@@ -79,9 +103,9 @@ const Cart = () => {
                 </div>
 
                 <div className="cart-item-price">
-                  <div className="unit-price">{item.price}</div>
+                  <div className="unit-price">{formatPrice(item.price)}</div>
                   <div className="total-price">
-                    ₹{(parseInt(item.price.replace(/[^\d]/g, '')) * item.quantity).toLocaleString()}
+                    ₹{(getPriceValue(item.price) * item.quantity).toLocaleString()}
                   </div>
                 </div>
 
@@ -118,8 +142,9 @@ const Cart = () => {
                 <Link to="/" className="continue-shopping">
                   Continue Shopping
                 </Link>
-                <button className="checkout-btn">
-                  Proceed to Checkout
+                <button className="checkout-btn whatsapp-checkout" onClick={handleWhatsAppCheckout}>
+                  <span className="whatsapp-icon">📱</span>
+                  Checkout via WhatsApp
                 </button>
               </div>
             </div>

@@ -16,6 +16,10 @@ import decorativeImage from '../ASSETS/decorativeCollections/decorative1.jpg';
 
 const Categories = () => {
   const scrollRef = useRef(null);
+  const intervalRef = useRef(null);
+  const scrollPositionRef = useRef(0);
+  const directionRef = useRef(1);
+  const isHoveredRef = useRef(false);
 
   const categories = [
     {
@@ -85,51 +89,118 @@ const Categories = () => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    const scrollWidth = scrollContainer.scrollWidth;
-    const containerWidth = scrollContainer.clientWidth;
-    let scrollPosition = 0;
-    let direction = 1;
-
-    const autoScroll = () => {
-      scrollPosition += direction * 1.5; // Adjust speed here
-
-      // Reverse direction when reaching ends
-      if (scrollPosition >= scrollWidth - containerWidth) {
-        direction = -1;
-      } else if (scrollPosition <= 0) {
-        direction = 1;
-      }
-
-      scrollContainer.scrollLeft = scrollPosition;
+    const startAutoScroll = () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      
+      intervalRef.current = setInterval(() => {
+        if (isHoveredRef.current) return;
+        
+        const scrollWidth = scrollContainer.scrollWidth;
+        const containerWidth = scrollContainer.clientWidth;
+        const maxScroll = scrollWidth - containerWidth;
+        
+        // Update scroll position
+        scrollPositionRef.current += directionRef.current * 1;
+        
+        // Check boundaries and reverse direction
+        if (scrollPositionRef.current >= maxScroll) {
+          scrollPositionRef.current = maxScroll;
+          directionRef.current = -1;
+        } else if (scrollPositionRef.current <= 0) {
+          scrollPositionRef.current = 0;
+          directionRef.current = 1;
+        }
+        
+        // Apply smooth scrolling
+        scrollContainer.scrollTo({
+          left: scrollPositionRef.current,
+          behavior: 'smooth'
+        });
+      }, 20);
     };
 
-    const scrollInterval = setInterval(autoScroll, 30); // Adjust frequency here
+    const handleMouseEnter = () => {
+      isHoveredRef.current = true;
+      // Sync the reference position with actual scroll position
+      scrollPositionRef.current = scrollContainer.scrollLeft;
+    };
 
-    // Pause auto-scroll on hover
-    const handleMouseEnter = () => clearInterval(scrollInterval);
     const handleMouseLeave = () => {
-      const newInterval = setInterval(autoScroll, 30);
-      return newInterval;
+      isHoveredRef.current = false;
+      // Restart auto-scroll smoothly from current position
+      scrollPositionRef.current = scrollContainer.scrollLeft;
     };
 
-    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
-    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    // Add event listeners to the track instead of scroll container
+    const categoryTrack = scrollContainer.querySelector('.categories-track');
+    if (categoryTrack) {
+      categoryTrack.addEventListener('mouseenter', handleMouseEnter);
+      categoryTrack.addEventListener('mouseleave', handleMouseLeave);
+    }
+
+    // Initialize auto-scroll
+    startAutoScroll();
 
     return () => {
-      clearInterval(scrollInterval);
-      if (scrollContainer) {
-        scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
-        scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (categoryTrack) {
+        categoryTrack.removeEventListener('mouseenter', handleMouseEnter);
+        categoryTrack.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
   }, []);
 
   const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -250, behavior: 'smooth' });
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    
+    // Pause auto-scroll temporarily
+    isHoveredRef.current = true;
+    
+    const cardWidth = 250 + 20; // card width + gap
+    const currentScroll = scrollContainer.scrollLeft;
+    const targetScroll = Math.max(0, currentScroll - cardWidth);
+    
+    scrollContainer.scrollTo({
+      left: targetScroll,
+      behavior: 'smooth'
+    });
+    
+    // Update position reference
+    scrollPositionRef.current = targetScroll;
+    
+    // Resume auto-scroll after animation
+    setTimeout(() => {
+      isHoveredRef.current = false;
+    }, 500);
   };
 
   const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 250, behavior: 'smooth' });
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+    
+    // Pause auto-scroll temporarily
+    isHoveredRef.current = true;
+    
+    const cardWidth = 250 + 20; // card width + gap
+    const currentScroll = scrollContainer.scrollLeft;
+    const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+    const targetScroll = Math.min(maxScroll, currentScroll + cardWidth);
+    
+    scrollContainer.scrollTo({
+      left: targetScroll,
+      behavior: 'smooth'
+    });
+    
+    // Update position reference
+    scrollPositionRef.current = targetScroll;
+    
+    // Resume auto-scroll after animation
+    setTimeout(() => {
+      isHoveredRef.current = false;
+    }, 500);
   };
 
   return (

@@ -65,7 +65,15 @@ export const CartProvider = ({ children }) => {
 
   const getCartTotal = () => {
     return cartItems.reduce((total, item) => {
-      const price = parseInt(item.price.replace(/[^\d]/g, ''));
+      // Handle both string prices (like '₹25,000') and numeric prices (like 25000)
+      let price;
+      if (typeof item.price === 'number') {
+        price = item.price;
+      } else if (typeof item.price === 'string') {
+        price = parseInt(item.price.replace(/[^\d]/g, ''));
+      } else {
+        price = 0;
+      }
       return total + (price * item.quantity);
     }, 0);
   };

@@ -25,13 +25,14 @@ html, body {
 }
 
 .header.scrolled .header-top {
-  padding: 12px 20px;
+  padding: 10px 20px; /* Reduced and consistent with default state */
   background-color: #007A94;
 }
 
 .header.scrolled .header-bottom {
-  padding: 10px 20px;
+  padding: 0; /* Keep consistent with default state */
   background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+  min-height: 45px; /* Slightly smaller when scrolled */
 }
 
 .container {
@@ -46,7 +47,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
+  padding: 12px 20px; /* Reduced from 15px for more compact design */
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
   position: relative;
@@ -87,7 +88,8 @@ html, body {
 }
 
 .logo-section:hover {
-  transform: translateX(-50%) translateY(-2px);
+  /* Remove transform that affects layout */
+  transform: translateX(-50%);
 }
 
 .logo-image {
@@ -170,28 +172,43 @@ html, body {
   width: 100%;
   margin: 0;
   box-sizing: border-box;
+  /* Prevent layout shifts and ensure proper centering */
+  min-height: 50px; /* Reduced from 60px for more compact design */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the nav menu */
 }
 
 
 .nav-menu {
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 40px; /* Reduced from 50px for more compact design */
   align-items: center;
+  /* Prevent layout shifts and ensure proper centering */
+  height: 50px; /* Reduced from 60px for more compact design */
+  box-sizing: border-box;
+  width: 100%; /* Ensure full width for proper centering */
 }
 
 .nav-link {
   color: white;
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.9rem; /* Reduced from 0.95rem for more compact design */
   font-weight: 500;
-  padding: 8px 16px;
-  border-radius: 25px;
+  padding: 6px 14px; /* Reduced from 8px 16px for more compact design */
+  border-radius: 20px; /* Reduced from 25px for more compact design */
   transition: all 0.3s ease;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px; /* Reduced from 1px for more compact design */
   text-transform: uppercase;
   position: relative;
   overflow: hidden;
+  /* Fix layout shifts */
+  display: inline-block;
+  vertical-align: top;
+  box-sizing: border-box;
+  /* Pre-allocate space for hover effects */
+  margin: 2px 0; /* Account for translateY hover effect */
 }
 
 .nav-link::before {
@@ -203,6 +220,9 @@ html, body {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s ease;
+  /* Ensure pseudo-element doesn't affect layout */
+  pointer-events: none;
+  z-index: 1;
 }
 
 .nav-link:hover::before {
@@ -211,26 +231,200 @@ html, body {
 
 .nav-link:hover {
   background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  /* Use margin instead of transform to prevent layout shifts */
+  margin-top: 0; /* Move up by reducing top margin */
+  margin-bottom: 4px; /* Compensate with bottom margin */
+  /* Use inset box-shadow to avoid affecting layout */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3), 
+              0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .nav-link.active {
   background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  font-weight: 600;
+  /* Use inset box-shadow to avoid layout shifts */
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 
+              0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Don't change font-weight to prevent text width changes */
+  font-weight: 500;
+  /* Use a more subtle indicator */
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .nav-link.active::after {
   content: '';
   position: absolute;
-  bottom: -2px;
+  bottom: -1px; /* Position closer to avoid layout shifts */
   left: 50%;
   transform: translateX(-50%);
   width: 30px;
-  height: 3px;
+  height: 2px; /* Slightly smaller */
   background: white;
-  border-radius: 2px;
+  border-radius: 1px;
+  /* Ensure it doesn't affect layout */
+  pointer-events: none;
+}
+
+/* Dropdown Menu Styles */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+  /* Ensure consistent layout */
+  vertical-align: top;
+}
+
+.dropdown-arrow {
+  margin-left: 8px;
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+  display: inline-block; /* Prevent layout shifts */
+  transform-origin: center; /* Smooth rotation */
+}
+
+.nav-dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  padding: 6px;
+  z-index: 1000;
+  opacity: 0;
+  animation: dropdownFadeIn 0.3s ease forwards;
+  margin-top: 4px;
+  min-width: 180px;
+  max-width: 200px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* More compact styling for larger dropdowns */
+.dropdown-content.large-dropdown {
+  gap: 1px;
+  max-height: 220px;
+}
+
+.dropdown-content.large-dropdown .dropdown-item {
+  padding: 3px 6px;
+}
+
+.dropdown-content.large-dropdown .dropdown-item-image {
+  width: 26px;
+  height: 26px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.dropdown-item:hover {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  transform: translateX(2px);
+  border: 1px solid #17a2b8;
+  box-shadow: 0 2px 8px rgba(23, 162, 184, 0.1);
+}
+
+.dropdown-item-image {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dropdown-item:hover .dropdown-item-image {
+  border-color: #17a2b8;
+  transform: scale(1.05);
+}
+
+.dropdown-item-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dropdown-item-content h4 {
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #2c3e50;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.dropdown-item-content p {
+  font-size: 0.6rem;
+  color: #6c757d;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .dropdown-menu {
+    min-width: 190px;
+    max-width: 210px;
+  }
+  
+  .dropdown-item-image {
+    width: 31px;
+    height: 31px;
+  }
+  
+  .dropdown-item-content h4 {
+    font-size: 0.74rem;
+  }
+  
+  .dropdown-item-content p {
+    font-size: 0.58rem;
+  }
 }
 
 /* Animations */
@@ -260,26 +454,31 @@ html, body {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .nav-menu {
-    gap: 30px;
+    gap: 30px; /* Reduced gap for compact design */
+    height: 45px; /* Reduced height */
   }
   
   .nav-link {
-    font-size: 0.9rem;
-    padding: 6px 12px;
+    font-size: 0.85rem;
+    padding: 5px 12px; /* More compact */
+  }
+  
+  .header-bottom {
+    min-height: 45px; /* Match nav-menu height */
   }
 }
 
 @media (max-width: 768px) {
   .header-top {
-    padding: 12px 0;
+    padding: 10px 0; /* Reduced from 12px */
   }
   
   .logo-image {
-    height: 50px;
+    height: 45px; /* Reduced from 50px */
   }
   
   .header.scrolled .logo-image {
-    height: 40px;
+    height: 35px; /* Reduced from 40px */
   }
   
   .header-icons-left,
@@ -291,23 +490,124 @@ html, body {
     gap: 20px;
     flex-wrap: wrap;
     justify-content: center;
+    height: 40px; /* Reduced height */
   }
   
   .nav-link {
-    font-size: 0.85rem;
-    padding: 6px 10px;
+    font-size: 0.8rem; /* Reduced from 0.85rem */
+    padding: 4px 10px; /* More compact */
+  }
+  
+  .header-bottom {
+    min-height: 40px; /* Match nav-menu height */
+  }
+  
+  /* Dropdown responsive styles */
+  .dropdown-menu {
+    min-width: 160px;
+    max-width: 180px;
+    padding: 6px;
+    left: 0;
+    transform: none;
+    right: auto;
+  }
+  
+  .dropdown-content {
+    gap: 2px;
+  }
+  
+  .dropdown-content.large-dropdown {
+    gap: 1px;
+  }
+  
+  .dropdown-content.large-dropdown .dropdown-item {
+    padding: 2px 5px;
+  }
+  
+  .dropdown-content.large-dropdown .dropdown-item-image {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .dropdown-item {
+    padding: 3px 5px;
+    gap: 5px;
+  }
+  
+  .dropdown-item-image {
+    width: 26px;
+    height: 26px;
+  }
+  
+  .dropdown-item-content h4 {
+    font-size: 0.7rem;
+  }
+  
+  .dropdown-item-content p {
+    font-size: 0.6rem;
   }
 }
 
 @media (max-width: 640px) {
   .nav-menu {
     gap: 15px;
+    height: 35px; /* More compact for mobile */
   }
   
   .nav-link {
-    font-size: 0.8rem;
-    padding: 5px 8px;
+    font-size: 0.75rem; /* Reduced from 0.8rem */
+    padding: 4px 8px; /* More compact */
     letter-spacing: 0.5px;
+  }
+  
+  .header-bottom {
+    min-height: 35px; /* Match nav-menu height */
+  }
+  
+  /* Smaller dropdown for mobile */
+  .dropdown-menu {
+    min-width: 150px;
+    max-width: 170px;
+    padding: 5px;
+  }
+  
+  .dropdown-content {
+    gap: 1px;
+  }
+  
+  .dropdown-content.large-dropdown {
+    gap: 0px;
+  }
+  
+  .dropdown-content.large-dropdown .dropdown-item {
+    padding: 2px 4px;
+  }
+  
+  .dropdown-content.large-dropdown .dropdown-item-image {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .dropdown-item {
+    padding: 3px 4px;
+    gap: 4px;
+  }
+  
+  .dropdown-item-image {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .dropdown-item-content h4 {
+    font-size: 0.65rem;
+  }
+  
+  .dropdown-item-content p {
+    font-size: 0.55rem;
+  }
+  
+  .dropdown-arrow {
+    font-size: 0.6rem;
   }
   
   .header-icons-left,
@@ -334,32 +634,147 @@ html, body {
     gap: 10px;
     text-align: center;
     justify-content: space-between;
+    padding: 8px 0; /* Reduced from original */
   }
   
   .logo-image {
-    height: 40px;
+    height: 35px; /* Reduced from 40px */
   }
   
   .header.scrolled .logo-image {
-    height: 35px;
+    height: 30px; /* Reduced from 35px */
   }
   
   .nav-menu {
-    gap: 10px;
+    gap: 8px; /* Reduced from 10px */
     padding: 0 10px;
+    height: 32px; /* More compact */
   }
   
   .nav-link {
-    font-size: 0.75rem;
-    padding: 4px 6px;
+    font-size: 0.7rem; /* Reduced from 0.75rem */
+    padding: 3px 6px; /* More compact */
   }
   
   .header-bottom {
-    padding: 8px 0;
+    padding: 4px 0; /* Reduced from 8px */
+    min-height: 32px; /* Match nav-menu height */
+  }
+  
+  /* Responsive dropdown for small screens */
+  .dropdown-menu {
+    min-width: 180px;
+    max-width: 200px;
+    padding: 8px;
+    left: 0;
+    transform: translateX(0);
+  }
+  
+  .dropdown-item {
+    padding: 4px 6px;
+    gap: 6px;
+  }
+  
+  .dropdown-item-image {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .dropdown-item-content h4 {
+    font-size: 0.7rem;
+  }
+  
+  .dropdown-item-content p {
+    font-size: 0.55rem;
   }
 }
+
+/* Extra responsive for very small screens */
+@media (max-width: 360px) {
+  .dropdown-menu {
+    min-width: 140px;
+    max-width: 160px;
+    padding: 4px;
+  }
+  
+  .dropdown-content {
+    gap: 0px;
+  }
+  
+  .dropdown-content.large-dropdown .dropdown-item {
+    padding: 1px 3px;
+  }
+  
+  .dropdown-content.large-dropdown .dropdown-item-image {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .dropdown-item {
+    padding: 2px 3px;
+    gap: 3px;
+  }
+  
+  .dropdown-item-image {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .dropdown-item-content h4 {
+    font-size: 0.6rem;
+  }
+  
+  .dropdown-item-content p {
+    font-size: 0.5rem;
+  }
+}
+  
+  .dropdown-item {
+    padding: 3px 5px;
+    gap: 5px;
+  }
+  
+  .dropdown-item-image {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .dropdown-item-content h4 {
+    font-size: 0.65rem;
+  }
+  
+  .dropdown-item-content p {
+    font-size: 0.5rem;
+  }
+  
+  .dropdown-content.large-dropdown {
+    gap: 2px;
+    max-height: 250px;
+  }
 
 /* Smooth scroll behavior */
 html {
   scroll-behavior: smooth;
+}
+
+/* Additional fixes to prevent layout shifts */
+.nav-link,
+.nav-link:hover,
+.nav-link:focus,
+.nav-link:active {
+  /* Maintain consistent dimensions */
+  min-height: 36px; /* Reduced from 44px for more compact design */
+  line-height: 1.3; /* Slightly reduced for compactness */
+  white-space: nowrap; /* Prevent text wrapping */
+  text-overflow: ellipsis; /* Handle overflow gracefully */
+}
+
+/* Ensure dropdown containers don't affect nav layout */
+.nav-dropdown {
+  contain: layout; /* CSS containment for better performance */
+}
+
+/* Prevent hover state inheritance issues */
+.nav-dropdown .nav-link {
+  isolation: isolate; /* Create new stacking context */
 }

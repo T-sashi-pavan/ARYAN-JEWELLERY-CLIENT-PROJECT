@@ -122,6 +122,16 @@ const LifestyleCollection = () => {
         <h1>LIFESTYLE COLLECTION</h1>
       </div>
       
+      {/* Category Filter Buttons */}
+      <div className="category-filter">
+        <Link to="/lifestyle-collection" className="category-filter-btn active">ALL</Link>
+        <Link to="/lifestyle-collection/coins" className="category-filter-btn">COINS COLLECTIONS</Link>
+        <Link to="/lifestyle-collection/murthi" className="category-filter-btn">MURTHI COLLECTIONS</Link>
+        <Link to="/lifestyle-collection/decorative" className="category-filter-btn">DECORATIVE COLLECTIONS</Link>
+        <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">POOJA ITEMS COLLECTIONS</Link>
+        <Link to="/lifestyle-collection/living-room" className="category-filter-btn">LIVING ROOM COLLECTIONS</Link>
+      </div>
+      
       <div className="lifestyle-grid">
         {lifestyleProducts.map((product) => (
           <Link 

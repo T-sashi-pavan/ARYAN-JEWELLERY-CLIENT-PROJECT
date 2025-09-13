@@ -5,9 +5,6 @@ import { useCart } from '../context/CartContext';
 import './ProductDetail.css';
 
 // Import recommended products images
-import women3 from '../ASSETS/womenCollections/women3.jpg';
-import women4 from '../ASSETS/womenCollections/women4.jpg';
-import women6 from '../ASSETS/womenCollections/women6.jpg';
 import lifestyle1 from '../ASSETS/lifestyleCollections/lifestyle1.jpg';
 import lifestyle2 from '../ASSETS/lifestyleCollections/lifestyle2.webp';
 import lifestyle3 from '../ASSETS/lifestyleCollections/lifestyle3.jpg';
@@ -40,6 +37,30 @@ import livingroom1 from '../ASSETS/livingroomCollections/livingroom1.jpg';
 import livingroom2 from '../ASSETS/livingroomCollections/livingroom2.jpg';
 import livingroom3 from '../ASSETS/livingroomCollections/livingroom3.jpg';
 import livingroom4 from '../ASSETS/livingroomCollections/livingroom4.jpg';
+import bridal1 from '../ASSETS/bridalCollections/bridal1.jpg';
+import bridal2 from '../ASSETS/bridalCollections/bridal2.jpg';
+import bridal3 from '../ASSETS/bridalCollections/bridal3.jpg';
+import bridal4 from '../ASSETS/bridalCollections/bridal4.jpg';
+import bridal6 from '../ASSETS/bridalCollections/bridal6.jpg';
+import bridal7 from '../ASSETS/bridalCollections/bridal7.jpg';
+import bridal8 from '../ASSETS/bridalCollections/bridal8.jpg';
+import bridal9 from '../ASSETS/bridalCollections/bridal9.jpg';
+import women1 from '../ASSETS/womenCollections/women1.jpg';
+import women2 from '../ASSETS/womenCollections/women2.jpg';
+import women3 from '../ASSETS/womenCollections/women3.jpg';
+import women4 from '../ASSETS/womenCollections/women4.jpg';
+import women5 from '../ASSETS/womenCollections/women5.jpg';
+import women6 from '../ASSETS/womenCollections/women6.jpg';
+import women7 from '../ASSETS/womenCollections/women7.jpg';
+import women8 from '../ASSETS/womenCollections/women8.jpg';
+import men1 from '../ASSETS/menCollections/men1.webp';
+import men2 from '../ASSETS/menCollections/men2.jpg';
+import men3 from '../ASSETS/menCollections/men3.jpg';
+import men4 from '../ASSETS/menCollections/men4.jpg';
+import men5 from '../ASSETS/menCollections/men5.jpg';
+import men6 from '../ASSETS/menCollections/men6.jpg';
+import men7 from '../ASSETS/menCollections/men7.jpg';
+import men8 from '../ASSETS/menCollections/men8.jpg';
 
 const ProductDetail = () => {
   const location = useLocation();
@@ -62,6 +83,238 @@ const ProductDetail = () => {
     ? parseInt(product.price.replace(/[^\d]/g, ''))
     : product.price;
   const discountPercentage = Math.round(((originalPriceNum - currentPriceNum) / originalPriceNum) * 100);
+
+  // Bridal collection recommendations
+  const bridalRecommendations = [
+    {
+      id: 101,
+      name: 'Elegant Gold Payal',
+      image: bridal1,
+      price: 15000,
+      offer: '15% OFF',
+      size: 'Adjustable',
+      material: '22K Gold Plated',
+      description: 'Traditional gold payal with intricate designs perfect for bridal wear',
+      category: 'bridal'
+    },
+    {
+      id: 102,
+      name: 'Royal Bridal Chain',
+      image: bridal2,
+      price: 25000,
+      offer: '20% OFF',
+      size: '18 inch length',
+      material: '22K Gold Plated',
+      description: 'Exquisite bridal chain with traditional motifs for wedding ceremonies',
+      category: 'bridal'
+    },
+    {
+      id: 103,
+      name: 'Designer Bridal Bracelet',
+      image: bridal3,
+      price: 12000,
+      offer: '12% OFF',
+      size: '7 inch',
+      material: '22K Gold Plated',
+      description: 'Beautiful designer bracelet perfect for bridal occasions',
+      category: 'bridal'
+    },
+    {
+      id: 104,
+      name: 'Traditional Necklace Set',
+      image: bridal4,
+      price: 35000,
+      offer: '25% OFF',
+      size: 'Medium',
+      material: '22K Gold Plated',
+      description: 'Complete traditional necklace set for bridal ceremonies',
+      category: 'bridal'
+    },
+    {
+      id: 105,
+      name: 'Antique Nose Ring',
+      image: bridal6,
+      price: 8000,
+      offer: '10% OFF',
+      size: 'One Size',
+      material: '22K Gold Plated',
+      description: 'Traditional antique nose ring with ethnic patterns',
+      category: 'bridal'
+    },
+    {
+      id: 106,
+      name: 'Bridal Jewelry Set',
+      image: bridal7,
+      price: 45000,
+      offer: '30% OFF',
+      size: 'Complete Set',
+      material: '22K Gold Plated',
+      description: 'Complete bridal jewelry set including necklace, earrings, and accessories',
+      category: 'bridal'
+    },
+    {
+      id: 107,
+      name: 'Gold Plated Anklet',
+      image: bridal8,
+      price: 18000,
+      offer: '18% OFF',
+      size: 'Adjustable',
+      material: '22K Gold Plated',
+      description: 'Elegant gold plated anklet with traditional bells',
+      category: 'bridal'
+    },
+    {
+      id: 108,
+      name: 'Heritage Chain Design',
+      image: bridal9,
+      price: 28000,
+      offer: '22% OFF',
+      size: '20 inch length',
+      material: '22K Gold Plated',
+      description: 'Heritage chain design with traditional craftsmanship',
+      category: 'bridal'
+    }
+  ];
+
+  // Women collection recommendations
+  const womenRecommendations = [
+    {
+      id: 1,
+      name: 'Elegant Silver Ring',
+      image: women1,
+      price: 2500,
+      offer: '17% OFF',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Beautiful silver ring with intricate design perfect for everyday wear',
+      category: 'women'
+    },
+    {
+      id: 2,
+      name: 'Pearl Studded Earrings',
+      image: women2,
+      price: 3200,
+      offer: '16% OFF',
+      size: 'One Size',
+      material: '925 Sterling Silver with Pearls',
+      description: 'Elegant pearl earrings that add sophistication to any outfit',
+      category: 'women'
+    },
+    {
+      id: 3,
+      name: 'Silver Bridal Set',
+      image: women3,
+      price: 8900,
+      offer: '15% OFF',
+      size: 'Complete Set',
+      material: '925 Sterling Silver with Gemstones',
+      description: 'Exquisite bridal jewelry set perfect for special occasions',
+      category: 'women'
+    },
+    {
+      id: 4,
+      name: 'Traditional Bangles',
+      image: women4,
+      price: 4100,
+      offer: '15% OFF',
+      size: 'Multiple Sizes',
+      material: '925 Sterling Silver',
+      description: 'Traditional silver bangles with beautiful patterns and designs',
+      category: 'women'
+    },
+    {
+      id: 5,
+      name: 'Silver Ear Pins',
+      image: women5,
+      price: 1800,
+      offer: '18% OFF',
+      size: 'One Size',
+      material: '925 Sterling Silver',
+      description: 'Delicate ear pins with modern design for contemporary women',
+      category: 'women'
+    },
+    {
+      id: 6,
+      name: 'Silver Pendant',
+      image: women6,
+      price: 3500,
+      offer: '13% OFF',
+      size: '18 inch chain',
+      material: '925 Sterling Silver',
+      description: 'Elegant pendant necklace with unique design and premium finish',
+      category: 'women'
+    },
+    {
+      id: 7,
+      name: 'Silver Necklace Set',
+      image: women7,
+      price: 5500,
+      offer: '15% OFF',
+      size: 'Complete Set',
+      material: '925 Sterling Silver',
+      description: 'Complete necklace set with matching earrings for special occasions',
+      category: 'women'
+    },
+    {
+      id: 8,
+      name: 'Silver Chain',
+      image: women8,
+      price: 2900,
+      offer: '15% OFF',
+      size: '20 inch',
+      material: '925 Sterling Silver',
+      description: 'Classic silver chain perfect for layering or wearing alone',
+      category: 'women'
+    }
+  ];
+
+  // Men's collection recommendations
+  const menRecommendations = [
+    {
+      id: 1,
+      name: 'Silver Ring',
+      image: men1,
+      price: 3500,
+      offer: '17% OFF',
+      size: 'Multiple Sizes',
+      material: '925 Sterling Silver',
+      description: 'Classic silver ring with modern design perfect for everyday wear',
+      category: 'men'
+    },
+    {
+      id: 2,
+      name: 'Silver Ring SG',
+      image: men2,
+      price: 4200,
+      offer: '16% OFF',
+      size: 'Multiple Sizes',
+      material: '925 Sterling Silver',
+      description: 'Sophisticated silver ring with elegant finish for special occasions',
+      category: 'men'
+    },
+    {
+      id: 5,
+      name: 'Silver Chain Bracelet',
+      image: men5,
+      price: 6800,
+      offer: '15% OFF',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Robust chain bracelet with masculine appeal and durable construction',
+      category: 'men'
+    },
+    {
+      id: 8,
+      name: 'Silver Chain',
+      image: men8,
+      price: 7200,
+      offer: '18% OFF',
+      size: '20 inch',
+      material: '925 Sterling Silver',
+      description: 'Heavy-duty silver chain with robust links for lasting durability',
+      category: 'men'
+    }
+  ];
 
   // Murthi collection recommendations
   const murthiRecommendations = [
@@ -492,20 +745,21 @@ const ProductDetail = () => {
   ];
 
   // Choose recommendations based on product category
-  const recommendedProducts = product.category === 'lifestyle' 
-    ? lifestyleRecommendations.filter(item => item.id !== product.id).slice(0, 4)
-    : product.category === 'coins'
-    ? coinsRecommendations.filter(item => item.id !== product.id).slice(0, 4)
-    : product.category === 'murthi'
-    ? murthiRecommendations.filter(item => item.id !== product.id).slice(0, 4)
-    : product.category === 'livingroom'
-    ? livingRoomRecommendations.filter(item => item.id !== product.id).slice(0, 4)
-    : product.category === 'poojaitems'
-    ? poojaItemsRecommendations.filter(item => item.id !== product.id).slice(0, 4)
+  const recommendedProducts = (product.category === 'women' || product.subcategory === 'women-payal' || product.subcategory === 'women-chains' || product.subcategory === 'women-bracelets' || product.subcategory === 'women-necklace' || product.subcategory === 'women-noserings')
+    ? womenRecommendations.filter(item => item.id !== product.id).slice(0, 4)
+    : (product.category === 'men' || product.subcategory === 'men-chains' || product.subcategory === 'men-bracelets' || product.subcategory === 'men-rings')
+    ? menRecommendations.filter(item => item.id !== product.id).slice(0, 4)
+    : (product.category === 'bridal' || (product.category === 'payal' && !product.subcategory) || (product.category === 'chains' && !product.subcategory) || (product.category === 'bracelets' && !product.subcategory) || (product.category === 'necklace' && !product.subcategory) || (product.category === 'noserings' && !product.subcategory))
+    ? bridalRecommendations.filter(item => item.id !== product.id).slice(0, 4)
+    : (product.category === 'lifestyle' || product.category === 'coins' || product.category === 'murthi' || product.category === 'decorative' || product.category === 'poojaitems' || product.category === 'livingroom')
+    ? (product.category === 'coins' ? coinsRecommendations : 
+       product.category === 'murthi' ? murthiRecommendations :
+       product.category === 'decorative' ? decorativeRecommendations :
+       product.category === 'poojaitems' ? poojaItemsRecommendations :
+       product.category === 'livingroom' ? livingRoomRecommendations :
+       lifestyleRecommendations).filter(item => item.id !== product.id).slice(0, 4)
     : product.category === 'gift'
     ? giftRecommendations.filter(item => item.id !== product.id).slice(0, 4)
-    : product.category === 'decorative'
-    ? decorativeRecommendations.filter(item => item.id !== product.id).slice(0, 4)
     : generalRecommendations;
 
   const handleAddToCart = () => {

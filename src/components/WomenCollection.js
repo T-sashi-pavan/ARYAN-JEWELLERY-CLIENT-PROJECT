@@ -148,6 +148,28 @@ const WomenCollection = () => {
           <h1 className="page-title">WOMEN COLLECTION</h1>
         </div>
 
+        {/* Category Filter Navigation */}
+        <div className="category-filters">
+          <Link to="/women-collection" className="category-filter-btn active">
+            ALL
+          </Link>
+          <Link to="/women-collection/payal" className="category-filter-btn">
+            PAYAL
+          </Link>
+          <Link to="/women-collection/chains" className="category-filter-btn">
+            CHAINS
+          </Link>
+          <Link to="/women-collection/bracelets" className="category-filter-btn">
+            BRACELETS
+          </Link>
+          <Link to="/women-collection/necklace" className="category-filter-btn">
+            NECKLACE
+          </Link>
+          <Link to="/women-collection/nose-rings" className="category-filter-btn">
+            NOSE RINGS
+          </Link>
+        </div>
+
         {/* Products Grid */}
         <div className="products-grid">
           {womenProducts.slice(0, visibleItems).map((product, index) => (

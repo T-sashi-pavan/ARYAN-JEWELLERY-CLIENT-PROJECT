@@ -136,6 +136,30 @@ const BridalCollection = () => {
           <h1 className="page-title">BRIDAL COLLECTION</h1>
         </div>
 
+        {/* Category Filter Navigation */}
+        <div className="category-filter-nav">
+          <div className="filter-buttons">
+            <Link to="/bridal-collection" className="filter-btn active">
+              ALL
+            </Link>
+            <Link to="/bridal-collection/payal" className="filter-btn">
+              PAYAL
+            </Link>
+            <Link to="/bridal-collection/chains" className="filter-btn">
+              CHAINS
+            </Link>
+            <Link to="/bridal-collection/bracelets" className="filter-btn">
+              BRACELETS
+            </Link>
+            <Link to="/bridal-collection/necklace" className="filter-btn">
+              NECKLACE
+            </Link>
+            <Link to="/bridal-collection/nose-rings" className="filter-btn">
+              NOSE RINGS
+            </Link>
+          </div>
+        </div>
+
         {/* Products Grid */}
         <div className="products-grid">
           {bridalProducts.slice(0, visibleItems).map((product, index) => (

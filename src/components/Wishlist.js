@@ -2,6 +2,7 @@ import React from 'react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { handleWishlistWhatsAppInquiry } from '../utils/whatsappUtils';
 import './Wishlist.css';
 
 const Wishlist = () => {
@@ -14,6 +15,10 @@ const Wishlist = () => {
 
   const handleRemoveFromWishlist = (itemId) => {
     removeFromWishlist(itemId);
+  };
+
+  const handleWhatsAppInquiry = () => {
+    handleWishlistWhatsAppInquiry(wishlistItems);
   };
 
   if (wishlistItems.length === 0) {
@@ -45,6 +50,10 @@ const Wishlist = () => {
           <h1>MY WISHLIST</h1>
           <div className="wishlist-actions">
             <span className="wishlist-count">{wishlistItems.length} items</span>
+            <button className="whatsapp-inquiry-btn" onClick={handleWhatsAppInquiry}>
+              <span className="whatsapp-icon">📱</span>
+              Inquire via WhatsApp
+            </button>
             <button className="clear-wishlist-btn" onClick={clearWishlist}>
               Clear All
             </button>
@@ -55,7 +64,7 @@ const Wishlist = () => {
           {wishlistItems.map((item) => (
             <div key={item.id} className="wishlist-item">
               <div className="wishlist-item-image">
-                <span className="wishlist-emoji">{item.image}</span>
+                <img src={item.image} alt={item.name} className="wishlist-item-img" />
                 <button 
                   className="remove-from-wishlist"
                   onClick={() => handleRemoveFromWishlist(item.id)}
