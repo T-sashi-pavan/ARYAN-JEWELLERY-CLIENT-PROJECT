@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
+import { useSearch, getSearchSuggestions } from '../utils/searchUtils';
 import './Header.css';
 import logo from '../ASSETS/LOGO.png';
 
@@ -37,9 +38,27 @@ const Header = () => {
   const [showWomenDropdown, setShowWomenDropdown] = useState(false);
   const [showMenDropdown, setShowMenDropdown] = useState(false);
   const [showLifestyleDropdown, setShowLifestyleDropdown] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
+  
   const location = useLocation();
+  const navigate = useNavigate();
   const { wishlistCount } = useWishlist();
   const { cartCount } = useCart();
+  const {
+    searchQuery,
+    searchResults,
+    isSearching,
+    isSearchOpen,
+    handleSearch,
+    toggleSearch,
+    closeSearch,
+    setSearchQuery
+  } = useSearch();
+  
+  const searchInputRef = useRef(null);
+  const searchContainerRef = useRef(null);
 
   // Bridal dropdown categories with specific images
   const bridalCategories = [
@@ -169,9 +188,108 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    // Initialize
+    handleResize();
+    
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  // Search related effects
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        closeSearch();
+        setShowSearchSuggestions(false);
+      }
+    };
+
+    const handleEscapeKey = (event) => {
+      if (event.key === 'Escape') {
+        closeSearch();
+        setShowSearchSuggestions(false);
+      }
+    };
+
+    if (isSearchOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscapeKey);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKey);
+    };
+  }, [isSearchOpen, closeSearch]);
+
+  useEffect(() => {
+    if (searchQuery && searchQuery.length > 0) {
+      setShowSearchSuggestions(true);
+    } else {
+      setShowSearchSuggestions(false);
+    }
+  }, [searchQuery]);
+
+  // Search handlers
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      closeSearch();
+      setShowSearchSuggestions(false);
+    }
+  };
+
+  const handleSearchInputChange = (e) => {
+    const value = e.target.value;
+    handleSearch(value);
+  };
+
+  const handleSuggestionClick = (product) => {
+    navigate(`/product/${product.id}`);
+    closeSearch();
+    setShowSearchSuggestions(false);
+  };
+
+  const handleSearchIconClick = () => {
+    if (isSearchOpen && searchQuery.trim()) {
+      // If search is open and has query, perform search
+      handleSearchSubmit({ preventDefault: () => {} });
+    } else {
+      // Toggle search input
+      toggleSearch();
+    }
+  };
+
+  const toggleMobileMenu = () => {
+    console.log('Toggling mobile menu. Current state:', isMobileMenuOpen);
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+    console.log('Mobile menu will be:', !isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    console.log('Closing mobile menu');
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -193,6 +311,72 @@ const Header = () => {
           </Link>
           
           <div className="header-icons-right">
+            {/* Search functionality */}
+            <div className="search-container" ref={searchContainerRef}>
+              <button 
+                className="icon-item search-icon"
+                onClick={handleSearchIconClick}
+                aria-label="Search products"
+              >
+                <span className="icon">🔍</span>
+                <span className="icon-label">Search</span>
+              </button>
+              
+              {/* Search Input Field */}
+              <div className={`search-input-container ${isSearchOpen ? 'open' : ''}`}>
+                <form onSubmit={handleSearchSubmit}>
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={handleSearchInputChange}
+                    className="search-input"
+                  />
+                  <button type="submit" className="search-submit-btn">
+                    🔍
+                  </button>
+                </form>
+                
+                {/* Search Suggestions Dropdown */}
+                {showSearchSuggestions && searchQuery && (
+                  <div className="search-suggestions">
+                    {isSearching ? (
+                      <div className="search-loading">Searching...</div>
+                    ) : (
+                      <>
+                        {getSearchSuggestions(searchQuery).length > 0 ? (
+                          <>
+                            {getSearchSuggestions(searchQuery).map((product) => (
+                              <div
+                                key={product.id}
+                                className="search-suggestion-item"
+                                onClick={() => handleSuggestionClick(product)}
+                              >
+                                <img src={product.image} alt={product.name} className="suggestion-image" />
+                                <div className="suggestion-content">
+                                  <div className="suggestion-name">{product.name}</div>
+                                  <div className="suggestion-price">{product.price}</div>
+                                  <div className="suggestion-category">{product.category}</div>
+                                </div>
+                              </div>
+                            ))}
+                            <div className="search-suggestion-more">
+                              <button onClick={handleSearchSubmit} className="view-all-btn">
+                                View all results ({searchResults.length})
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="no-suggestions">No products found</div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+            
             <Link to="/cart" className="icon-item cart-icon">
               <span className="icon">🛒</span>
               <span className="icon-label">Cart</span>
@@ -205,18 +389,51 @@ const Header = () => {
 
         {/* Bottom Row - Navigation */}
         <div className="header-bottom">
-          <nav className="nav-menu">
-            <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>HOME</Link>
+          {/* Mobile Menu Button */}
+          {isMobile && (
+            <button 
+              className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
+              onClick={toggleMobileMenu}
+              aria-label="Toggle mobile menu"
+            >
+              <span className="hamburger-line"></span>
+              <span className="hamburger-line"></span>
+              <span className="hamburger-line"></span>
+            </button>
+          )}
+
+          <nav className={`nav-menu ${isMobile ? 'mobile-nav' : 'desktop-nav'} ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            {/* Debug info for mobile menu */}
+            {isMobile && (
+              <div style={{display: 'none'}}>
+                Mobile: {isMobile ? 'true' : 'false'}, 
+                MenuOpen: {isMobileMenuOpen ? 'true' : 'false'}
+              </div>
+            )}
+            <Link 
+              to="/" 
+              className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+              onClick={closeMobileMenu}
+            >
+              HOME
+            </Link>
             
             {/* Bridal Collection with Dropdown */}
             <div 
               className="nav-dropdown"
-              onMouseEnter={() => setShowBridalDropdown(true)}
-              onMouseLeave={() => setShowBridalDropdown(false)}
+              onMouseEnter={() => !isMobile && setShowBridalDropdown(true)}
+              onMouseLeave={() => !isMobile && setShowBridalDropdown(false)}
             >
               <Link 
                 to="/bridal-collection" 
                 className={`nav-link ${location.pathname === '/bridal-collection' ? 'active' : ''}`}
+                onClick={() => {
+                  if (isMobile) {
+                    setShowBridalDropdown(!showBridalDropdown);
+                  } else {
+                    closeMobileMenu();
+                  }
+                }}
               >
                 BRIDAL COLLECTION
                 <span className="dropdown-arrow">▼</span>
@@ -230,6 +447,7 @@ const Header = () => {
                         key={index}
                         to={category.route} 
                         className="dropdown-item"
+                        onClick={closeMobileMenu}
                       >
                         <div className="dropdown-item-image">
                           <img src={category.image} alt={category.name} />
@@ -249,12 +467,19 @@ const Header = () => {
             {/* Women Collection with Dropdown */}
             <div 
               className="nav-dropdown"
-              onMouseEnter={() => setShowWomenDropdown(true)}
-              onMouseLeave={() => setShowWomenDropdown(false)}
+              onMouseEnter={() => !isMobile && setShowWomenDropdown(true)}
+              onMouseLeave={() => !isMobile && setShowWomenDropdown(false)}
             >
               <Link 
                 to="/women-collection" 
                 className={`nav-link ${location.pathname === '/women-collection' ? 'active' : ''}`}
+                onClick={() => {
+                  if (isMobile) {
+                    setShowWomenDropdown(!showWomenDropdown);
+                  } else {
+                    closeMobileMenu();
+                  }
+                }}
               >
                 WOMEN COLLECTION
                 <span className="dropdown-arrow">▼</span>
@@ -268,6 +493,7 @@ const Header = () => {
                         key={index}
                         to={category.route}
                         className="dropdown-item"
+                        onClick={closeMobileMenu}
                       >
                         <div className="dropdown-item-image">
                           <img src={category.image} alt={category.name} />
@@ -287,12 +513,19 @@ const Header = () => {
             {/* Men Collection with Dropdown */}
             <div 
               className="nav-dropdown"
-              onMouseEnter={() => setShowMenDropdown(true)}
-              onMouseLeave={() => setShowMenDropdown(false)}
+              onMouseEnter={() => !isMobile && setShowMenDropdown(true)}
+              onMouseLeave={() => !isMobile && setShowMenDropdown(false)}
             >
               <Link 
                 to="/mens-collection" 
                 className={`nav-link ${location.pathname === '/mens-collection' ? 'active' : ''}`}
+                onClick={() => {
+                  if (isMobile) {
+                    setShowMenDropdown(!showMenDropdown);
+                  } else {
+                    closeMobileMenu();
+                  }
+                }}
               >
                 MEN'S COLLECTION
                 <span className="dropdown-arrow">▼</span>
@@ -306,6 +539,7 @@ const Header = () => {
                         key={index}
                         to={category.route}
                         className="dropdown-item"
+                        onClick={closeMobileMenu}
                       >
                         <div className="dropdown-item-image">
                           <img src={category.image} alt={category.name} />
@@ -325,12 +559,19 @@ const Header = () => {
             {/* Lifestyle Collection with Dropdown */}
             <div 
               className="nav-dropdown"
-              onMouseEnter={() => setShowLifestyleDropdown(true)}
-              onMouseLeave={() => setShowLifestyleDropdown(false)}
+              onMouseEnter={() => !isMobile && setShowLifestyleDropdown(true)}
+              onMouseLeave={() => !isMobile && setShowLifestyleDropdown(false)}
             >
               <Link 
                 to="/lifestyle-collection" 
                 className={`nav-link ${location.pathname === '/lifestyle-collection' ? 'active' : ''}`}
+                onClick={() => {
+                  if (isMobile) {
+                    setShowLifestyleDropdown(!showLifestyleDropdown);
+                  } else {
+                    closeMobileMenu();
+                  }
+                }}
               >
                 LIFESTYLE COLLECTION
                 <span className="dropdown-arrow">▼</span>
@@ -344,6 +585,7 @@ const Header = () => {
                         key={index}
                         to={category.route}
                         className="dropdown-item"
+                        onClick={closeMobileMenu}
                       >
                         <div className="dropdown-item-image">
                           <img src={category.image} alt={category.name} />

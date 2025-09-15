@@ -19,6 +19,7 @@ import DecorativeCollection from './components/DecorativeCollection';
 import ProductDetail from './components/ProductDetail';
 import Wishlist from './components/Wishlist';
 import Cart from './components/Cart';
+import SearchResults from './components/SearchResults';
 // Import bridal subcategory components
 import PayalCollection from './components/PayalCollection';
 import ChainsCollection from './components/ChainsCollection';
@@ -89,6 +90,7 @@ function App() {
               <Route path="/product-detail" element={<ProductDetail />} />
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/search" element={<SearchResults />} />
             </Routes>
             <Footer />
           </div>

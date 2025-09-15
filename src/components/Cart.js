@@ -86,26 +86,28 @@ const Cart = () => {
                   <div className="cart-item-category">{item.category}</div>
                 </div>
 
-                <div className="cart-item-quantity">
-                  <button 
-                    className="quantity-btn"
-                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                  >
-                    -
-                  </button>
-                  <span className="quantity-display">{item.quantity}</span>
-                  <button 
-                    className="quantity-btn"
-                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                  >
-                    +
-                  </button>
-                </div>
+                <div className="cart-item-controls">
+                  <div className="cart-item-quantity">
+                    <button 
+                      className="quantity-btn"
+                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                    >
+                      -
+                    </button>
+                    <span className="quantity-display">{item.quantity}</span>
+                    <button 
+                      className="quantity-btn"
+                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                    >
+                      +
+                    </button>
+                  </div>
 
-                <div className="cart-item-price">
-                  <div className="unit-price">{formatPrice(item.price)}</div>
-                  <div className="total-price">
-                    ₹{(getPriceValue(item.price) * item.quantity).toLocaleString()}
+                  <div className="cart-item-price">
+                    <div className="unit-price">{formatPrice(item.price)}</div>
+                    <div className="total-price">
+                      ₹{(getPriceValue(item.price) * item.quantity).toLocaleString()}
+                    </div>
                   </div>
                 </div>
 

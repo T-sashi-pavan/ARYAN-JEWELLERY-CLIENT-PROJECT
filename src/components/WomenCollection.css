@@ -319,6 +319,50 @@
   }
 }
 
+/* Enhanced Mobile Features */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .women-collection-page {
+    padding: 90px 0 40px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Enhanced filter button responsiveness */
+  .category-filter-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 10px;
+  }
+  
+  .category-filter-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .category-filter-nav::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .category-filter-nav::-webkit-scrollbar-thumb {
+    background: #17a2b8;
+    border-radius: 10px;
+  }
+  
+  .filter-buttons {
+    white-space: nowrap;
+    min-width: max-content;
+  }
+  
+  .filter-btn {
+    flex-shrink: 0;
+    margin-right: 8px;
+  }
+}
+
 @media (max-width: 360px) {
   .products-grid {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));

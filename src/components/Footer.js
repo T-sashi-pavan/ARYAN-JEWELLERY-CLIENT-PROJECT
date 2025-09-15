@@ -6,6 +6,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="container">
         <div className="footer-content">
+          {/* Company Info Section */}
           <div className="footer-section">
             <div className="footer-logo">
               <div className="logo-icon">A</div>
@@ -19,13 +20,14 @@ const Footer = () => {
               Your trusted partner for elegant and authentic silver collections.
             </p>
             <div className="social-links">
-              <a href="#" className="social-link">📘</a>
-              <a href="#" className="social-link">📷</a>
-              <a href="#" className="social-link">🐦</a>
-              <a href="#" className="social-link">📧</a>
+              <a href="#" className="social-link" aria-label="Facebook">📘</a>
+              <a href="#" className="social-link" aria-label="Instagram">📷</a>
+              <a href="#" className="social-link" aria-label="Twitter">🐦</a>
+              <a href="#" className="social-link" aria-label="Email">📧</a>
             </div>
           </div>
 
+          {/* Quick Links Section */}
           <div className="footer-section">
             <h4>Quick Links</h4>
             <ul>
@@ -36,6 +38,7 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Collections Section */}
           <div className="footer-section">
             <h4>Collections</h4>
             <ul>
@@ -46,6 +49,7 @@ const Footer = () => {
             </ul>
           </div>
 
+          {/* Contact Info Section */}
           <div className="footer-section">
             <h4>Contact Info</h4>
             <div className="contact-item">

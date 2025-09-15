@@ -238,6 +238,17 @@
   box-shadow: 0 8px 20px rgba(23, 162, 184, 0.4);
 }
 
+/* Enhanced Mobile Features */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 15px;
+  }
+  
+  .bridal-collection-page {
+    padding: 90px 0 40px 0;
+  }
+}
+
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   .bridal-collection-page {
@@ -265,20 +276,39 @@
     font-size: 0.9rem;
   }
   
-  /* Filter button responsiveness */
+  /* Enhanced filter button responsiveness */
+  .category-filter-nav {
+    margin-bottom: 30px;
+    padding: 15px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .category-filter-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .category-filter-nav::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .category-filter-nav::-webkit-scrollbar-thumb {
+    background: #17a2b8;
+    border-radius: 10px;
+  }
+  
   .filter-buttons {
     gap: 10px;
+    white-space: nowrap;
+    min-width: max-content;
   }
   
   .filter-btn {
     padding: 10px 18px;
     font-size: 0.85rem;
     min-width: 80px;
-  }
-  
-  .category-filter-nav {
-    margin-bottom: 30px;
-    padding: 15px 0;
+    flex-shrink: 0;
   }
 }
 

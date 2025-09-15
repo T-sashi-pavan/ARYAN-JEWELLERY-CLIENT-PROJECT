@@ -1,7 +1,8 @@
-import React from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
+import { ALL_PRODUCTS } from '../utils/searchUtils';
 import './ProductDetail.css';
 
 // Import recommended products images
@@ -55,24 +56,87 @@ import women7 from '../ASSETS/womenCollections/women7.jpg';
 import women8 from '../ASSETS/womenCollections/women8.jpg';
 import men1 from '../ASSETS/menCollections/men1.webp';
 import men2 from '../ASSETS/menCollections/men2.jpg';
-import men3 from '../ASSETS/menCollections/men3.jpg';
-import men4 from '../ASSETS/menCollections/men4.jpg';
 import men5 from '../ASSETS/menCollections/men5.jpg';
-import men6 from '../ASSETS/menCollections/men6.jpg';
-import men7 from '../ASSETS/menCollections/men7.jpg';
 import men8 from '../ASSETS/menCollections/men8.jpg';
 
 const ProductDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { product } = location.state || {};
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { addToCart, isInCart } = useCart();
 
-  // If no product data, redirect back to home
-  if (!product) {
-    navigate('/');
-    return null;
+  useEffect(() => {
+    const loadProduct = () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // First, try to get product from location.state (existing functionality)
+        const stateProduct = location.state?.product;
+        if (stateProduct) {
+          setProduct(stateProduct);
+          setLoading(false);
+          return;
+        }
+        
+        // If no state product and we have an ID from URL params, search for it
+        if (id) {
+          const foundProduct = ALL_PRODUCTS.find(p => p.id === id);
+          if (foundProduct) {
+            setProduct(foundProduct);
+          } else {
+            setError('Product not found');
+          }
+        } else {
+          setError('No product information available');
+        }
+        
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading product:', err);
+        setError('Failed to load product');
+        setLoading(false);
+      }
+    };
+
+    loadProduct();
+  }, [id, location.state]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="product-detail-container">
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Loading product details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error || !product) {
+    return (
+      <div className="product-detail-container">
+        <div className="error-state">
+          <div className="error-icon">❌</div>
+          <h2>Product Not Found</h2>
+          <p>{error || 'The product you are looking for could not be found.'}</p>
+          <div className="error-actions">
+            <button onClick={() => navigate(-1)} className="back-btn">
+              Go Back
+            </button>
+            <Link to="/" className="home-btn">
+              Return to Home
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   // Calculate discount percentage
@@ -817,7 +881,13 @@ const ProductDetail = () => {
               >
                 {isInCart(product.id) ? 'In Cart' : 'Add to Cart'}
               </button>
-              <button 
+              {/* <button 
+                className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
+                onClick={handleAddToWishlist}
+              >
+                {isInWishlist(product.id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
+              </button> */}
+                <button 
                 className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
                 onClick={handleAddToWishlist}
               >

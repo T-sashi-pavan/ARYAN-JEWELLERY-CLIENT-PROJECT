@@ -141,12 +141,30 @@
   .category-filters {
     gap: 10px;
     padding: 15px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .category-filters::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .category-filters::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .category-filters::-webkit-scrollbar-thumb {
+    background: #17a2b8;
+    border-radius: 10px;
   }
   
   .category-filter-btn {
     padding: 10px 20px;
     font-size: 0.8rem;
     min-width: 80px;
+    flex-shrink: 0;
+    margin-right: 8px;
   }
 }
 
