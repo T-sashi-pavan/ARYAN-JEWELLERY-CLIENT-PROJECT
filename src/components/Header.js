@@ -334,7 +334,7 @@ const Header = () => {
                     className="search-input"
                   />
                   <button type="submit" className="search-submit-btn">
-                    🔍
+                    <i class="fa fa-search" aria-hidden="true"></i>
                   </button>
                 </form>
                 

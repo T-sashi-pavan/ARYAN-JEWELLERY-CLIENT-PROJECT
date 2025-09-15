@@ -881,15 +881,37 @@ const ProductDetail = () => {
               >
                 {isInCart(product.id) ? 'In Cart' : 'Add to Cart'}
               </button>
-              {/* <button 
-                className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
+              <button 
                 onClick={handleAddToWishlist}
-              >
-                {isInWishlist(product.id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
-              </button> */}
-                <button 
-                className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
-                onClick={handleAddToWishlist}
+                style={{
+                  background: isInWishlist(product.id) ? '#e74c3c' : 'transparent',
+                  color: isInWishlist(product.id) ? 'white' : '#e74c3c',
+                  border: '2px solid #e74c3c',
+                  padding: '15px 30px',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  flex: '1',
+                  display: 'block',
+                  visibility: 'visible',
+                  opacity: '1',
+                  minWidth: '180px',
+                  minHeight: '50px'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isInWishlist(product.id)) {
+                    e.target.style.background = '#e74c3c';
+                    e.target.style.color = 'white';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isInWishlist(product.id)) {
+                    e.target.style.background = 'transparent';
+                    e.target.style.color = '#e74c3c';
+                  }
+                }}
               >
                 {isInWishlist(product.id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
               </button>
