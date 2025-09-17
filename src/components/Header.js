@@ -428,6 +428,24 @@ const Header = () => {
           
           <nav className={`${isMobile ? (isMobileMenuOpen ? 'd-flex' : 'd-none') + ' position-fixed top-0 start-0 w-100 h-100 flex-column bg-info' : 'd-flex justify-content-center align-items-center gap-5'}`} style={isMobile ? {top: '80px', zIndex: 1000, paddingTop: '15px', paddingBottom: '15px', maxHeight: 'calc(100vh - 80px)', overflowY: 'auto', background: 'linear-gradient(135deg, #17a2b8 0%, #138496 100%)', gap: '5px'} : {height: '50px', width: '100%'}}>
             
+            {/* Mobile Wishlist Link */}
+            {isMobile && (
+              <Link 
+                to="/wishlist" 
+                className="text-decoration-none text-white fw-medium text-uppercase px-3 py-2 rounded-0 position-relative text-center w-100 d-block d-flex align-items-center justify-content-center gap-2"
+                style={{fontSize: '0.9rem', letterSpacing: '0.8px', transition: 'all 0.3s ease', margin: '2px 0', borderBottom: '1px solid rgba(255,255,255,0.2)'}}
+                onClick={closeMobileMenu}
+              >
+                <Heart size={18} />
+                WISHLIST
+                {wishlistCount > 0 && (
+                  <span className="badge rounded-pill bg-danger ms-2" style={{fontSize: '0.7rem'}}>
+                    {wishlistCount}
+                  </span>
+                )}
+              </Link>
+            )}
+            
             <Link 
               to="/" 
               className={`nav-link-custom text-decoration-none text-white fw-medium text-uppercase px-3 py-2 rounded-pill position-relative ${location.pathname === '/' ? 'nav-link-active' : ''} ${isMobile ? 'text-center w-100 d-block rounded-0' : ''}`}
