@@ -1,5 +1,6 @@
 import React from 'react';
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone, Clock } from 'lucide-react';
+import logo from '../ASSETS/LOGO.png';
 import './Footer.css';
 
 const Footer = () => {
@@ -10,11 +11,17 @@ const Footer = () => {
           {/* Company Info Section */}
           <div className="footer-section">
             <div className="footer-logo">
-              <div className="logo-icon">A</div>
-              <div className="logo-text">
-                <h3>ARYAN'S</h3>
-                <span>SILVER PALACE</span>
-              </div>
+              <img 
+                src={logo} 
+                alt="Aryan's Silver Palace" 
+                className="footer-logo-image"
+                style={{
+                  height: '80px', 
+                  maxWidth: '200px', 
+                  filter: 'brightness(1.2) contrast(1.1)',
+                  objectFit: 'contain'
+                }} 
+              />
             </div>
             <p className="footer-description">
               Premium silver jewelry crafted with excellence and tradition. 
