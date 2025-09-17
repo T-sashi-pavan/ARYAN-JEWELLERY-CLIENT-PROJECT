@@ -296,21 +296,31 @@ const Header = () => {
       <div style={{width: '100%', margin: 0, padding: 0}}>
         {/* Top Row - Logo and Icons */}
         <div className="d-flex justify-content-between align-items-center py-2 px-3 border-bottom border-light border-opacity-25" style={{backgroundColor: '#0097B2', width: '100%', margin: 0}}>
-          {/* Left side - Mobile menu button (mobile only) or Wishlist (desktop) */}
-          <div className="d-flex align-items-center" style={{minWidth: '60px'}}>
+          {/* Left side - Mobile menu button and wishlist (mobile only) or Wishlist (desktop) */}
+          <div className="d-flex align-items-center" style={{minWidth: '60px', gap: '8px'}}>
             {isMobile ? (
-              <button 
-                className={`btn border-0 d-flex justify-content-center align-items-center mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
-                style={{padding: '8px', zIndex: 1001}}
-                onClick={toggleMobileMenu}
-                aria-label="Toggle mobile menu"
-              >
-                {isMobileMenuOpen ? (
-                  <X size={20} color="white" />
-                ) : (
-                  <Menu size={20} color="white" />
-                )}
-              </button>
+              <>
+                <button 
+                  className={`btn border-0 d-flex justify-content-center align-items-center mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
+                  style={{padding: '8px', zIndex: 1001}}
+                  onClick={toggleMobileMenu}
+                  aria-label="Toggle mobile menu"
+                >
+                  {isMobileMenuOpen ? (
+                    <X size={20} color="white" />
+                  ) : (
+                    <Menu size={20} color="white" />
+                  )}
+                </button>
+                <Link to="/wishlist" className="text-decoration-none text-white d-flex justify-content-center align-items-center mobile-icon-button p-2 rounded-3 bg-white bg-opacity-10 position-relative" style={{transition: 'all 0.3s ease'}}>
+                  <Heart size={18} />
+                  {wishlistCount > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{fontSize: '0.7rem'}}>
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+              </>
             ) : (
               <Link to="/wishlist" className="text-decoration-none text-white d-flex flex-column align-items-center p-2 rounded-3 bg-white bg-opacity-10 position-relative" style={{transition: 'all 0.3s ease'}}>
                 <Heart size={20} />
@@ -427,24 +437,6 @@ const Header = () => {
         <div className="d-flex align-items-center justify-content-center py-0" style={{background: 'linear-gradient(135deg, #1fb3a8 0%, #17a2b8 100%)', minHeight: '50px', width: '100%', margin: 0}}>
           
           <nav className={`${isMobile ? (isMobileMenuOpen ? 'd-flex' : 'd-none') + ' position-fixed top-0 start-0 w-100 h-100 flex-column bg-info' : 'd-flex justify-content-center align-items-center gap-5'}`} style={isMobile ? {top: '80px', zIndex: 1000, paddingTop: '15px', paddingBottom: '15px', maxHeight: 'calc(100vh - 80px)', overflowY: 'auto', background: 'linear-gradient(135deg, #17a2b8 0%, #138496 100%)', gap: '5px'} : {height: '50px', width: '100%'}}>
-            
-            {/* Mobile Wishlist Link */}
-            {isMobile && (
-              <Link 
-                to="/wishlist" 
-                className="text-decoration-none text-white fw-medium text-uppercase px-3 py-2 rounded-0 position-relative text-center w-100 d-block d-flex align-items-center justify-content-center gap-2"
-                style={{fontSize: '0.9rem', letterSpacing: '0.8px', transition: 'all 0.3s ease', margin: '2px 0', borderBottom: '1px solid rgba(255,255,255,0.2)'}}
-                onClick={closeMobileMenu}
-              >
-                <Heart size={18} />
-                WISHLIST
-                {wishlistCount > 0 && (
-                  <span className="badge rounded-pill bg-danger ms-2" style={{fontSize: '0.7rem'}}>
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-            )}
             
             <Link 
               to="/" 
