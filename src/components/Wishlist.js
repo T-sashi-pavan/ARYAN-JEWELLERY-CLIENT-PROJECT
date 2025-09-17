@@ -2,6 +2,7 @@ import React from 'react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { Heart, MessageCircle } from 'lucide-react';
 import { handleWishlistWhatsAppInquiry } from '../utils/whatsappUtils';
 import './Wishlist.css';
 
@@ -30,7 +31,9 @@ const Wishlist = () => {
           </div>
           <div className="empty-wishlist">
             <div className="empty-wishlist-content">
-              <div className="empty-wishlist-icon">♡</div>
+              <div className="empty-wishlist-icon">
+                <Heart size={48} strokeWidth={1} />
+              </div>
               <h2>Your wishlist is empty</h2>
               <p>Add some beautiful jewelry pieces to your wishlist</p>
               <Link to="/" className="continue-shopping-btn">
@@ -51,7 +54,9 @@ const Wishlist = () => {
           <div className="wishlist-actions">
             <span className="wishlist-count">{wishlistItems.length} items</span>
             <button className="whatsapp-inquiry-btn" onClick={handleWhatsAppInquiry}>
-              <span className="whatsapp-icon">📱</span>
+              <span className="whatsapp-icon">
+                <MessageCircle size={18} />
+              </span>
               Inquire via WhatsApp
             </button>
             <button className="clear-wishlist-btn" onClick={clearWishlist}>

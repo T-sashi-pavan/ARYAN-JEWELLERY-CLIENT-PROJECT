@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './MurthiCollection.css';
+import './BridalCollection.css';
 
 // Import murthi collection images
 import murthi1 from '../ASSETS/murthiCollections/murthi1.jpg';
@@ -81,27 +81,75 @@ const MurthiCollection = () => {
   ];
 
   return (
-    <div className="murthi-collection">
-      <div className="murthi-header">
-        <h1>MURTHI COLLECTION</h1>
-      </div>
-      
-      <div className="murthi-grid">
-        {murthiProducts.map((product) => (
-          <Link 
-            key={product.id}
-            to="/product-detail" 
-            state={{ product }}
-            className="murthi-card"
-          >
-            <div className="murthi-card-image">
-              <img src={product.image} alt={product.name} />
-            </div>
-            <div className="murthi-card-info">
-              <h3>{product.name}</h3>
-            </div>
+    <div className="bridal-collection-page">
+      <div className="container">
+        {/* Breadcrumb */}
+        <div className="breadcrumb">
+          <Link to="/" className="breadcrumb-link">
+            <span className="back-arrow">←</span>
           </Link>
-        ))}
+          <span className="breadcrumb-separator">|</span>
+          <Link to="/lifestyle-collection" className="breadcrumb-link">Lifestyle Collection</Link>
+          <span className="breadcrumb-separator">|</span>
+          <h1 className="page-title">MURTHI</h1>
+        </div>
+
+        {/* Category Filter Navigation */}
+        <div className="category-filters">
+          <Link to="/lifestyle-collection" className="category-filter-btn">
+            ALL
+          </Link>
+          <Link to="/lifestyle-collection/coins" className="category-filter-btn">
+            COINS
+          </Link>
+          <Link to="/lifestyle-collection/murthi" className="category-filter-btn active">
+            MURTHI
+          </Link>
+          <Link to="/lifestyle-collection/decorative" className="category-filter-btn">
+            DECORATIVE
+          </Link>
+          <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
+            POOJA ITEMS
+          </Link>
+          <Link to="/lifestyle-collection/living-room" className="category-filter-btn">
+            LIVING ROOM
+          </Link>
+        </div>
+
+        {/* Products Grid */}
+        <div className="products-grid">
+          {murthiProducts.map((product) => (
+            <Link 
+              key={product.id}
+              to={`/product/${product.id}`} 
+              state={{ product }}
+              className="product-card"
+            >
+              <div className="product-image">
+                <img src={product.image} alt={product.name} />
+                <div className="product-overlay">
+                  <div className="overlay-content">
+                    <p className="product-description">{product.description}</p>
+                    <span className="view-details">View Details</span>
+                  </div>
+                </div>
+              </div>
+              <div className="product-info">
+                <h3 className="product-name">{product.name}</h3>
+                <div className="product-price">
+                  <span className="current-price">₹{product.price.toLocaleString()}</span>
+                  {product.offer && (
+                    <span className="original-price">{product.offer}</span>
+                  )}
+                </div>
+                <div className="product-details">
+                  <span className="product-size">{product.size}</span>
+                  <span className="product-material">{product.material}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

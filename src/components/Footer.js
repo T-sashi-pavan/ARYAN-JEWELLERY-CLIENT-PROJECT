@@ -1,4 +1,5 @@
 import React from 'react';
+import { Facebook, Instagram, Twitter, Mail, MapPin, Phone, Clock } from 'lucide-react';
 import './Footer.css';
 
 const Footer = () => {
@@ -20,10 +21,18 @@ const Footer = () => {
               Your trusted partner for elegant and authentic silver collections.
             </p>
             <div className="social-links">
-              <a href="#" className="social-link" aria-label="Facebook">📘</a>
-              <a href="#" className="social-link" aria-label="Instagram">📷</a>
-              <a href="#" className="social-link" aria-label="Twitter">🐦</a>
-              <a href="#" className="social-link" aria-label="Email">📧</a>
+              <a href="#" className="social-link" aria-label="Facebook">
+                <Facebook size={20} />
+              </a>
+              <a href="#" className="social-link" aria-label="Instagram">
+                <Instagram size={20} />
+              </a>
+              <a href="#" className="social-link" aria-label="Twitter">
+                <Twitter size={20} />
+              </a>
+              <a href="#" className="social-link" aria-label="Email">
+                <Mail size={20} />
+              </a>
             </div>
           </div>
 
@@ -53,19 +62,27 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Contact Info</h4>
             <div className="contact-item">
-              <span className="contact-icon">📍</span>
+              <span className="contact-icon">
+                <MapPin size={18} />
+              </span>
               <span>Silver Palace Street, Jewelry District</span>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">📞</span>
+              <span className="contact-icon">
+                <Phone size={18} />
+              </span>
               <span>+91 98765 43210</span>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">📧</span>
+              <span className="contact-icon">
+                <Mail size={18} />
+              </span>
               <span>info@aryanssilverpalace.com</span>
             </div>
             <div className="contact-item">
-              <span className="contact-icon">🕒</span>
+              <span className="contact-icon">
+                <Clock size={18} />
+              </span>
               <span>Mon - Sat: 10AM - 8PM</span>
             </div>
           </div>

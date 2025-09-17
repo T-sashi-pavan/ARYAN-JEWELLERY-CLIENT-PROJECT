@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { searchProducts, sortProductsByPrice, filterByCategory } from '../utils/searchUtils';
+import { Search, Heart, Menu, Grid3X3 } from 'lucide-react';
 import './SearchResults.css';
 
 const SearchResults = () => {
@@ -162,14 +163,14 @@ const SearchResults = () => {
                 onClick={() => setViewMode('grid')}
                 aria-label="Grid view"
               >
-                ⊞
+                <Grid3X3 size={16} />
               </button>
               <button 
                 className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
                 onClick={() => setViewMode('list')}
                 aria-label="List view"
               >
-                ☰
+                <Menu size={16} />
               </button>
             </div>
           </div>
@@ -188,7 +189,7 @@ const SearchResults = () => {
                     onClick={() => handleWishlistToggle(product)}
                     aria-label="Add to wishlist"
                   >
-                    ♡
+                    <Heart size={16} fill={isInWishlist(product.id) ? 'currentColor' : 'none'} />
                   </button>
                 </div>
                 
@@ -238,7 +239,9 @@ const SearchResults = () => {
           </div>
         ) : (
           <div className="no-results">
-            <div className="no-results-icon">🔍</div>
+            <div className="no-results-icon">
+              <Search size={48} strokeWidth={1} />
+            </div>
             <h2>No products found</h2>
             <p>
               We couldn't find any products matching "<strong>{searchQuery}</strong>". 

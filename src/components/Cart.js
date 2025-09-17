@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
+import { ShoppingCart, MessageCircle } from 'lucide-react';
 import { handleCartWhatsAppCheckout } from '../utils/whatsappUtils';
 import './Cart.css';
 
@@ -47,7 +48,9 @@ const Cart = () => {
           </div>
           <div className="empty-cart">
             <div className="empty-cart-content">
-              <div className="empty-cart-icon">🛒</div>
+              <div className="empty-cart-icon">
+                <ShoppingCart size={48} strokeWidth={1} />
+              </div>
               <h2>Your cart is empty</h2>
               <p>Add some beautiful jewelry pieces to your cart</p>
               <Link to="/" className="continue-shopping-btn">
@@ -145,7 +148,9 @@ const Cart = () => {
                   Continue Shopping
                 </Link>
                 <button className="checkout-btn whatsapp-checkout" onClick={handleWhatsAppCheckout}>
-                  <span className="whatsapp-icon">📱</span>
+                  <span className="whatsapp-icon">
+                    <MessageCircle size={18} />
+                  </span>
                   Checkout via WhatsApp
                 </button>
               </div>

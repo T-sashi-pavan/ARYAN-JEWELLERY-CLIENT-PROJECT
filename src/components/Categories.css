@@ -43,12 +43,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Improved easing */
   box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-  transform: translateZ(0);
+  transform: translateZ(0); /* Force hardware acceleration */
   will-change: transform, box-shadow;
   user-select: none;
   outline: none;
+  backface-visibility: hidden; /* Reduce flicker */
 }
 
 .scroll-btn:hover {
@@ -60,6 +61,7 @@
 .scroll-btn:active {
   transform: translateY(0) translateZ(0);
   box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  transition-duration: 0.1s; /* Faster response for click */
 }
 
 .categories-scroll {
@@ -67,9 +69,14 @@
   overflow-y: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Changed from smooth to avoid conflicts with JS animation */
   padding: 5px;
   margin: -5px;
+  /* Performance optimizations */
+  contain: layout;
+  overflow-anchor: none;
+  transform: translateZ(0); /* Force hardware acceleration */
+  will-change: scroll-position;
 }
 
 .categories-scroll::-webkit-scrollbar {
@@ -82,6 +89,11 @@
   padding: 15px 5px;
   min-width: fit-content;
   position: relative;
+  /* Performance optimizations */
+  contain: layout;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform: translateZ(0); /* Force hardware acceleration */
 }
 
 .category-card {
@@ -91,12 +103,13 @@
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Improved easing */
   text-decoration: none;
   color: inherit;
   position: relative;
-  transform: translateZ(0);
+  transform: translateZ(0); /* Force hardware acceleration */
   will-change: transform, box-shadow;
+  backface-visibility: hidden; /* Reduce flicker */
 }
 
 .category-card:hover {
@@ -114,9 +127,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateZ(0);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Improved easing */
+  transform: translateZ(0); /* Force hardware acceleration */
   will-change: transform;
+  backface-visibility: hidden; /* Reduce flicker */
 }
 
 .category-card:hover .category-image img {
@@ -247,37 +261,34 @@
   }
 }
 
-/* Performance optimizations */
+/* Performance optimizations and accessibility */
 .categories-section {
   contain: layout style paint;
+  transform: translateZ(0); /* Force hardware acceleration */
 }
 
-.categories-scroll {
-  contain: layout;
-  overflow-anchor: none;
-}
-
-.categories-track {
-  contain: layout;
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* Smooth scroll behavior */
+/* Smooth animations for users who prefer motion */
 @media (prefers-reduced-motion: no-preference) {
   .categories-scroll {
-    scroll-behavior: smooth;
+    scroll-behavior: auto; /* Controlled by JS for smoother experience */
   }
 }
 
+/* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .category-card,
   .category-image img,
   .scroll-btn {
-    transition: none;
+    transition: none !important;
+    transform: none !important;
   }
   
   .categories-scroll {
     scroll-behavior: auto;
+  }
+  
+  /* Disable auto-scroll animation for users who prefer reduced motion */
+  .categories-track {
+    animation: none !important;
   }
 }

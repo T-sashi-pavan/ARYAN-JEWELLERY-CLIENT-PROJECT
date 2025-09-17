@@ -16,7 +16,6 @@ import decorativeImage from '../ASSETS/decorativeCollections/decorative1.jpg';
 
 const Categories = () => {
   const scrollRef = useRef(null);
-  const intervalRef = useRef(null);
   const scrollPositionRef = useRef(0);
   const directionRef = useRef(1);
   const isHoveredRef = useRef(false);
@@ -84,39 +83,43 @@ const Categories = () => {
     }
   ];
 
-  // Auto-scroll functionality
+  // Auto-scroll functionality with smooth animation
   useEffect(() => {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    const startAutoScroll = () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+    let animationFrameId;
+    let startTime = null;
+    const scrollSpeed = 0.5; // pixels per frame
+
+    const smoothAutoScroll = (timestamp) => {
+      if (!startTime) startTime = timestamp;
       
-      intervalRef.current = setInterval(() => {
-        if (isHoveredRef.current) return;
-        
-        const scrollWidth = scrollContainer.scrollWidth;
-        const containerWidth = scrollContainer.clientWidth;
-        const maxScroll = scrollWidth - containerWidth;
-        
-        // Update scroll position
-        scrollPositionRef.current += directionRef.current * 1;
-        
-        // Check boundaries and reverse direction
-        if (scrollPositionRef.current >= maxScroll) {
-          scrollPositionRef.current = maxScroll;
-          directionRef.current = -1;
-        } else if (scrollPositionRef.current <= 0) {
-          scrollPositionRef.current = 0;
-          directionRef.current = 1;
-        }
-        
-        // Apply smooth scrolling
-        scrollContainer.scrollTo({
-          left: scrollPositionRef.current,
-          behavior: 'smooth'
-        });
-      }, 20);
+      if (isHoveredRef.current) {
+        animationFrameId = requestAnimationFrame(smoothAutoScroll);
+        return;
+      }
+      
+      const scrollWidth = scrollContainer.scrollWidth;
+      const containerWidth = scrollContainer.clientWidth;
+      const maxScroll = scrollWidth - containerWidth;
+      
+      // Update scroll position smoothly
+      scrollPositionRef.current += directionRef.current * scrollSpeed;
+      
+      // Check boundaries and reverse direction
+      if (scrollPositionRef.current >= maxScroll) {
+        scrollPositionRef.current = maxScroll;
+        directionRef.current = -1;
+      } else if (scrollPositionRef.current <= 0) {
+        scrollPositionRef.current = 0;
+        directionRef.current = 1;
+      }
+      
+      // Apply scrolling without behavior: 'smooth' to avoid conflicts
+      scrollContainer.scrollLeft = scrollPositionRef.current;
+      
+      animationFrameId = requestAnimationFrame(smoothAutoScroll);
     };
 
     const handleMouseEnter = () => {
@@ -138,12 +141,12 @@ const Categories = () => {
       categoryTrack.addEventListener('mouseleave', handleMouseLeave);
     }
 
-    // Initialize auto-scroll
-    startAutoScroll();
+    // Initialize smooth auto-scroll using requestAnimationFrame
+    animationFrameId = requestAnimationFrame(smoothAutoScroll);
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
       }
       if (categoryTrack) {
         categoryTrack.removeEventListener('mouseenter', handleMouseEnter);
@@ -168,13 +171,11 @@ const Categories = () => {
       behavior: 'smooth'
     });
     
-    // Update position reference
-    scrollPositionRef.current = targetScroll;
-    
-    // Resume auto-scroll after animation
+    // Update position reference and resume auto-scroll after animation
     setTimeout(() => {
+      scrollPositionRef.current = scrollContainer.scrollLeft;
       isHoveredRef.current = false;
-    }, 500);
+    }, 600);
   };
 
   const scrollRight = () => {
@@ -194,13 +195,11 @@ const Categories = () => {
       behavior: 'smooth'
     });
     
-    // Update position reference
-    scrollPositionRef.current = targetScroll;
-    
-    // Resume auto-scroll after animation
+    // Update position reference and resume auto-scroll after animation
     setTimeout(() => {
+      scrollPositionRef.current = scrollContainer.scrollLeft;
       isHoveredRef.current = false;
-    }, 500);
+    }, 600);
   };
 
   return (

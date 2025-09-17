@@ -45,40 +45,42 @@ const ChainsCollection = () => {
   ];
 
   return (
-    <div className="bridal-collection">
+    <div className="bridal-collection-page">
       <div className="container">
-        <div className="collection-header">
-          <h1>CHAINS COLLECTION</h1>
-          <p>Beautiful silver chains for every occasion</p>
-          <nav className="breadcrumb">
-            <Link to="/">Home</Link> {' > '} <Link to="/bridal-collection">Bridal Collection</Link> {' > '} <span>Chains</span>
-          </nav>
+        {/* Breadcrumb */}
+        <div className="breadcrumb">
+          <Link to="/" className="breadcrumb-link">
+            <span className="back-arrow">←</span>
+          </Link>
+          <span className="breadcrumb-separator">|</span>
+          <Link to="/bridal-collection" className="breadcrumb-link">Bridal Collection</Link>
+          <span className="breadcrumb-separator">|</span>
+          <h1 className="page-title">CHAINS</h1>
         </div>
 
         {/* Category Filter Navigation */}
-        <div className="category-filter-nav">
-          <div className="filter-buttons">
-            <Link to="/bridal-collection" className="filter-btn">
-              ALL
-            </Link>
-            <Link to="/bridal-collection/payal" className="filter-btn">
-              PAYAL
-            </Link>
-            <Link to="/bridal-collection/chains" className="filter-btn active">
-              CHAINS
-            </Link>
-            <Link to="/bridal-collection/bracelets" className="filter-btn">
-              BRACELETS
-            </Link>
-            <Link to="/bridal-collection/necklace" className="filter-btn">
-              NECKLACE
-            </Link>
-            <Link to="/bridal-collection/nose-rings" className="filter-btn">
-              NOSE RINGS
-            </Link>
-          </div>
+        <div className="category-filters">
+          <Link to="/bridal-collection" className="category-filter-btn">
+            ALL
+          </Link>
+          <Link to="/bridal-collection/payal" className="category-filter-btn">
+            PAYAL
+          </Link>
+          <Link to="/bridal-collection/chains" className="category-filter-btn active">
+            CHAINS
+          </Link>
+          <Link to="/bridal-collection/bracelets" className="category-filter-btn">
+            BRACELETS
+          </Link>
+          <Link to="/bridal-collection/necklace" className="category-filter-btn">
+            NECKLACE
+          </Link>
+          <Link to="/bridal-collection/nose-rings" className="category-filter-btn">
+            NOSE RINGS
+          </Link>
         </div>
 
+        {/* Products Grid */}
         <div className="products-grid">
           {chainsProducts.map((product) => (
             <Link 
@@ -89,12 +91,24 @@ const ChainsCollection = () => {
             >
               <div className="product-image">
                 <img src={product.image} alt={product.name} />
+                <div className="product-overlay">
+                  <div className="overlay-content">
+                    <p className="product-description">{product.description}</p>
+                    <span className="view-details">View Details</span>
+                  </div>
+                </div>
               </div>
               <div className="product-info">
-                <h3>{product.name}</h3>
+                <h3 className="product-name">{product.name}</h3>
                 <div className="product-price">
                   <span className="current-price">{product.price}</span>
-                  <span className="original-price">{product.originalPrice}</span>
+                  {product.originalPrice && (
+                    <span className="original-price">{product.originalPrice}</span>
+                  )}
+                </div>
+                <div className="product-details">
+                  <span className="product-size">{product.size}</span>
+                  <span className="product-material">{product.material}</span>
                 </div>
               </div>
             </Link>

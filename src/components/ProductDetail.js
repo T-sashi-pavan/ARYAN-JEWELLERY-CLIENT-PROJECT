@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
+import { Heart } from 'lucide-react';
 import { ALL_PRODUCTS } from '../utils/searchUtils';
 import './ProductDetail.css';
 
@@ -913,7 +914,12 @@ const ProductDetail = () => {
                   }
                 }}
               >
-                {isInWishlist(product.id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
+                <Heart 
+                  size={16} 
+                  fill={isInWishlist(product.id) ? 'currentColor' : 'none'} 
+                  className="me-2"
+                />
+                {isInWishlist(product.id) ? 'In Wishlist' : 'Add to Wishlist'}
               </button>
             </div>
           </div>

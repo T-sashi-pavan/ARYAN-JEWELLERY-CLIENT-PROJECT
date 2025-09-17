@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './LifestyleCollection.css';
+import './BridalCollection.css';
 
 // Import lifestyle collection images
 import lifestyle1 from '../ASSETS/lifestyleCollections/lifestyle1.jpg';
@@ -117,37 +117,73 @@ const LifestyleCollection = () => {
   ];
 
   return (
-    <div className="lifestyle-collection">
-      <div className="lifestyle-header">
-        <h1>LIFESTYLE COLLECTION</h1>
-      </div>
-      
-      {/* Category Filter Buttons */}
-      <div className="category-filter">
-        <Link to="/lifestyle-collection" className="category-filter-btn active">ALL</Link>
-        <Link to="/lifestyle-collection/coins" className="category-filter-btn">COINS COLLECTIONS</Link>
-        <Link to="/lifestyle-collection/murthi" className="category-filter-btn">MURTHI COLLECTIONS</Link>
-        <Link to="/lifestyle-collection/decorative" className="category-filter-btn">DECORATIVE COLLECTIONS</Link>
-        <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">POOJA ITEMS COLLECTIONS</Link>
-        <Link to="/lifestyle-collection/living-room" className="category-filter-btn">LIVING ROOM COLLECTIONS</Link>
-      </div>
-      
-      <div className="lifestyle-grid">
-        {lifestyleProducts.map((product) => (
-          <Link 
-            key={product.id}
-            to="/product-detail" 
-            state={{ product }}
-            className="lifestyle-card"
-          >
-            <div className="lifestyle-card-image">
-              <img src={product.image} alt={product.name} />
-            </div>
-            <div className="lifestyle-card-info">
-              <h3>{product.name}</h3>
-            </div>
+    <div className="bridal-collection-page">
+      <div className="container">
+        {/* Breadcrumb */}
+        <div className="breadcrumb">
+          <Link to="/" className="breadcrumb-link">
+            <span className="back-arrow">←</span>
           </Link>
-        ))}
+          <span className="breadcrumb-separator">|</span>
+          <h1 className="page-title">LIFESTYLE COLLECTION</h1>
+        </div>
+
+        {/* Category Filter Navigation */}
+        <div className="category-filters">
+          <Link to="/lifestyle-collection" className="category-filter-btn active">
+            ALL
+          </Link>
+          <Link to="/lifestyle-collection/coins" className="category-filter-btn">
+            COINS
+          </Link>
+          <Link to="/lifestyle-collection/murthi" className="category-filter-btn">
+            MURTHI
+          </Link>
+          <Link to="/lifestyle-collection/decorative" className="category-filter-btn">
+            DECORATIVE
+          </Link>
+          <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
+            POOJA ITEMS
+          </Link>
+          <Link to="/lifestyle-collection/living-room" className="category-filter-btn">
+            LIVING ROOM
+          </Link>
+        </div>
+
+        {/* Products Grid */}
+        <div className="products-grid">
+          {lifestyleProducts.map((product) => (
+            <Link 
+              key={product.id}
+              to={`/product/${product.id}`} 
+              state={{ product }}
+              className="product-card"
+            >
+              <div className="product-image">
+                <img src={product.image} alt={product.name} />
+                <div className="product-overlay">
+                  <div className="overlay-content">
+                    <p className="product-description">{product.description}</p>
+                    <span className="view-details">View Details</span>
+                  </div>
+                </div>
+              </div>
+              <div className="product-info">
+                <h3 className="product-name">{product.name}</h3>
+                <div className="product-price">
+                  <span className="current-price">₹{product.price.toLocaleString()}</span>
+                  {product.offer && (
+                    <span className="original-price">{product.offer}</span>
+                  )}
+                </div>
+                <div className="product-details">
+                  <span className="product-size">{product.size}</span>
+                  <span className="product-material">{product.material}</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
