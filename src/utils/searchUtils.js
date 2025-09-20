@@ -37,6 +37,12 @@ import coin4 from '../ASSETS/coinsCollections/coin4.jpg';
 import coin5 from '../ASSETS/coinsCollections/coin5.jpg';
 import coin6 from '../ASSETS/coinsCollections/coin6.jpg';
 
+// Import murthi collection images
+import murthi1 from '../ASSETS/murthiCollections/murthi1.jpg';
+import murthi2 from '../ASSETS/murthiCollections/murthi2.jpg';
+import murthi3 from '../ASSETS/murthiCollections/murthi3.jpg';
+import murthi4 from '../ASSETS/murthiCollections/murthi4.jpg';
+
 // Import women bracelets videos
 import braceletVideo1 from '../ASSETS/womenCollections/womens braceletes/Bracelet_Video_Generation.mp4';
 import braceletVideo2 from '../ASSETS/womenCollections/womens braceletes/Golden_Bracelet_D_Video_Showcase.mp4';
@@ -70,6 +76,17 @@ import banglesVideo3 from '../ASSETS/womenCollections/bangles/Realistic_Jewelry_
 // Import women necklace videos
 import necklaceVideo1 from '../ASSETS/womenCollections/necklace/necklace1.mp4';
 import necklaceVideo2 from '../ASSETS/womenCollections/necklace/necklace2.mp4';
+
+// Import coins videos
+import coinVideo1 from '../ASSETS/coinsCollections/coins_videos/Realistic_Rotating_Coin_Showcase_Video.mp4';
+import coinVideo2 from '../ASSETS/coinsCollections/coins_videos/Realistic_Rotating_Coin_Showcase_Video (3).mp4';
+import coinVideo3 from '../ASSETS/coinsCollections/coins_videos/Ganesha_Idol_Showcase_Video_Generation.mp4';
+
+// Import murthi/idol videos
+import murthiVideo1 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Ganesh_Idol_Showcase.mp4';
+import murthiVideo2 from '../ASSETS/murthiCollections/idol_videos/Silver_Ganesh_Idol_D_Showcase.mp4';
+import murthiVideo3 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Idol_Showcase_Video.mp4';
+import murthiVideo4 from '../ASSETS/murthiCollections/idol_videos/D_Idol_Showcase_Video_Generation.mp4';
 
 // Consolidated product database
 export const ALL_PRODUCTS = [
@@ -622,9 +639,10 @@ export const ALL_PRODUCTS = [
   {
     id: 'coin-1',
     name: 'Goddess Lakshmi Coin',
+    video: coinVideo1,
+    image: coin1,
     price: '₹1,500',
     originalPrice: '₹1,800',
-    image: coin1,
     category: 'lifestyle',
     subcategory: 'coins',
     size: 'Standard',
@@ -635,6 +653,8 @@ export const ALL_PRODUCTS = [
   {
     id: 'coin-2',
     name: 'Ganesha Silver Coin',
+    video: coinVideo2,
+    image: coin2,
     price: '₹1,200',
     originalPrice: '₹1,500',
     image: coin2,
@@ -648,9 +668,10 @@ export const ALL_PRODUCTS = [
   {
     id: 'coin-3',
     name: 'Om Sacred Coin',
+    video: coinVideo3,
+    image: coin3,
     price: '₹800',
     originalPrice: '₹1,000',
-    image: coin3,
     category: 'lifestyle',
     subcategory: 'coins',
     size: 'Standard',
@@ -696,6 +717,64 @@ export const ALL_PRODUCTS = [
     material: '925 Sterling Silver',
     description: 'Lord Shiva coin for transformation and spiritual awakening',
     tags: ['coin', 'shiva', 'blessed', 'transformation', 'spiritual', 'awakening', 'silver']
+  },
+
+  // Murthi Collection
+  {
+    id: 'murthi-1',
+    name: 'Silver Ganesh Murthi',
+    video: murthiVideo1,
+    image: murthi1,
+    price: '₹15,000',
+    originalPrice: '₹17,500',
+    category: 'lifestyle',
+    subcategory: 'murthi',
+    size: '8 inch height',
+    material: '925 Sterling Silver',
+    description: 'Beautiful handcrafted silver Ganesh murthi for home temple and worship',
+    tags: ['murthi', 'ganesh', 'handcrafted', 'temple', 'worship', 'silver', 'divine']
+  },
+  {
+    id: 'murthi-2',
+    name: 'Silver Krishna Murthi',
+    video: murthiVideo2,
+    image: murthi2,
+    price: '₹18,500',
+    originalPrice: '₹21,000',
+    category: 'lifestyle',
+    subcategory: 'murthi',
+    size: '10 inch height',
+    material: '925 Sterling Silver',
+    description: 'Elegant silver Krishna murthi with intricate detailing for devotional purposes',
+    tags: ['murthi', 'krishna', 'elegant', 'devotional', 'intricate', 'silver', 'divine']
+  },
+  {
+    id: 'murthi-3',
+    name: 'Silver Lakshmi Murthi',
+    video: murthiVideo3,
+    image: murthi3,
+    price: '₹16,500',
+    originalPrice: '₹19,000',
+    category: 'lifestyle',
+    subcategory: 'murthi',
+    size: '9 inch height',
+    material: '925 Sterling Silver',
+    description: 'Divine silver Lakshmi murthi for prosperity and wealth',
+    tags: ['murthi', 'lakshmi', 'divine', 'prosperity', 'wealth', 'silver', 'goddess']
+  },
+  {
+    id: 'murthi-4',
+    name: 'Silver Saraswati Murthi',
+    video: murthiVideo4,
+    image: murthi4,
+    price: '₹17,200',
+    originalPrice: '₹20,000',
+    category: 'lifestyle',
+    subcategory: 'murthi',
+    size: '9.5 inch height',
+    material: '925 Sterling Silver',
+    description: 'Graceful silver Saraswati murthi for knowledge and wisdom',
+    tags: ['murthi', 'saraswati', 'graceful', 'knowledge', 'wisdom', 'silver', 'goddess']
   }
 ];
 

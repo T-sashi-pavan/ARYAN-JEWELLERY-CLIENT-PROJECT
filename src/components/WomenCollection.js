@@ -55,28 +55,28 @@ const WomenCollection = () => {
       material: '925 Sterling Silver',
       description: 'Beautiful silver ring with intricate design perfect for everyday wear'
     },
-    {
-      id: 2,
-      name: 'Pearl Studded Earrings',
-      price: '₹3,200',
-      originalPrice: '₹3,800',
-      image: women2,
-      category: 'women',
-      size: 'One Size',
-      material: '925 Sterling Silver with Pearls',
-      description: 'Elegant pearl earrings that add sophistication to any outfit'
-    },
-    {
-      id: 3,
-      name: 'Silver Bridal Set',
-      price: '₹8,900',
-      originalPrice: '₹10,500',
-      image: women3,
-      category: 'women',
-      size: 'Complete Set',
-      material: '925 Sterling Silver with Gemstones',
-      description: 'Exquisite bridal jewelry set perfect for special occasions'
-    },
+    // {
+    //   id: 2,
+    //   name: 'Pearl Studded Earrings',
+    //   price: '₹3,200',
+    //   originalPrice: '₹3,800',
+    //   image: women2,
+    //   category: 'women',
+    //   size: 'One Size',
+    //   material: '925 Sterling Silver with Pearls',
+    //   description: 'Elegant pearl earrings that add sophistication to any outfit'
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Silver Bridal Set',
+    //   price: '₹8,900',
+    //   originalPrice: '₹10,500',
+    //   image: women3,
+    //   category: 'women',
+    //   size: 'Complete Set',
+    //   material: '925 Sterling Silver with Gemstones',
+    //   description: 'Exquisite bridal jewelry set perfect for special occasions'
+    // },
     {
       id: 4,
       name: 'Traditional Gold Bracelet',
@@ -90,39 +90,39 @@ const WomenCollection = () => {
       material: '925 Sterling Silver',
       description: 'Traditional silver bracelet with beautiful patterns and designs'
     },
-    {
-      id: 5,
-      name: 'Silver Ear Pins',
-      price: '₹1,800',
-      originalPrice: '₹2,200',
-      image: women5,
-      category: 'women',
-      size: 'One Size',
-      material: '925 Sterling Silver',
-      description: 'Delicate ear pins with modern design for contemporary women'
-    },
-    {
-      id: 6,
-      name: 'Silver Pendant',
-      price: '₹3,500',
-      originalPrice: '₹4,000',
-      image: women6,
-      category: 'women',
-      size: '18 inch chain',
-      material: '925 Sterling Silver',
-      description: 'Elegant pendant necklace with unique design and premium finish'
-    },
-    {
-      id: 7,
-      name: 'Silver Necklace Set',
-      price: '₹5,500',
-      originalPrice: '₹6,500',
-      image: women7,
-      category: 'women',
-      size: 'Complete Set',
-      material: '925 Sterling Silver',
-      description: 'Complete necklace set with matching earrings for special occasions'
-    },
+    // {
+    //   id: 5,
+    //   name: 'Silver Ear Pins',
+    //   price: '₹1,800',
+    //   originalPrice: '₹2,200',
+    //   image: women5,
+    //   category: 'women',
+    //   size: 'One Size',
+    //   material: '925 Sterling Silver',
+    //   description: 'Delicate ear pins with modern design for contemporary women'
+    // },
+    // {
+    //   id: 6,
+    //   name: 'Silver Pendant',
+    //   price: '₹3,500',
+    //   originalPrice: '₹4,000',
+    //   image: women6,
+    //   category: 'women',
+    //   size: '18 inch chain',
+    //   material: '925 Sterling Silver',
+    //   description: 'Elegant pendant necklace with unique design and premium finish'
+    // },
+    // {
+    //   id: 7,
+    //   name: 'Silver Necklace Set',
+    //   price: '₹5,500',
+    //   originalPrice: '₹6,500',
+    //   image: women7,
+    //   category: 'women',
+    //   size: 'Complete Set',
+    //   material: '925 Sterling Silver',
+    //   description: 'Complete necklace set with matching earrings for special occasions'
+    // },
     {
       id: 8,
       name: 'Jewelry Chain Showcase',
@@ -136,17 +136,17 @@ const WomenCollection = () => {
       material: '925 Sterling Silver',
       description: 'Classic silver chain perfect for layering or wearing alone'
     },
-    {
-      id: 9,
-      name: 'Designer Anklets',
-      price: '₹2,200',
-      originalPrice: '₹2,700',
-      image: women9,
-      category: 'women',
-      size: 'Adjustable',
-      material: '925 Sterling Silver',
-      description: 'Beautiful anklets with traditional charm and modern appeal'
-    },
+    // {
+    //   id: 9,
+    //   name: 'Designer Anklets',
+    //   price: '₹2,200',
+    //   originalPrice: '₹2,700',
+    //   image: women9,
+    //   category: 'women',
+    //   size: 'Adjustable',
+    //   material: '925 Sterling Silver',
+    //   description: 'Beautiful anklets with traditional charm and modern appeal'
+    // },
     {
       id: 301,
       name: 'Golden Bracelet Showcase',

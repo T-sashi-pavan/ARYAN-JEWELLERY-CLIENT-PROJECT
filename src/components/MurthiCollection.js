@@ -2,6 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
+// Import murthi/idol videos  
+import murthiVideo1 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Ganesh_Idol_Showcase.mp4';
+import murthiVideo2 from '../ASSETS/murthiCollections/idol_videos/Silver_Ganesh_Idol_D_Showcase.mp4';
+import murthiVideo3 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Idol_Showcase_Video.mp4';
+import murthiVideo4 from '../ASSETS/murthiCollections/idol_videos/D_Idol_Showcase_Video_Generation.mp4';
+
 // Import murthi collection images
 import murthi1 from '../ASSETS/murthiCollections/murthi1.jpg';
 import murthi2 from '../ASSETS/murthiCollections/murthi2.jpg';
@@ -15,6 +21,7 @@ const MurthiCollection = () => {
     {
       id: 1,
       name: 'Silver Ganesh Murthi',
+      video: murthiVideo1,
       image: murthi1,
       price: 15000,
       offer: '15% OFF',
@@ -26,6 +33,7 @@ const MurthiCollection = () => {
     {
       id: 2,
       name: 'Silver Krishna Murthi',
+      video: murthiVideo2,
       image: murthi2,
       price: 18500,
       offer: '12% OFF',
@@ -37,6 +45,7 @@ const MurthiCollection = () => {
     {
       id: 3,
       name: 'Silver Lakshmi Murthi',
+      video: murthiVideo3,
       image: murthi3,
       price: 16500,
       offer: '18% OFF',
@@ -48,6 +57,7 @@ const MurthiCollection = () => {
     {
       id: 4,
       name: 'Silver Saraswati Murthi',
+      video: murthiVideo4,
       image: murthi4,
       price: 17200,
       offer: '14% OFF',
@@ -126,7 +136,26 @@ const MurthiCollection = () => {
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>

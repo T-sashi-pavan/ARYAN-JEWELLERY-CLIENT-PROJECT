@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
+// Import coins videos
+import coinVideo1 from '../ASSETS/coinsCollections/coins_videos/Realistic_Rotating_Coin_Showcase_Video.mp4';
+import coinVideo2 from '../ASSETS/coinsCollections/coins_videos/Realistic_Rotating_Coin_Showcase_Video (3).mp4';
+import coinVideo3 from '../ASSETS/coinsCollections/coins_videos/Ganesha_Idol_Showcase_Video_Generation.mp4';
+
 // Import coins collection images
 import coin1 from '../ASSETS/coinsCollections/coin1.jpg';
 import coin2 from '../ASSETS/coinsCollections/coin2.jpg';
@@ -15,6 +20,7 @@ const CoinsCollection = () => {
     {
       id: 1,
       name: 'Silver Commemorative Coin',
+      video: coinVideo1,
       image: coin1,
       price: 5500,
       offer: '12% OFF',
@@ -26,6 +32,7 @@ const CoinsCollection = () => {
     {
       id: 2,
       name: 'Silver Religious Coin',
+      video: coinVideo2,
       image: coin2,
       price: 4800,
       offer: '10% OFF',
@@ -37,6 +44,7 @@ const CoinsCollection = () => {
     {
       id: 3,
       name: 'Silver Anniversary Coin',
+      video: coinVideo3,
       image: coin3,
       price: 6200,
       offer: '15% OFF',
@@ -126,7 +134,26 @@ const CoinsCollection = () => {
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>
