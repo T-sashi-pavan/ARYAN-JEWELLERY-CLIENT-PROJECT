@@ -845,7 +845,20 @@ const ProductDetail = () => {
         <div className="product-main">
           <div className="product-image-section">
             <div className="main-image">
-              <img src={product.image} alt={product.name} />
+              {product.video ? (
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="product-video"
+                >
+                  <source src={product.video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <img src={product.image} alt={product.name} />
+              )}
             </div>
           </div>
           

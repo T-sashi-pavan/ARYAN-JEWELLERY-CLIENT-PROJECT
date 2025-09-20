@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/BridalCollection.css';
 
+// Import women necklace videos
+import necklaceVideo1 from '../ASSETS/womenCollections/necklace/necklace1.mp4';
+import necklaceVideo2 from '../ASSETS/womenCollections/necklace/necklace2.mp4';
+
 // Import women necklace images  
 import women3 from '../ASSETS/womenCollections/women3.jpg';
 import women6 from '../ASSETS/womenCollections/women6.jpg';
@@ -19,9 +23,10 @@ const WomenNecklaceCollection = () => {
     {
       id: 3,
       name: 'Silver Bridal Set',
+      video: necklaceVideo1,
+      image: women3,
       price: '₹8,900',
       originalPrice: '₹10,500',
-      image: women3,
       category: 'necklace',
       subcategory: 'women-necklace',
       size: 'Complete Set',
@@ -31,9 +36,10 @@ const WomenNecklaceCollection = () => {
     {
       id: 6,
       name: 'Silver Pendant',
+      video: necklaceVideo2,
+      image: women6,
       price: '₹3,500',
       originalPrice: '₹4,000',
-      image: women6,
       category: 'necklace',
       subcategory: 'women-necklace',
       size: '18 inch chain',
@@ -91,8 +97,14 @@ const WomenNecklaceCollection = () => {
           <Link to="/women-collection/bracelets" className="category-filter-btn">
             BRACELETS
           </Link>
+           <Link to="/women-collection/bangles" className="category-filter-btn">
+            BANGLES
+          </Link>
           <Link to="/women-collection/necklace" className="category-filter-btn active">
             NECKLACE
+          </Link>
+          <Link to="/women-collection/rings" className="category-filter-btn">
+            RINGS
           </Link>
           <Link to="/women-collection/nose-rings" className="category-filter-btn">
             NOSE RINGS
@@ -102,14 +114,33 @@ const WomenNecklaceCollection = () => {
         {/* Products Grid */}
         <div className="products-grid">
           {necklaceProducts.map(product => (
-            <Link 
+            <Link
               key={product.id}
               to={`/product/${product.id}`}
               state={{ product: product }}
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>

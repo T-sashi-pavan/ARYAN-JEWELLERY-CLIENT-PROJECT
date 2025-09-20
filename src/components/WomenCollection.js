@@ -13,6 +13,25 @@ import women7 from '../ASSETS/womenCollections/women7.jpg';
 import women8 from '../ASSETS/womenCollections/women8.jpg';
 import women9 from '../ASSETS/womenCollections/women9.jpg';
 
+// Import women bracelets videos
+import braceletVideo1 from '../ASSETS/womenCollections/womens braceletes/Bracelet_Video_Generation.mp4';
+import braceletVideo2 from '../ASSETS/womenCollections/womens braceletes/Golden_Bracelet_D_Video_Showcase.mp4';
+import braceletVideo3 from '../ASSETS/womenCollections/womens braceletes/Jewelry_Showcase_Video_Generation (4).mp4';
+import braceletVideo4 from '../ASSETS/womenCollections/womens braceletes/Jewelry_Showcase_Video_Generation (5).mp4';
+import braceletVideo5 from '../ASSETS/womenCollections/womens braceletes/Jewelry_Showcase_Video_Generation.mp4';
+import braceletVideo6 from '../ASSETS/womenCollections/womens braceletes/Jewelry_Video_Generation.mp4';
+
+// Import women chains videos
+import chainVideo1 from '../ASSETS/womenCollections/womens_chains/Jewelry_Showcase_Video_Gen_Chain.mp4';
+import chainVideo2 from '../ASSETS/womenCollections/womens_chains/Luxury_Jewelry_Showcase_Video_Generated.mp4';
+import chainVideo3 from '../ASSETS/womenCollections/womens_chains/Realistic_D_Necklace_Showcase_Video (2).mp4';
+import chainVideo4 from '../ASSETS/womenCollections/womens_chains/Realistic_Silver_Necklace_D_Showcase.mp4';
+
+// Import women rings videos
+import ringVideo1 from '../ASSETS/womenCollections/women_rings/Elegant_Floral_Ring_Video_Generation.mp4';
+import ringVideo2 from '../ASSETS/womenCollections/women_rings/gold ring.mp4';
+import ringVideo3 from '../ASSETS/womenCollections/women_rings/Realistic_D_Ring_Video_Generation.mp4';
+
 const WomenCollection = () => {
   const [visibleItems, setVisibleItems] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,10 +45,12 @@ const WomenCollection = () => {
     {
       id: 1,
       name: 'Elegant Silver Ring',
+      video: ringVideo1,
+      image: women1,
       price: '₹2,500',
       originalPrice: '₹3,000',
-      image: women1,
       category: 'women',
+      subcategory: 'women-rings',
       size: 'Adjustable',
       material: '925 Sterling Silver',
       description: 'Beautiful silver ring with intricate design perfect for everyday wear'
@@ -58,14 +79,16 @@ const WomenCollection = () => {
     },
     {
       id: 4,
-      name: 'Traditional Bangles',
+      name: 'Traditional Gold Bracelet',
+      video: braceletVideo1,
+      image: women4,
       price: '₹4,100',
       originalPrice: '₹4,800',
-      image: women4,
       category: 'women',
+      subcategory: 'women-bracelets',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
-      description: 'Traditional silver bangles with beautiful patterns and designs'
+      description: 'Traditional silver bracelet with beautiful patterns and designs'
     },
     {
       id: 5,
@@ -102,11 +125,13 @@ const WomenCollection = () => {
     },
     {
       id: 8,
-      name: 'Silver Chain',
+      name: 'Jewelry Chain Showcase',
+      video: chainVideo1,
+      image: women8,
       price: '₹2,900',
       originalPrice: '₹3,400',
-      image: women8,
       category: 'women',
+      subcategory: 'women-chains',
       size: '20 inch',
       material: '925 Sterling Silver',
       description: 'Classic silver chain perfect for layering or wearing alone'
@@ -121,6 +146,136 @@ const WomenCollection = () => {
       size: 'Adjustable',
       material: '925 Sterling Silver',
       description: 'Beautiful anklets with traditional charm and modern appeal'
+    },
+    {
+      id: 301,
+      name: 'Golden Bracelet Showcase',
+      video: braceletVideo2,
+      image: women1,
+      price: '₹2,500',
+      originalPrice: '₹3,000',
+      category: 'women',
+      subcategory: 'women-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Elegant golden bracelet with premium finish and contemporary design'
+    },
+    {
+      id: 302,
+      name: 'Designer Bracelet Collection',
+      video: braceletVideo3,
+      image: women3,
+      price: '₹8,900',
+      originalPrice: '₹10,500',
+      category: 'women',
+      subcategory: 'women-bracelets',
+      size: 'Complete Set',
+      material: '925 Sterling Silver with Gemstones',
+      description: 'Exquisite designer bracelet perfect for special occasions and events'
+    },
+    {
+      id: 303,
+      name: 'Luxury Jewelry Bracelet',
+      video: braceletVideo4,
+      image: women4,
+      price: '₹5,200',
+      originalPrice: '₹6,000',
+      category: 'women',
+      subcategory: 'women-bracelets',
+      size: 'One Size',
+      material: '925 Sterling Silver',
+      description: 'Luxury bracelet with intricate details and modern styling'
+    },
+    {
+      id: 304,
+      name: 'Classic Jewelry Showcase',
+      video: braceletVideo5,
+      image: women1,
+      price: '₹3,800',
+      originalPrice: '₹4,500',
+      category: 'women',
+      subcategory: 'women-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Classic bracelet design with timeless appeal and elegant finish'
+    },
+    {
+      id: 305,
+      name: 'Premium Jewelry Generation',
+      video: braceletVideo6,
+      image: women3,
+      price: '₹6,500',
+      originalPrice: '₹7,800',
+      category: 'women',
+      subcategory: 'women-bracelets',
+      size: 'Multiple Sizes',
+      material: '925 Sterling Silver with Gold Accents',
+      description: 'Premium bracelet with innovative design and superior craftsmanship'
+    },
+    {
+      id: 401,
+      name: 'Luxury Chain Collection',
+      video: chainVideo2,
+      image: women2,
+      price: '₹3,200',
+      originalPrice: '₹3,800',
+      category: 'women',
+      subcategory: 'women-chains',
+      size: '18 inch',
+      material: '925 Sterling Silver',
+      description: 'Luxury chain with elegant design perfect for special occasions'
+    },
+    {
+      id: 402,
+      name: 'Realistic Necklace Design',
+      video: chainVideo3,
+      image: women4,
+      price: '₹4,100',
+      originalPrice: '₹4,800',
+      category: 'women',
+      subcategory: 'women-chains',
+      size: '22 inch',
+      material: '925 Sterling Silver',
+      description: 'Realistic necklace design with contemporary appeal and premium finish'
+    },
+    {
+      id: 403,
+      name: 'Silver Necklace Premium',
+      video: chainVideo4,
+      image: women8,
+      price: '₹5,200',
+      originalPrice: '₹6,000',
+      category: 'women',
+      subcategory: 'women-chains',
+      size: '20 inch',
+      material: '925 Sterling Silver with Premium Finish',
+      description: 'Premium silver necklace with superior craftsmanship and luxury appeal'
+    },
+    {
+      id: 501,
+      name: 'Golden Ring Collection',
+      video: ringVideo2,
+      image: women2,
+      price: '₹3,500',
+      originalPrice: '₹4,200',
+      category: 'women',
+      subcategory: 'women-rings',
+      size: 'Multiple Sizes',
+      material: '925 Sterling Silver with Gold Plating',
+      description: 'Beautiful golden ring with premium plating and elegant design'
+    },
+    {
+      id: 502,
+      name: 'Realistic Ring Design',
+      video: ringVideo3,
+      image: women4,
+      price: '₹4,200',
+      originalPrice: '₹5,000',
+      category: 'women',
+      subcategory: 'women-rings',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Realistic ring design with intricate details and modern styling'
     }
   ];
 
@@ -162,8 +317,14 @@ const WomenCollection = () => {
           <Link to="/women-collection/bracelets" className="category-filter-btn">
             BRACELETS
           </Link>
+          <Link to="/women-collection/bangles" className="category-filter-btn">
+            BANGLES
+          </Link>
           <Link to="/women-collection/necklace" className="category-filter-btn">
             NECKLACE
+          </Link>
+          <Link to="/women-collection/rings" className="category-filter-btn">
+            RINGS
           </Link>
           <Link to="/women-collection/nose-rings" className="category-filter-btn">
             NOSE RINGS
@@ -181,7 +342,26 @@ const WomenCollection = () => {
               style={{animationDelay: `${index * 0.1}s`}}
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
               </div>
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>

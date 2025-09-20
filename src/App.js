@@ -32,6 +32,8 @@ import WomenChainsCollection from './components/WomenChainsCollection';
 import WomenBraceletsCollection from './components/WomenBraceletsCollection';
 import WomenNecklaceCollection from './components/WomenNecklaceCollection';
 import WomenNoseRingsCollection from './components/WomenNoseRingsCollection';
+import WomenRingsCollection from './components/WomenRingsCollection';
+import WomenBanglesCollection from './components/WomenBanglesCollection';
 // Import men's subcategory components
 import MenChainsCollection from './components/MenChainsCollection';
 import MenBraceletsCollection from './components/MenBraceletsCollection';
@@ -66,8 +68,10 @@ function App() {
               <Route path="/women-collection/payal" element={<WomenPayalCollection />} />
               <Route path="/women-collection/chains" element={<WomenChainsCollection />} />
               <Route path="/women-collection/bracelets" element={<WomenBraceletsCollection />} />
+              <Route path="/women-collection/bangles" element={<WomenBanglesCollection />} />
               <Route path="/women-collection/necklace" element={<WomenNecklaceCollection />} />
               <Route path="/women-collection/nose-rings" element={<WomenNoseRingsCollection />} />
+              <Route path="/women-collection/rings" element={<WomenRingsCollection />} />
               <Route path="/mens-collection" element={<MensCollection />} />
               {/* Men's subcategory routes */}
               <Route path="/mens-collection/chains" element={<MenChainsCollection />} />

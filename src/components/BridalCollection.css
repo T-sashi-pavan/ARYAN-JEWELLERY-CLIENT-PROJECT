@@ -106,7 +106,16 @@
   transition: transform 0.3s ease;
 }
 
-.product-card:hover .product-image img {
+.product-image video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  border-radius: 8px;
+}
+
+.product-card:hover .product-image img,
+.product-card:hover .product-image video {
   transform: scale(1.05);
 }
 

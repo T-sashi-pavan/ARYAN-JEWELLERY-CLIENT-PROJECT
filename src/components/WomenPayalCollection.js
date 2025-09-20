@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/BridalCollection.css';
 
+// Import women payal video
+import payalVideo1 from '../ASSETS/womenCollections/payal/Realistic_Silver_Anklet_Showcase_Video.mp4';
+
 // Import women payal images  
 import women9 from '../ASSETS/womenCollections/women9.jpg';
 import women1 from '../ASSETS/womenCollections/women1.jpg';
@@ -19,9 +22,10 @@ const WomenPayalCollection = () => {
     {
       id: 9,
       name: 'Designer Anklets',
+      video: payalVideo1,
+      image: women9,
       price: '₹2,200',
       originalPrice: '₹2,700',
-      image: women9,
       category: 'payal',
       subcategory: 'women-payal',
       size: 'Adjustable',
@@ -91,8 +95,14 @@ const WomenPayalCollection = () => {
           <Link to="/women-collection/bracelets" className="category-filter-btn">
             BRACELETS
           </Link>
+          <Link to="/women-collection/bangles" className="category-filter-btn">
+            BANGLES
+          </Link>
           <Link to="/women-collection/necklace" className="category-filter-btn">
             NECKLACE
+          </Link>
+          <Link to="/women-collection/rings" className="category-filter-btn">
+            RINGS
           </Link>
           <Link to="/women-collection/nose-rings" className="category-filter-btn">
             NOSE RINGS
@@ -102,14 +112,33 @@ const WomenPayalCollection = () => {
         {/* Products Grid */}
         <div className="products-grid">
           {payalProducts.map(product => (
-            <Link 
+            <Link
               key={product.id}
               to={`/product/${product.id}`}
               state={{ product: product }}
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>

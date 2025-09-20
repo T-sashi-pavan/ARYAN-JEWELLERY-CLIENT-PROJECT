@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/BridalCollection.css';
 
-// Import men chains images  
-import men8 from '../ASSETS/menCollections/men8.jpg';
-import men5 from '../ASSETS/menCollections/men5.jpg';
-import men2 from '../ASSETS/menCollections/men2.jpg';
+// Import chain videos
+import chainVideo1 from '../ASSETS/menCollections/mens_chains/Cinematic_Silver_Necklace_Video_Generation.mp4';
+import chainVideo2 from '../ASSETS/menCollections/mens_chains/Jewelry_Showcase_Video_Generation.mp4';
+import chainVideo3 from '../ASSETS/menCollections/mens_chains/Luxury_Necklace_Video_Generation.mp4';
+import chainVideo4 from '../ASSETS/menCollections/mens_chains/Realistic_D_Necklace_Showcase_Video (3).mp4';
+import chainVideo5 from '../ASSETS/menCollections/mens_chains/Realistic_D_Necklace_Showcase_Video.mp4';
+import chainVideo6 from '../ASSETS/menCollections/mens_chains/Realistic_Necklace_Video_Generation.mp4';
+import chainVideo7 from '../ASSETS/menCollections/mens_chains/Realistic_Silver_Necklace_D_Showcase.mp4';
 
 const MenChainsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,39 +22,87 @@ const MenChainsCollection = () => {
   const chainsProducts = [
     {
       id: 8,
-      name: 'Silver Chain',
+      name: 'Cinematic Silver Chain',
       price: '₹7,200',
       originalPrice: '₹8,800',
-      image: men8,
+      video: chainVideo1,
       category: 'chains',
       subcategory: 'men-chains',
       size: '20 inch',
       material: '925 Sterling Silver',
-      description: 'Heavy-duty silver chain with robust links for lasting durability'
+      description: 'Cinematic silver chain with sophisticated design and premium craftsmanship'
     },
     {
       id: 801,
-      name: 'Cuban Link Chain',
-      price: '₹6,800',
-      originalPrice: '₹8,000',
-      image: men5,
+      name: 'Jewelry Showcase Chain',
+      price: '₹8,500',
+      originalPrice: '₹10,200',
+      video: chainVideo2,
       category: 'chains',
       subcategory: 'men-chains',
       size: '22 inch',
       material: '925 Sterling Silver',
-      description: 'Bold Cuban link chain with masculine appeal and premium finish'
+      description: 'Showcase chain design with elegant presentation and modern appeal'
     },
     {
       id: 802,
-      name: 'Box Chain Necklace',
-      price: '₹4,200',
-      originalPrice: '₹5,000',
-      image: men2,
+      name: 'Luxury Silver Necklace',
+      price: '₹9,800',
+      originalPrice: '₹11,500',
+      video: chainVideo3,
       category: 'chains',
       subcategory: 'men-chains',
-      size: '18 inch',
+      size: '24 inch',
+      material: '925 Sterling Silver with Luxury Finish',
+      description: 'Luxury necklace with exceptional quality and sophisticated styling'
+    },
+    {
+      id: 803,
+      name: 'Realistic Chain Showcase',
+      price: '₹7,800',
+      originalPrice: '₹9,200',
+      video: chainVideo4,
+      category: 'chains',
+      subcategory: 'men-chains',
+      size: '20 inch',
       material: '925 Sterling Silver',
-      description: 'Sophisticated box chain perfect for pendants and everyday wear'
+      description: 'Realistic 3D chain showcase with detailed craftsmanship and modern design'
+    },
+    {
+      id: 804,
+      name: 'Premium Chain Collection',
+      price: '₹8,200',
+      originalPrice: '₹9,800',
+      video: chainVideo5,
+      category: 'chains',
+      subcategory: 'men-chains',
+      size: '22 inch',
+      material: '925 Sterling Silver',
+      description: 'Premium chain collection with superior quality and timeless appeal'
+    },
+    {
+      id: 805,
+      name: 'Realistic Necklace Design',
+      price: '₹7,500',
+      originalPrice: '₹8,900',
+      video: chainVideo6,
+      category: 'chains',
+      subcategory: 'men-chains',
+      size: '20 inch',
+      material: '925 Sterling Silver',
+      description: 'Realistic necklace design with contemporary styling and durable construction'
+    },
+    {
+      id: 806,
+      name: 'Silver Necklace Showcase',
+      price: '₹9,200',
+      originalPrice: '₹10,800',
+      video: chainVideo7,
+      category: 'chains',
+      subcategory: 'men-chains',
+      size: '24 inch',
+      material: '925 Sterling Silver with Special Finish',
+      description: 'Silver necklace showcase featuring premium materials and elegant design'
     }
   ];
 
@@ -103,7 +155,26 @@ const MenChainsCollection = () => {
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>

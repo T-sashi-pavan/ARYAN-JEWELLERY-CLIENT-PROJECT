@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/BridalCollection.css';
 
-// Import men rings images  
-import men1 from '../ASSETS/menCollections/men1.webp';
-import men2 from '../ASSETS/menCollections/men2.jpg';
-import men3 from '../ASSETS/menCollections/men3.jpg';
-import men4 from '../ASSETS/menCollections/men4.jpg';
-import men6 from '../ASSETS/menCollections/men6.jpg';
-import men7 from '../ASSETS/menCollections/men7.jpg';
-import men9 from '../ASSETS/menCollections/men9.jpg';
+
+
+// Import ring videos
+import ringVideo1 from '../ASSETS/menCollections/mens_rings/Realistic_Diamond_Ring_D_Showcase.mp4';
+import ringVideo2 from '../ASSETS/menCollections/mens_rings/Realistic_Diamond_Ring_Video_Showcase.mp4';
+import ringVideo3 from '../ASSETS/menCollections/mens_rings/Realistic_D_Ring_Video_Generation.mp4';
 
 const MenRingsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -22,88 +20,88 @@ const MenRingsCollection = () => {
   const ringsProducts = [
     {
       id: 1,
-      name: 'Silver Ring',
+      name: 'Diamond Ring Showcase',
       price: '₹3,500',
       originalPrice: '₹4,200',
-      image: men1,
+      video: ringVideo1,
       category: 'rings',
       subcategory: 'men-rings',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
-      description: 'Classic silver ring with modern design perfect for everyday wear'
+      description: 'Diamond ring showcase with modern design perfect for everyday wear'
     },
     {
       id: 2,
-      name: 'Silver Ring SG',
+      name: 'Premium Diamond Ring',
       price: '₹4,200',
       originalPrice: '₹5,000',
-      image: men2,
+      video: ringVideo2,
       category: 'rings',
       subcategory: 'men-rings',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
-      description: 'Sophisticated silver ring with elegant finish for special occasions'
+      description: 'Premium diamond ring with elegant finish for special occasions'
     },
     {
       id: 3,
-      name: 'Silver Band Ring',
+      name: 'Designer Ring Collection',
       price: '₹2,800',
       originalPrice: '₹3,500',
-      image: men3,
+      video: ringVideo3,
       category: 'rings',
       subcategory: 'men-rings',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
-      description: 'Minimalist band ring with clean lines and contemporary appeal'
+      description: 'Designer ring with clean lines and contemporary appeal'
     },
-    {
-      id: 4,
-      name: 'Silver Signet Ring',
-      price: '₹5,100',
-      originalPrice: '₹6,200',
-      image: men4,
-      category: 'rings',
-      subcategory: 'men-rings',
-      size: 'Multiple Sizes',
-      material: '925 Sterling Silver',
-      description: 'Traditional signet ring with bold presence and timeless style'
-    },
-    {
-      id: 6,
-      name: 'Silver Band',
-      price: '₹3,200',
-      originalPrice: '₹4,000',
-      image: men6,
-      category: 'rings',
-      subcategory: 'men-rings',
-      size: 'Multiple Sizes',
-      material: '925 Sterling Silver',
-      description: 'Simple silver band with polished finish for understated elegance'
-    },
-    {
-      id: 7,
-      name: 'Silver Wedding Ring',
-      price: '₹4,500',
-      originalPrice: '₹5,500',
-      image: men7,
-      category: 'rings',
-      subcategory: 'men-rings',
-      size: 'Multiple Sizes',
-      material: '925 Sterling Silver',
-      description: 'Elegant wedding ring with timeless design and premium finish'
-    },
-    {
-      id: 9,
-      name: 'Silver Designer Ring',
-      price: '₹5,500',
-      originalPrice: '₹6,800',
-      image: men9,
-      category: 'rings',
-      subcategory: 'men-rings',
-      size: 'Multiple Sizes',
-      material: '925 Sterling Silver',
-      description: 'Contemporary designer ring with unique pattern and modern styling'
-    }
+    // {
+    //   id: 4,
+    //   name: 'Silver Signet Ring',
+    //   price: '₹5,100',
+    //   originalPrice: '₹6,200',
+    //   image: men4,
+    //   category: 'rings',
+    //   subcategory: 'men-rings',
+    //   size: 'Multiple Sizes',
+    //   material: '925 Sterling Silver',
+    //   description: 'Traditional signet ring with bold presence and timeless style'
+    // },
+    // {
+    //   id: 6,
+    //   name: 'Silver Band',
+    //   price: '₹3,200',
+    //   originalPrice: '₹4,000',
+    //   image: men6,
+    //   category: 'rings',
+    //   subcategory: 'men-rings',
+    //   size: 'Multiple Sizes',
+    //   material: '925 Sterling Silver',
+    //   description: 'Simple silver band with polished finish for understated elegance'
+    // },
+    // {
+    //   id: 7,
+    //   name: 'Silver Wedding Ring',
+    //   price: '₹4,500',
+    //   originalPrice: '₹5,500',
+    //   image: men7,
+    //   category: 'rings',
+    //   subcategory: 'men-rings',
+    //   size: 'Multiple Sizes',
+    //   material: '925 Sterling Silver',
+    //   description: 'Elegant wedding ring with timeless design and premium finish'
+    // },
+    // {
+    //   id: 9,
+    //   name: 'Silver Designer Ring',
+    //   price: '₹5,500',
+    //   originalPrice: '₹6,800',
+    //   image: men9,
+    //   category: 'rings',
+    //   subcategory: 'men-rings',
+    //   size: 'Multiple Sizes',
+    //   material: '925 Sterling Silver',
+    //   description: 'Contemporary designer ring with unique pattern and modern styling'
+    // }
   ];
 
   if (isLoading) {
@@ -155,7 +153,26 @@ const MenRingsCollection = () => {
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>

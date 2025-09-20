@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/BridalCollection.css';
 
-// Import men bracelets images  
-import men5 from '../ASSETS/menCollections/men5.jpg';
-import men6 from '../ASSETS/menCollections/men6.jpg';
-import men8 from '../ASSETS/menCollections/men8.jpg';
+// Import bracelet videos
+import braceletVideo1 from '../ASSETS/menCollections/mens braceletes/Cinematic_Bracelet_Advertisement_Video.mp4';
+import braceletVideo2 from '../ASSETS/menCollections/mens braceletes/Cinematic_Silver_Bracelet_Video_Generation.mp4';
+import braceletVideo3 from '../ASSETS/menCollections/mens braceletes/Jewelry_Showcase_Video_Generation (2).mp4';
+import braceletVideo4 from '../ASSETS/menCollections/mens braceletes/Jewelry_Showcase_Video_Generation (3).mp4';
+import braceletVideo5 from '../ASSETS/menCollections/mens braceletes/Jewelry_Showcase_Video_Generation (6).mp4';
+import braceletVideo6 from '../ASSETS/menCollections/mens braceletes/Jewelry_Showcase_Video_Generation (7).mp4';
+import braceletVideo7 from '../ASSETS/menCollections/mens braceletes/Jewelry_Video_Generation_Showcase.mp4';
 
 const MenBraceletsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,10 +22,10 @@ const MenBraceletsCollection = () => {
   const braceletsProducts = [
     {
       id: 5,
-      name: 'Silver Chain Bracelet',
+      name: 'Cinematic Silver Bracelet',
       price: '₹6,800',
       originalPrice: '₹8,000',
-      image: men5,
+      video: braceletVideo1,
       category: 'bracelets',
       subcategory: 'men-bracelets',
       size: 'Adjustable',
@@ -30,27 +34,75 @@ const MenBraceletsCollection = () => {
     },
     {
       id: 501,
-      name: 'Classic Silver Band',
-      price: '₹3,200',
-      originalPrice: '₹4,000',
-      image: men6,
-      category: 'bracelets',
-      subcategory: 'men-bracelets',
-      size: 'Multiple Sizes',
-      material: '925 Sterling Silver',
-      description: 'Simple silver band bracelet with polished finish for understated elegance'
-    },
-    {
-      id: 502,
-      name: 'Heavy Link Bracelet',
-      price: '₹7,200',
-      originalPrice: '₹8,800',
-      image: men8,
+      name: 'Premium Chain Bracelet',
+      price: '₹7,500',
+      originalPrice: '₹9,000',
+      video: braceletVideo2,
       category: 'bracelets',
       subcategory: 'men-bracelets',
       size: 'Adjustable',
       material: '925 Sterling Silver',
-      description: 'Heavy-duty link bracelet with bold design and premium craftsmanship'
+      description: 'Premium silver bracelet with sophisticated chain design'
+    },
+    {
+      id: 502,
+      name: 'Designer Bracelet Collection',
+      price: '₹8,200',
+      originalPrice: '₹10,000',
+      video: braceletVideo3,
+      category: 'bracelets',
+      subcategory: 'men-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Designer bracelet with intricate patterns and modern appeal'
+    },
+    {
+      id: 503,
+      name: 'Luxury Silver Bracelet',
+      price: '₹9,500',
+      originalPrice: '₹11,500',
+      video: braceletVideo4,
+      category: 'bracelets',
+      subcategory: 'men-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver with Premium Finish',
+      description: 'Luxury bracelet with exceptional craftsmanship and elegant design'
+    },
+    {
+      id: 504,
+      name: 'Executive Bracelet Style',
+      price: '₹7,800',
+      originalPrice: '₹9,200',
+      video: braceletVideo5,
+      category: 'bracelets',
+      subcategory: 'men-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Executive style bracelet perfect for professional and casual wear'
+    },
+    {
+      id: 505,
+      name: 'Modern Chain Bracelet',
+      price: '₹6,500',
+      originalPrice: '₹8,000',
+      video: braceletVideo6,
+      category: 'bracelets',
+      subcategory: 'men-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver',
+      description: 'Modern chain bracelet with contemporary design elements'
+    },
+    {
+      id: 506,
+      name: 'Showcase Bracelet Design',
+      price: '₹8,800',
+      originalPrice: '₹10,500',
+      video: braceletVideo7,
+      category: 'bracelets',
+      subcategory: 'men-bracelets',
+      size: 'Adjustable',
+      material: '925 Sterling Silver with Special Finish',
+      description: 'Showcase design bracelet with unique styling and premium quality'
     }
   ];
 
@@ -103,7 +155,26 @@ const MenBraceletsCollection = () => {
               className="product-card"
             >
               <div className="product-image">
-                <img src={product.image} alt={product.name} />
+                {product.video ? (
+                  <video
+                    src={product.video}
+                    alt={product.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onMouseEnter={(e) => e.target.pause()}
+                    onMouseLeave={(e) => e.target.play()}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="product-overlay">
                   <div className="overlay-content">
                     <p className="product-description">{product.description}</p>

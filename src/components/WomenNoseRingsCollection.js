@@ -91,8 +91,14 @@ const WomenNoseRingsCollection = () => {
           <Link to="/women-collection/bracelets" className="category-filter-btn">
             BRACELETS
           </Link>
+          <Link to="/women-collection/bangles" className="category-filter-btn">
+            BANGLES
+          </Link>
           <Link to="/women-collection/necklace" className="category-filter-btn">
             NECKLACE
+          </Link>
+          <Link to="/women-collection/rings" className="category-filter-btn">
+            RINGS
           </Link>
           <Link to="/women-collection/nose-rings" className="category-filter-btn active">
             NOSE RINGS
@@ -102,7 +108,7 @@ const WomenNoseRingsCollection = () => {
         {/* Products Grid */}
         <div className="products-grid">
           {noseRingsProducts.map(product => (
-            <Link 
+            <Link
               key={product.id}
               to={`/product/${product.id}`}
               state={{ product: product }}

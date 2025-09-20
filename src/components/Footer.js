@@ -47,7 +47,7 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Quick Links</h4>
             <ul>
-              <li><a href="#home">Home</a></li>
+              <li><a href="#">Home</a></li>
               <li><a href="#about">About Us</a></li>
               <li><a href="#collections">Collections</a></li>
               <li><a href="#contact">Contact</a></li>
@@ -58,10 +58,10 @@ const Footer = () => {
           <div className="footer-section">
             <h4>Collections</h4>
             <ul>
-              <li><a href="#bridal">Bridal Collection</a></li>
-              <li><a href="#women">Women Collection</a></li>
-              <li><a href="#mens">Men's Collection</a></li>
-              <li><a href="#lifestyle">Lifestyle Collection</a></li>
+              <li><a href="bridal-collection">Bridal Collection</a></li>
+              <li><a href="women-collection">Women Collection</a></li>
+              <li><a href="mens-collection">Men's Collection</a></li>
+              <li><a href="lifestyle-collection">Lifestyle Collection</a></li>
             </ul>
           </div>
 
