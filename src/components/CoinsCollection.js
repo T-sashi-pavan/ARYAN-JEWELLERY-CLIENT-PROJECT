@@ -22,8 +22,8 @@ const CoinsCollection = () => {
       name: 'Silver Commemorative Coin',
       video: coinVideo1,
       image: coin1,
-      price: 5500,
-      offer: '12% OFF',
+      price: '₹5,500',
+      originalPrice: '₹6,250',
       size: '40mm diameter',
       material: '999 Pure Silver',
       description: 'Beautiful commemorative silver coin with intricate design and premium finish',
@@ -34,8 +34,8 @@ const CoinsCollection = () => {
       name: 'Silver Religious Coin',
       video: coinVideo2,
       image: coin2,
-      price: 4800,
-      offer: '10% OFF',
+      price: '₹4,800',
+      originalPrice: '₹5,333',
       size: '35mm diameter',
       material: '999 Pure Silver',
       description: 'Sacred silver coin featuring religious motifs perfect for gifting',
@@ -46,46 +46,46 @@ const CoinsCollection = () => {
       name: 'Silver Anniversary Coin',
       video: coinVideo3,
       image: coin3,
-      price: 6200,
-      offer: '15% OFF',
+      price: '₹6,200',
+      originalPrice: '₹7,294',
       size: '45mm diameter',
       material: '999 Pure Silver',
       description: 'Special anniversary edition silver coin with elegant design',
       category: 'coins'
     },
-    {
-      id: 4,
-      name: 'Silver Heritage Coin',
-      image: coin4,
-      price: 5800,
-      offer: '8% OFF',
-      size: '38mm diameter',
-      material: '999 Pure Silver',
-      description: 'Heritage collection silver coin showcasing traditional craftsmanship',
-      category: 'coins'
-    },
-    {
-      id: 5,
-      name: 'Silver Festival Coin',
-      image: coin5,
-      price: 4500,
-      offer: '14% OFF',
-      size: '32mm diameter',
-      material: '999 Pure Silver',
-      description: 'Festival special silver coin with auspicious symbols and designs',
-      category: 'coins'
-    },
-    {
-      id: 6,
-      name: 'Silver Limited Edition Coin',
-      image: coin6,
-      price: 7500,
-      offer: '18% OFF',
-      size: '50mm diameter',
-      material: '999 Pure Silver',
-      description: 'Limited edition silver coin with exclusive design and collector value',
-      category: 'coins'
-    }
+    // {
+    //   id: 4,
+    //   name: 'Silver Heritage Coin',
+    //   image: coin4,
+    //   price: 5800,
+    //   offer: '8% OFF',
+    //   size: '38mm diameter',
+    //   material: '999 Pure Silver',
+    //   description: 'Heritage collection silver coin showcasing traditional craftsmanship',
+    //   category: 'coins'
+    // },
+    // {
+    //   id: 5,
+    //   name: 'Silver Festival Coin',
+    //   image: coin5,
+    //   price: 4500,
+    //   offer: '14% OFF',
+    //   size: '32mm diameter',
+    //   material: '999 Pure Silver',
+    //   description: 'Festival special silver coin with auspicious symbols and designs',
+    //   category: 'coins'
+    // },
+    // {
+    //   id: 6,
+    //   name: 'Silver Limited Edition Coin',
+    //   image: coin6,
+    //   price: 7500,
+    //   offer: '18% OFF',
+    //   size: '50mm diameter',
+    //   material: '999 Pure Silver',
+    //   description: 'Limited edition silver coin with exclusive design and collector value',
+    //   category: 'coins'
+    // }
   ];
 
   return (
@@ -164,9 +164,9 @@ const CoinsCollection = () => {
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
                 <div className="product-price">
-                  <span className="current-price">₹{product.price.toLocaleString()}</span>
-                  {product.offer && (
-                    <span className="original-price">{product.offer}</span>
+                  <span className="current-price">{product.price}</span>
+                  {product.originalPrice && (
+                    <span className="original-price">{product.originalPrice}</span>
                   )}
                 </div>
                 <div className="product-details">

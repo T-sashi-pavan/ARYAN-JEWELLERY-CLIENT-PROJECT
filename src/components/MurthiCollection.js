@@ -7,7 +7,9 @@ import murthiVideo1 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Ga
 import murthiVideo2 from '../ASSETS/murthiCollections/idol_videos/Silver_Ganesh_Idol_D_Showcase.mp4';
 import murthiVideo3 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Idol_Showcase_Video.mp4';
 import murthiVideo4 from '../ASSETS/murthiCollections/idol_videos/D_Idol_Showcase_Video_Generation.mp4';
-
+import murthiVideo5 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Idol_Showcase_Video (3).mp4';
+import murthiVideo6 from '../ASSETS/murthiCollections/idol_videos/Idol_Showcase_Video_Generation (2).mp4';
+// import murthiVideo7 from '../ASSETS/murthiCollections/idol_videos/Realistic_D_Idol_Showcase_Video_Generation (3).mp4';
 // Import murthi collection images
 import murthi1 from '../ASSETS/murthiCollections/murthi1.jpg';
 import murthi2 from '../ASSETS/murthiCollections/murthi2.jpg';
@@ -23,8 +25,8 @@ const MurthiCollection = () => {
       name: 'Silver Ganesh Murthi',
       video: murthiVideo1,
       image: murthi1,
-      price: 15000,
-      offer: '15% OFF',
+      price: '₹15,000',
+      originalPrice: '₹17,647',
       size: '8 inch height',
       material: '925 Sterling Silver',
       description: 'Beautiful handcrafted silver Ganesh murthi for home temple and worship',
@@ -35,8 +37,8 @@ const MurthiCollection = () => {
       name: 'Silver Krishna Murthi',
       video: murthiVideo2,
       image: murthi2,
-      price: 18500,
-      offer: '12% OFF',
+      price: '₹18,500',
+      originalPrice: '₹21,023',
       size: '10 inch height',
       material: '925 Sterling Silver',
       description: 'Elegant silver Krishna murthi with intricate detailing for devotional purposes',
@@ -47,8 +49,8 @@ const MurthiCollection = () => {
       name: 'Silver Lakshmi Murthi',
       video: murthiVideo3,
       image: murthi3,
-      price: 16500,
-      offer: '18% OFF',
+      price: '₹16,500',
+      originalPrice: '₹20,122',
       size: '9 inch height',
       material: '925 Sterling Silver',
       description: 'Divine silver Lakshmi murthi for prosperity and wealth',
@@ -59,8 +61,8 @@ const MurthiCollection = () => {
       name: 'Silver Saraswati Murthi',
       video: murthiVideo4,
       image: murthi4,
-      price: 17200,
-      offer: '14% OFF',
+      price: '₹17,200',
+      originalPrice: '₹20,000',
       size: '9.5 inch height',
       material: '925 Sterling Silver',
       description: 'Graceful silver Saraswati murthi for knowledge and wisdom',
@@ -70,8 +72,8 @@ const MurthiCollection = () => {
       id: 5,
       name: 'Silver Shiva Murthi',
       image: murthi5,
-      price: 19800,
-      offer: '16% OFF',
+      price: '₹19,800',
+      originalPrice: '₹23,571',
       size: '11 inch height',
       material: '925 Sterling Silver',
       description: 'Powerful silver Shiva murthi with traditional craftsmanship',
@@ -81,8 +83,8 @@ const MurthiCollection = () => {
       id: 6,
       name: 'Silver Radha Krishna Murthi',
       image: murthi6,
-      price: 22000,
-      offer: '20% OFF',
+      price: '₹22,000',
+      originalPrice: '₹27,500',
       size: '12 inch height',
       material: '925 Sterling Silver',
       description: 'Divine silver Radha Krishna murthi set for temple decoration',
@@ -166,9 +168,9 @@ const MurthiCollection = () => {
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
                 <div className="product-price">
-                  <span className="current-price">₹{product.price.toLocaleString()}</span>
-                  {product.offer && (
-                    <span className="original-price">{product.offer}</span>
+                  <span className="current-price">{product.price}</span>
+                  {product.originalPrice && (
+                    <span className="original-price">{product.originalPrice}</span>
                   )}
                 </div>
                 <div className="product-details">

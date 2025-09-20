@@ -2,22 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './ItemsGrid.css';
 
-// Import product images
-import women1 from '../ASSETS/womenCollections/women1.jpg';
-import women2 from '../ASSETS/womenCollections/women2.jpg';
-import men1 from '../ASSETS/menCollections/men1.webp';
-import bridal1 from '../ASSETS/bridalCollections/bridal1.jpg';
-import lifestyle1 from '../ASSETS/lifestyleCollections/lifestyle1.jpg';
-import lifestyle2 from '../ASSETS/lifestyleCollections/lifestyle2.webp';
-import lifestyle4 from '../ASSETS/lifestyleCollections/lifestyle4.webp';
-import lifestyle5 from '../ASSETS/lifestyleCollections/lifestyle5.jpg';
+// Import product videos
+import womenVideo1 from '../ASSETS/womenCollections/women_rings/Realistic_D_Ring_Video_Generation.mp4';
+import womenVideo2 from '../ASSETS/womenCollections/necklace/necklace2.mp4';
+import menVideo1 from '../ASSETS/menCollections/mens_chains/Cinematic_Silver_Necklace_Video_Generation.mp4';
+import bridalVideo from '../ASSETS/womenCollections/women_rings/gold ring.mp4'; // Default for bridal
+import lifestyleVideo1 from '../ASSETS/womenCollections/womens braceletes/Golden_Bracelet_D_Video_Showcase.mp4';
+import lifestyleVideo2 from '../ASSETS/womenCollections/women_rings/Elegant_Floral_Ring_Video_Generation.mp4';
+import lifestyleVideo3 from '../ASSETS/womenCollections/necklace/necklace1.mp4';
+import lifestyleVideo4 from '../ASSETS/womenCollections/payal/Realistic_Silver_Anklet_Showcase_Video.mp4';
 
 const ItemsGrid = () => {
   const items = [
     {
       id: 1,
       name: 'Women\'s Elegant Necklace',
-      image: women1,
+      video: womenVideo1,
       category: 'women',
       price: '₹2,500',
       originalPrice: '₹3,000',
@@ -28,7 +28,7 @@ const ItemsGrid = () => {
     {
       id: 2,
       name: 'Women\'s Pearl Earrings',
-      image: women2,
+      video: womenVideo2,
       category: 'women',
       price: '₹1,800',
       originalPrice: '₹2,200',
@@ -39,7 +39,7 @@ const ItemsGrid = () => {
     {
       id: 3,
       name: 'Men\'s Silver Chain',
-      image: men1,
+      video: menVideo1,
       category: 'men',
       price: '₹3,500',
       originalPrice: '₹4,000',
@@ -50,7 +50,7 @@ const ItemsGrid = () => {
     {
       id: 4,
       name: 'Bridal Collection Set',
-      image: bridal1,
+      video: bridalVideo,
       category: 'bridal',
       price: '₹15,000',
       originalPrice: '₹18,000',
@@ -61,7 +61,7 @@ const ItemsGrid = () => {
     {
       id: 5,
       name: 'Lifestyle Bracelet',
-      image: lifestyle1,
+      video: lifestyleVideo1,
       category: 'lifestyle',
       price: '₹1,200',
       originalPrice: '₹1,500',
@@ -72,7 +72,7 @@ const ItemsGrid = () => {
     {
       id: 6,
       name: 'Modern Ring Set',
-      image: lifestyle2,
+      video: lifestyleVideo2,
       category: 'lifestyle',
       price: '₹2,200',
       originalPrice: '₹2,800',
@@ -83,7 +83,7 @@ const ItemsGrid = () => {
     {
       id: 7,
       name: 'Designer Pendant',
-      image: lifestyle4,
+      video: lifestyleVideo3,
       category: 'lifestyle',
       price: '₹1,800',
       originalPrice: '₹2,300',
@@ -94,7 +94,7 @@ const ItemsGrid = () => {
     {
       id: 8,
       name: 'Elegant Anklets',
-      image: lifestyle5,
+      video: lifestyleVideo4,
       category: 'lifestyle',
       price: '₹900',
       originalPrice: '₹1,200',
@@ -117,7 +117,24 @@ const ItemsGrid = () => {
               className="item-card"
             >
               <div className="item-image">
-                <img src={item.image} alt={item.name} />
+                <video 
+                  src={item.video} 
+                  alt={item.name}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  onLoadedData={(e) => {
+                    e.target.play().catch(() => {
+                      // Handle autoplay failure silently
+                    });
+                  }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
               </div>
               <div className="item-info">
                 <h3 className="item-name">{item.name}</h3>

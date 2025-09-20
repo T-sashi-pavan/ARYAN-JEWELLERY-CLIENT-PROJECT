@@ -2,17 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import './Categories.css';
 
-// Import representative images from each collection
-import bridalImage from '../ASSETS/bridalCollections/bridal1.jpg';
-import womenImage from '../ASSETS/womenCollections/women1.jpg';
-import menImage from '../ASSETS/menCollections/men1.webp';
-import lifestyleImage from '../ASSETS/lifestyleCollections/lifestyle1.jpg';
-import coinImage from '../ASSETS/coinsCollections/coin1.jpg';
-import murthiImage from '../ASSETS/murthiCollections/murthi1.jpg';
-import livingroomImage from '../ASSETS/livingroomCollections/livingroom1.jpg';
-import poojaImage from '../ASSETS/poojaitemsCollections/poojaitems1.jpg';
-import giftImage from '../ASSETS/giftCollections/gift1.jpg';
-import decorativeImage from '../ASSETS/decorativeCollections/decorative1.jpg';
+// Import representative videos from each collection
+import womenVideo from '../ASSETS/womenCollections/women_rings/Realistic_D_Ring_Video_Generation.mp4';
+import menVideo from '../ASSETS/menCollections/mens braceletes/Jewelry_Showcase_Video_Generation (3).mp4';
+import coinVideo from '../ASSETS/coinsCollections/coins_videos/Realistic_Rotating_Coin_Showcase_Video.mp4';
+import murthiVideo from '../ASSETS/murthiCollections/idol_videos/Silver_Ganesh_Idol_D_Showcase.mp4';
+
+// Default video for categories without specific videos
+import defaultVideo from '../ASSETS/womenCollections/women_rings/gold ring.mp4';
 
 const Categories = () => {
   const scrollRef = useRef(null);
@@ -24,61 +21,61 @@ const Categories = () => {
     {
       id: 1,
       name: 'BRIDAL COLLECTION',
-      image: bridalImage,
+      video: defaultVideo,
       link: '/bridal-collection'
     },
     {
       id: 2,
       name: 'WOMEN COLLECTION',
-      image: womenImage,
+      video: womenVideo,
       link: '/women-collection'
     },
     {
       id: 3,
       name: 'MEN\'S COLLECTION',
-      image: menImage,
+      video: menVideo,
       link: '/mens-collection'
     },
     {
       id: 4,
       name: 'LIFESTYLE COLLECTION',
-      image: lifestyleImage,
+      video: defaultVideo,
       link: '/lifestyle-collection'
     },
     {
       id: 5,
       name: 'COINS COLLECTION',
-      image: coinImage,
+      video: coinVideo,
       link: '/coins-collection'
     },
     {
       id: 6,
       name: 'MURTHI COLLECTION',
-      image: murthiImage,
+      video: murthiVideo,
       link: '/murthi-collection'
     },
     {
       id: 7,
       name: 'LIVING ROOM COLLECTION',
-      image: livingroomImage,
+      video: defaultVideo,
       link: '/livingroom-collection'
     },
     {
       id: 8,
       name: 'POOJA ITEMS COLLECTION',
-      image: poojaImage,
+      video: defaultVideo,
       link: '/poojaitems-collection'
     },
     {
       id: 9,
       name: 'GIFT COLLECTION',
-      image: giftImage,
+      video: defaultVideo,
       link: '/gift-collection'
     },
     {
       id: 10,
       name: 'DECORATIVE COLLECTION',
-      image: decorativeImage,
+      video: defaultVideo,
       link: '/decorative-collection'
     }
   ];
@@ -222,7 +219,25 @@ const Categories = () => {
                 className="category-card"
               >
                 <div className="category-image">
-                  <img src={category.image} alt={category.name} />
+                  <video 
+                    src={category.video} 
+                    alt={category.name}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    onLoadedData={(e) => {
+                      e.target.play().catch(() => {
+                        // Handle autoplay failure silently
+                      });
+                    }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '8px'
+                    }}
+                  />
                   <div className="category-overlay"></div>
                 </div>
                 <div className="category-info">
