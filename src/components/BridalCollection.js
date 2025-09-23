@@ -220,9 +220,25 @@ const BridalCollection = () => {
             >
               <div className="product-image">
                 <img src={product.image} alt={product.name} />
+                <div className="product-overlay">
+                  <div className="overlay-content">
+                    <p className="product-description">{product.description}</p>
+                    <span className="view-details">View Details</span>
+                  </div>
+                </div>
               </div>
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
+                <div className="product-price">
+                  <span className="current-price">{product.price}</span>
+                  {product.originalPrice && (
+                    <span className="original-price">{product.originalPrice}</span>
+                  )}
+                </div>
+                <div className="product-details">
+                  <span className="product-size">{product.size}</span>
+                  <span className="product-material">{product.material}</span>
+                </div>
               </div>
             </Link>
           ))}

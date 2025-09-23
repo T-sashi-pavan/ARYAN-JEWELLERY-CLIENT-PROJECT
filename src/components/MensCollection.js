@@ -243,9 +243,25 @@ const MensCollection = () => {
             >
               <div className="product-image">
                 <img src={item.image} alt={item.name} />
+                <div className="product-overlay">
+                  <div className="overlay-content">
+                    <p className="product-description">{item.description}</p>
+                    <span className="view-details">View Details</span>
+                  </div>
+                </div>
               </div>
               <div className="product-info">
                 <h3 className="product-name">{item.name}</h3>
+                <div className="product-price">
+                  <span className="current-price">{item.price}</span>
+                  {item.originalPrice && (
+                    <span className="original-price">{item.originalPrice}</span>
+                  )}
+                </div>
+                <div className="product-details">
+                  <span className="product-size">{item.size}</span>
+                  <span className="product-material">{item.material}</span>
+                </div>
               </div>
             </Link>
           ))}

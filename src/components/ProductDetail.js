@@ -150,7 +150,17 @@ const ProductDetail = () => {
   const currentPriceNum = typeof product.price === 'string' 
     ? parseInt(product.price.replace(/[^\d]/g, ''))
     : product.price;
-  const discountPercentage = Math.round(((originalPriceNum - currentPriceNum) / originalPriceNum) * 100);
+  
+  // Only calculate discount if both prices are valid numbers and originalPrice > currentPrice
+  let discountPercentage = 0;
+  let hasDiscount = false;
+  
+  if (originalPriceNum && currentPriceNum && 
+      !isNaN(originalPriceNum) && !isNaN(currentPriceNum) && 
+      originalPriceNum > currentPriceNum && originalPriceNum > 0) {
+    discountPercentage = Math.round(((originalPriceNum - currentPriceNum) / originalPriceNum) * 100);
+    hasDiscount = discountPercentage > 0;
+  }
 
   // Bridal collection recommendations
   const bridalRecommendations = [
@@ -159,6 +169,7 @@ const ProductDetail = () => {
       name: 'Elegant Gold Payal',
       image: bridal1,
       price: 15000,
+      originalPrice: 17650,
       offer: '15% OFF',
       size: 'Adjustable',
       material: '22K Gold Plated',
@@ -170,6 +181,7 @@ const ProductDetail = () => {
       name: 'Royal Bridal Chain',
       image: bridal2,
       price: 25000,
+      originalPrice: 31250,
       offer: '20% OFF',
       size: '18 inch length',
       material: '22K Gold Plated',
@@ -181,6 +193,7 @@ const ProductDetail = () => {
       name: 'Designer Bridal Bracelet',
       image: bridal3,
       price: 12000,
+      originalPrice: 13636,
       offer: '12% OFF',
       size: '7 inch',
       material: '22K Gold Plated',
@@ -192,6 +205,7 @@ const ProductDetail = () => {
       name: 'Traditional Necklace Set',
       image: bridal4,
       price: 35000,
+      originalPrice: 46667,
       offer: '25% OFF',
       size: 'Medium',
       material: '22K Gold Plated',
@@ -203,6 +217,7 @@ const ProductDetail = () => {
       name: 'Antique Nose Ring',
       image: bridal6,
       price: 8000,
+      originalPrice: 8889,
       offer: '10% OFF',
       size: 'One Size',
       material: '22K Gold Plated',
@@ -214,6 +229,7 @@ const ProductDetail = () => {
       name: 'Bridal Jewelry Set',
       image: bridal7,
       price: 45000,
+      originalPrice: 64286,
       offer: '30% OFF',
       size: 'Complete Set',
       material: '22K Gold Plated',
@@ -225,6 +241,7 @@ const ProductDetail = () => {
       name: 'Gold Plated Anklet',
       image: bridal8,
       price: 18000,
+      originalPrice: 21951,
       offer: '18% OFF',
       size: 'Adjustable',
       material: '22K Gold Plated',
@@ -236,6 +253,7 @@ const ProductDetail = () => {
       name: 'Heritage Chain Design',
       image: bridal9,
       price: 28000,
+      originalPrice: 35897,
       offer: '22% OFF',
       size: '20 inch length',
       material: '22K Gold Plated',
@@ -251,6 +269,7 @@ const ProductDetail = () => {
       name: 'Elegant Silver Ring',
       image: women1,
       price: 2500,
+      originalPrice: 3012,
       offer: '17% OFF',
       size: 'Adjustable',
       material: '925 Sterling Silver',
@@ -262,6 +281,7 @@ const ProductDetail = () => {
       name: 'Pearl Studded Earrings',
       image: women2,
       price: 3200,
+      originalPrice: 3810,
       offer: '16% OFF',
       size: 'One Size',
       material: '925 Sterling Silver with Pearls',
@@ -273,6 +293,7 @@ const ProductDetail = () => {
       name: 'Silver Bridal Set',
       image: women3,
       price: 8900,
+      originalPrice: 10471,
       offer: '15% OFF',
       size: 'Complete Set',
       material: '925 Sterling Silver with Gemstones',
@@ -284,6 +305,7 @@ const ProductDetail = () => {
       name: 'Traditional Bangles',
       image: women4,
       price: 4100,
+      originalPrice: 4824,
       offer: '15% OFF',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
@@ -295,6 +317,7 @@ const ProductDetail = () => {
       name: 'Silver Ear Pins',
       image: women5,
       price: 1800,
+      originalPrice: 2195,
       offer: '18% OFF',
       size: 'One Size',
       material: '925 Sterling Silver',
@@ -306,6 +329,7 @@ const ProductDetail = () => {
       name: 'Silver Pendant',
       image: women6,
       price: 3500,
+      originalPrice: 4023,
       offer: '13% OFF',
       size: '18 inch chain',
       material: '925 Sterling Silver',
@@ -317,6 +341,7 @@ const ProductDetail = () => {
       name: 'Silver Necklace Set',
       image: women7,
       price: 5500,
+      originalPrice: 6471,
       offer: '15% OFF',
       size: 'Complete Set',
       material: '925 Sterling Silver',
@@ -328,6 +353,7 @@ const ProductDetail = () => {
       name: 'Silver Chain',
       image: women8,
       price: 2900,
+      originalPrice: 3412,
       offer: '15% OFF',
       size: '20 inch',
       material: '925 Sterling Silver',
@@ -343,6 +369,7 @@ const ProductDetail = () => {
       name: 'Silver Ring',
       image: men1,
       price: 3500,
+      originalPrice: 4217,
       offer: '17% OFF',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
@@ -354,6 +381,7 @@ const ProductDetail = () => {
       name: 'Silver Ring SG',
       image: men2,
       price: 4200,
+      originalPrice: 5000,
       offer: '16% OFF',
       size: 'Multiple Sizes',
       material: '925 Sterling Silver',
@@ -365,6 +393,7 @@ const ProductDetail = () => {
       name: 'Silver Chain Bracelet',
       image: men5,
       price: 6800,
+      originalPrice: 8000,
       offer: '15% OFF',
       size: 'Adjustable',
       material: '925 Sterling Silver',
@@ -376,6 +405,7 @@ const ProductDetail = () => {
       name: 'Silver Chain',
       image: men8,
       price: 7200,
+      originalPrice: 8780,
       offer: '18% OFF',
       size: '20 inch',
       material: '925 Sterling Silver',
@@ -391,6 +421,7 @@ const ProductDetail = () => {
       name: 'Silver Ganesh Murthi',
       image: murthi1,
       price: 15000,
+      originalPrice: 17647,
       offer: '15% OFF',
       size: '8 inch height',
       material: '925 Sterling Silver',
@@ -402,6 +433,7 @@ const ProductDetail = () => {
       name: 'Silver Krishna Murthi',
       image: murthi2,
       price: 18500,
+      originalPrice: 21023,
       offer: '12% OFF',
       size: '10 inch height',
       material: '925 Sterling Silver',
@@ -413,6 +445,7 @@ const ProductDetail = () => {
       name: 'Silver Lakshmi Murthi',
       image: murthi3,
       price: 16500,
+      originalPrice: 20122,
       offer: '18% OFF',
       size: '9 inch height',
       material: '925 Sterling Silver',
@@ -424,6 +457,7 @@ const ProductDetail = () => {
       name: 'Silver Saraswati Murthi',
       image: murthi4,
       price: 17200,
+      originalPrice: 20000,
       offer: '14% OFF',
       size: '9.5 inch height',
       material: '925 Sterling Silver',
@@ -439,6 +473,7 @@ const ProductDetail = () => {
       name: 'Silver Ganesh Coin',
       image: coin1,
       price: 2500,
+      originalPrice: 2778,
       offer: '10% OFF',
       size: '2 inch diameter',
       material: '925 Sterling Silver',
@@ -450,6 +485,7 @@ const ProductDetail = () => {
       name: 'Silver Lakshmi Coin',
       image: coin2,
       price: 3000,
+      originalPrice: 3409,
       offer: '12% OFF',
       size: '2.5 inch diameter',
       material: '925 Sterling Silver',
@@ -461,6 +497,7 @@ const ProductDetail = () => {
       name: 'Silver Om Coin',
       image: coin3,
       price: 2200,
+      originalPrice: 2391,
       offer: '8% OFF',
       size: '1.8 inch diameter',
       material: '925 Sterling Silver',
@@ -472,6 +509,7 @@ const ProductDetail = () => {
       name: 'Silver Commemorative Coin',
       image: coin4,
       price: 3500,
+      originalPrice: 4118,
       offer: '15% OFF',
       size: '3 inch diameter',
       material: '925 Sterling Silver',
@@ -487,6 +525,7 @@ const ProductDetail = () => {
       name: 'Silver Wall Mirror',
       image: livingroom1,
       price: 12500,
+      originalPrice: 14706,
       offer: '15% OFF',
       size: '24x18 inches',
       material: '925 Sterling Silver Frame',
@@ -498,6 +537,7 @@ const ProductDetail = () => {
       name: 'Silver Coffee Table Set',
       image: livingroom2,
       price: 35000,
+      originalPrice: 43750,
       offer: '20% OFF',
       size: 'Table 48x24 inches',
       material: '925 Sterling Silver Accents',
@@ -509,6 +549,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Lamp',
       image: livingroom3,
       price: 18500,
+      originalPrice: 21023,
       offer: '12% OFF',
       size: '28 inch height',
       material: '925 Sterling Silver Base',
@@ -520,6 +561,7 @@ const ProductDetail = () => {
       name: 'Silver Wall Clock',
       image: livingroom4,
       price: 8500,
+      originalPrice: 9444,
       offer: '10% OFF',
       size: '16 inch diameter',
       material: '925 Sterling Silver',
@@ -535,6 +577,7 @@ const ProductDetail = () => {
       name: 'Silver Pooja Thali Set',
       image: poojaitems1,
       price: 12000,
+      originalPrice: 14118,
       offer: '15% OFF',
       size: '12 inch diameter',
       material: '925 Sterling Silver',
@@ -546,6 +589,7 @@ const ProductDetail = () => {
       name: 'Silver Diya Set',
       image: poojaitems2,
       price: 8500,
+      originalPrice: 9659,
       offer: '12% OFF',
       size: 'Set of 5 diyas',
       material: '925 Sterling Silver',
@@ -557,6 +601,7 @@ const ProductDetail = () => {
       name: 'Silver Kalash',
       image: poojaitems3,
       price: 15000,
+      originalPrice: 18293,
       offer: '18% OFF',
       size: '8 inch height',
       material: '925 Sterling Silver',
@@ -568,6 +613,7 @@ const ProductDetail = () => {
       name: 'Silver Incense Holder',
       image: poojaitems4,
       price: 6500,
+      originalPrice: 7222,
       offer: '10% OFF',
       size: '6 inch length',
       material: '925 Sterling Silver',
@@ -583,6 +629,7 @@ const ProductDetail = () => {
       name: 'Silver Gift Set',
       image: gift1,
       price: 8500,
+      originalPrice: 10000,
       offer: '15% OFF',
       size: 'Medium Gift Box',
       material: '925 Sterling Silver',
@@ -594,6 +641,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Item',
       image: gift2,
       price: 6200,
+      originalPrice: 7045,
       offer: '12% OFF',
       size: 'Small Decorative Piece',
       material: '925 Sterling Silver',
@@ -605,6 +653,7 @@ const ProductDetail = () => {
       name: 'Silver Anniversary Gift',
       image: gift3,
       price: 12500,
+      originalPrice: 15244,
       offer: '18% OFF',
       size: 'Large Gift Box',
       material: '925 Sterling Silver',
@@ -616,6 +665,7 @@ const ProductDetail = () => {
       name: 'Silver Wedding Gift',
       image: gift4,
       price: 9800,
+      originalPrice: 11395,
       offer: '14% OFF',
       size: 'Medium Gift Set',
       material: '925 Sterling Silver',
@@ -631,6 +681,7 @@ const ProductDetail = () => {
       name: 'Silver Dinner Set',
       image: lifestyle1,
       price: 25000,
+      originalPrice: 29412,
       offer: '15% OFF',
       size: 'Set of 12 pieces',
       material: '925 Sterling Silver',
@@ -642,6 +693,7 @@ const ProductDetail = () => {
       name: 'Silver Photo Frame',
       image: lifestyle2,
       price: 8500,
+      originalPrice: 9444,
       offer: '10% OFF',
       size: '8x10 inches',
       material: '925 Sterling Silver',
@@ -653,6 +705,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Bowl',
       image: lifestyle3,
       price: 12000,
+      originalPrice: 15000,
       offer: '20% OFF',
       size: '12 inch diameter',
       material: '925 Sterling Silver',
@@ -664,6 +717,7 @@ const ProductDetail = () => {
       name: 'Silver Candle Holder',
       image: lifestyle4,
       price: 6800,
+      originalPrice: 7727,
       offer: '12% OFF',
       size: '6 inch height',
       material: '925 Sterling Silver',
@@ -675,6 +729,7 @@ const ProductDetail = () => {
       name: 'Silver Tray Set',
       image: lifestyle5,
       price: 18500,
+      originalPrice: 22561,
       offer: '18% OFF',
       size: 'Set of 3 trays',
       material: '925 Sterling Silver',
@@ -686,6 +741,7 @@ const ProductDetail = () => {
       name: 'Silver Vase',
       image: lifestyle6,
       price: 15200,
+      originalPrice: 17882,
       offer: '15% OFF',
       size: '10 inch height',
       material: '925 Sterling Silver',
@@ -697,6 +753,7 @@ const ProductDetail = () => {
       name: 'Silver Jewelry Box',
       image: lifestyle7,
       price: 9800,
+      originalPrice: 10889,
       offer: '10% OFF',
       size: '8x6x4 inches',
       material: '925 Sterling Silver',
@@ -708,6 +765,7 @@ const ProductDetail = () => {
       name: 'Silver Mirror Frame',
       image: lifestyle8,
       price: 11500,
+      originalPrice: 13372,
       offer: '14% OFF',
       size: '12x16 inches',
       material: '925 Sterling Silver',
@@ -723,6 +781,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Vase',
       image: decorative1,
       price: 12500,
+      originalPrice: 14706,
       offer: '15% OFF',
       size: '12 inch height',
       material: '925 Sterling Silver',
@@ -734,6 +793,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Bowl',
       image: decorative2,
       price: 8500,
+      originalPrice: 9659,
       offer: '12% OFF',
       size: '8 inch diameter',
       material: '925 Sterling Silver',
@@ -745,6 +805,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Plate',
       image: decorative3,
       price: 15000,
+      originalPrice: 18293,
       offer: '18% OFF',
       size: '10 inch diameter',
       material: '925 Sterling Silver',
@@ -756,6 +817,7 @@ const ProductDetail = () => {
       name: 'Silver Decorative Figurine',
       image: decorative4,
       price: 9800,
+      originalPrice: 11395,
       offer: '14% OFF',
       size: '6 inch height',
       material: '925 Sterling Silver',
@@ -857,8 +919,12 @@ const ProductDetail = () => {
             
             <div className="price-section">
               <span className="current-price">{product.price}</span>
-              <span className="original-price">{product.originalPrice}</span>
-              <span className="discount-badge">{discountPercentage}% OFF</span>
+              {product.originalPrice && (
+                <span className="original-price">{product.originalPrice}</span>
+              )}
+              {hasDiscount && (
+                <span className="discount-badge">{discountPercentage}% OFF</span>
+              )}
             </div>
             
             <div className="product-details">
@@ -886,8 +952,32 @@ const ProductDetail = () => {
                 {isInCart(product.id) ? 'In Cart' : 'Add to Cart'}
               </button>
               <button 
-                className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
+                // className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
                 onClick={handleAddToWishlist}
+                style={{
+                  padding: '12px 24px',
+                  border: '2px solid #d4af37',
+                  backgroundColor: isInWishlist(product.id) ? '#d4af37' : 'transparent',
+                  color: isInWishlist(product.id) ? '#fff' : '#d4af37',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease',
+                  minWidth: '160px'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isInWishlist(product.id)) {
+                    e.target.style.backgroundColor = '#d4af37';
+                    e.target.style.color = '#fff';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isInWishlist(product.id)) {
+                    e.target.style.backgroundColor = 'transparent';
+                    e.target.style.color = '#d4af37';
+                  }
+                }}
               >
                 {isInWishlist(product.id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
               </button>

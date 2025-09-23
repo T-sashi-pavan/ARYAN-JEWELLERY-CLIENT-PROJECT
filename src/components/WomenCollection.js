@@ -207,26 +207,61 @@ const WomenCollection = () => {
 
         {/* Products Grid */}
         <div className="products-grid">
-          {products.slice(0, visibleItems).map((product, index) => (
-            <Link 
-              to={`/product/${product.id}`} 
-              key={product.id} 
-              state={{ product: product }}
-              className="product-card"
-              style={{animationDelay: `${index * 0.1}s`}}
-            >
-              <div className="product-image">
-                <img src={product.image} alt={product.name} />
-              </div>
-              <div className="product-info">
-                <h3 className="product-name">{product.name}</h3>
-                <p className="product-price">{product.price}</p>
-                {product.material && (
-                  <p className="product-material">{product.material}</p>
-                )}
-              </div>
-            </Link>
-          ))}
+          {products.slice(0, visibleItems).map((product, index) => {
+            // Calculate discount percentage
+            const getDiscountPercentage = (current, original) => {
+              if (!current || !original) return null;
+              
+              const currentPrice = parseFloat(current.replace(/[₹,]/g, ''));
+              const originalPrice = parseFloat(original.replace(/[₹,]/g, ''));
+              
+              if (isNaN(currentPrice) || isNaN(originalPrice) || originalPrice <= currentPrice) {
+                return null;
+              }
+              
+              return Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+            };
+
+            const discountPercentage = getDiscountPercentage(product.price, product.originalPrice);
+
+            return (
+              <Link 
+                to={`/product/${product.id}`} 
+                key={product.id} 
+                state={{ product: product }}
+                className="product-card"
+                style={{animationDelay: `${index * 0.1}s`}}
+              >
+                <div className="product-image">
+                  <img src={product.image} alt={product.name} />
+                  {discountPercentage && (
+                    <div className="discount-badge">
+                      {discountPercentage}% OFF
+                    </div>
+                  )}
+                  <div className="product-overlay">
+                    <div className="overlay-content">
+                      <p className="product-description">{product.description}</p>
+                      <span className="view-details">View Details</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="product-info">
+                  <h3 className="product-name">{product.name}</h3>
+                  <div className="product-price">
+                    <span className="current-price">{product.price}</span>
+                    {product.originalPrice && (
+                      <span className="original-price">{product.originalPrice}</span>
+                    )}
+                  </div>
+                  <div className="product-details">
+                    <span className="product-size">{product.size}</span>
+                    <span className="product-material">{product.material}</span>
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
         </div>
 
         {/* Load More Button */}

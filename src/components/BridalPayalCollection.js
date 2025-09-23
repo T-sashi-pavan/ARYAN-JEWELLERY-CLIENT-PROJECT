@@ -134,12 +134,28 @@ const BridalPayalCollection = () => {
           <h1 className="page-title">BRIDAL PAYALS</h1>
         </div>
 
-        {/* Collection Header */}
-        <div className="collection-header">
-          <h2 className="collection-title">Bridal Payal Collection</h2>
-          <p className="collection-description">
-            Grace your feet with our stunning bridal payal collection, featuring traditional designs with melodious chimes.
-          </p>
+        {/* Category Filter Navigation */}
+        <div className="category-filter-nav">
+          <div className="filter-buttons">
+            <Link to="/bridal-collection" className="filter-btn">
+              ALL
+            </Link>
+            <Link to="/bridal-collection/necklace" className="filter-btn">
+              NECKLACES
+            </Link>
+            <Link to="/bridal-collection/bracelets" className="filter-btn">
+              BRACELETS
+            </Link>
+            <Link to="/bridal-collection/chains" className="filter-btn">
+              CHAINS
+            </Link>
+            <Link to="/bridal-collection/payal" className="filter-btn active">
+              PAYALS
+            </Link>
+            <Link to="/bridal-collection/nose-rings" className="filter-btn">
+              NOSE RINGS
+            </Link>
+          </div>
         </div>
 
         {/* Products Grid */}
@@ -160,9 +176,25 @@ const BridalPayalCollection = () => {
                     e.target.src = bridal4; // Fallback image
                   }}
                 />
+                <div className="product-overlay">
+                  <div className="overlay-content">
+                    <p className="product-description">{product.description}</p>
+                    <span className="view-details">View Details</span>
+                  </div>
+                </div>
               </div>
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
+                <div className="product-price">
+                  <span className="current-price">₹{typeof product.price === 'number' ? product.price.toLocaleString() : product.price}</span>
+                  {product.offer && (
+                    <span className="offer-badge">{product.offer}</span>
+                  )}
+                </div>
+                <div className="product-details">
+                  <span className="product-size">{product.size}</span>
+                  <span className="product-material">{product.material}</span>
+                </div>
               </div>
             </Link>
           ))}

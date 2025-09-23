@@ -27,7 +27,6 @@ const Products = () => {
     {
       keepPreviousData: true,
       select: (response) => {
-        console.log('📊 Products API Response:', response.data);
         return response.data.data; // Contains both products and pagination
       }
     }
@@ -180,9 +179,10 @@ const Products = () => {
         </div>
       </div>
 
-      {/* Products table */}
+      {/* Products table/grid - Responsive */}
       <div className="card">
-        <div className="table-container">
+        {/* Desktop Table View */}
+        <div className="hidden lg:block table-container">
           <table className="table">
             <thead className="table-head">
               <tr>
@@ -314,25 +314,162 @@ const Products = () => {
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan="7" className="table-cell text-center text-gray-500 py-8">
+                  <td colSpan="8" className="table-cell text-center text-gray-500 py-8">
                     No products found
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
-          
-          {data?.products?.length === 0 && (
-            <div className="text-center py-12">
-              <CubeIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">No products found</p>
-              <Link to="/products/add" className="btn-primary mt-4 inline-flex items-center">
-                <PlusIcon className="h-4 w-4 mr-2" />
-                Add Your First Product
-              </Link>
-            </div>
-          )}
         </div>
+
+        {/* Mobile Card View */}
+        <div className="lg:hidden">
+          <div className="p-4 border-b border-gray-200">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={selectedProducts.length === data?.products?.length && data?.products?.length > 0}
+                  onChange={(e) => handleSelectAll(e.target.checked)}
+                  className="rounded border-gray-300 mr-3"
+                />
+                <span className="text-sm font-medium text-gray-700">
+                  {selectedProducts.length > 0 ? `${selectedProducts.length} selected` : 'Select all'}
+                </span>
+              </div>
+              {selectedProducts.length > 0 && (
+                <button
+                  onClick={handleBulkDelete}
+                  disabled={bulkDeleteMutation.isLoading}
+                  className="text-red-600 hover:text-red-500 text-sm font-medium"
+                >
+                  Delete ({selectedProducts.length})
+                </button>
+              )}
+            </div>
+          </div>
+          
+          <div className="divide-y divide-gray-200">
+            {data?.products?.length > 0 ? data.products.map((product) => (
+              <div key={product._id || product.id} className="p-4">
+                <div className="flex items-start space-x-3">
+                  <input
+                    type="checkbox"
+                    checked={selectedProducts.includes(product._id)}
+                    onChange={(e) => handleSelectProduct(product._id, e.target.checked)}
+                    className="rounded border-gray-300 mt-1"
+                  />
+                  
+                  <div className="h-16 w-16 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
+                    {product.image ? (
+                      <img 
+                        src={product.image} 
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.parentNode.innerHTML = '<div class="h-full w-full flex items-center justify-center"><svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg></div>';
+                        }}
+                      />
+                    ) : (
+                      <div className="h-full w-full flex items-center justify-center">
+                        <CubeIcon className="h-6 w-6 text-gray-400" />
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-medium text-gray-900 truncate">{product.name}</h3>
+                        <p className="text-sm text-gray-500 mt-1">
+                          SKU: <span className="font-mono">{product.sku}</span>
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          Category: {product.category}
+                        </p>
+                        
+                        <div className="flex items-center space-x-4 mt-2">
+                          <div>
+                            <span className="font-medium text-gray-900">
+                              {product.price ? `${product.price}` : '₹0'}
+                            </span>
+                            {product.originalPrice && product.originalPrice !== product.price && (
+                              <span className="text-sm text-gray-500 line-through ml-2">
+                                {product.originalPrice}
+                              </span>
+                            )}
+                          </div>
+                          
+                          <span className="text-sm">
+                            {product.inStock ? (
+                              <span className="text-green-600 font-medium">In Stock</span>
+                            ) : (
+                              <span className="text-red-600 font-medium">Out of Stock</span>
+                            )}
+                          </span>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2 mt-2">
+                          {product.featured && (
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                              Featured
+                            </span>
+                          )}
+                          {product.isActive !== false ? (
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                              Active
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                              Inactive
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-2 ml-4">
+                        <Link
+                          to={`/products/edit/${product._id}`}
+                          className="text-primary-600 hover:text-primary-500 p-2"
+                          title="Edit"
+                        >
+                          <PencilIcon className="h-5 w-5" />
+                        </Link>
+                        
+                        <button
+                          onClick={() => handleDelete(product._id, product.name)}
+                          className="text-red-600 hover:text-red-500 p-2"
+                          title="Delete"
+                          disabled={deleteMutation.isLoading}
+                        >
+                          <TrashIcon className="h-5 w-5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )) : (
+              <div className="p-8 text-center text-gray-500">
+                No products found
+              </div>
+            )}
+          </div>
+        </div>
+        
+        {/* Empty state for no products */}
+        {data?.products?.length === 0 && (
+          <div className="text-center py-12">
+            <CubeIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-500">No products found</p>
+            <Link to="/products/add" className="btn-primary mt-4 inline-flex items-center">
+              <PlusIcon className="h-4 w-4 mr-2" />
+              Add Your First Product
+            </Link>
+          </div>
+        )}
         
         {/* Pagination */}
         {data?.pagination && data.pagination.totalPages > 1 && (

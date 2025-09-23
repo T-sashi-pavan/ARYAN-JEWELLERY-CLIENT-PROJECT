@@ -41,10 +41,18 @@ const EditProduct = () => {
   // Pre-fill form data when product data is loaded
   useEffect(() => {
     if (productData) {
-      console.log('✅ Product data received:', productData)
-      const product = productData.data || productData
-      
-      console.log('🔄 Pre-filling form with product data:', product)
+      // Handle the nested response structure: response.data.data.data
+      let product;
+      if (productData.data && productData.data.data) {
+        // This is the correct structure: response.data.data.data
+        product = productData.data.data;
+      } else if (productData.data) {
+        // Fallback: response.data.data
+        product = productData.data;
+      } else {
+        // Last fallback: direct data
+        product = productData;
+      }
       
       // Pre-fill form with existing data
       setFormData({
@@ -57,20 +65,12 @@ const EditProduct = () => {
         description: product.description || '',
         inStock: product.inStock ?? true,
         featured: product.featured ?? false
-      })
+      });
       
       // Set current image
       if (product.image) {
-        setCurrentImage(product.image)
-        console.log('🖼️ Current image set:', product.image)
+        setCurrentImage(product.image);
       }
-      
-      console.log('✅ Form pre-filled successfully with:', {
-        name: product.name,
-        category: product.category,
-        price: product.price,
-        material: product.material
-      })
     }
   }, [productData])
 
@@ -78,7 +78,6 @@ const EditProduct = () => {
   useEffect(() => {
     if (productError) {
       toast.error('❌ Failed to load product data')
-      console.error('❌ Error loading product:', productError)
     }
   }, [productError])
 
@@ -161,7 +160,6 @@ const EditProduct = () => {
     }
 
     setIsSubmitting(true)
-    console.log('🔄 Updating product with data:', formData)
 
     try {
       // Prepare form data for submission
@@ -179,7 +177,7 @@ const EditProduct = () => {
 
       await updateMutation.mutateAsync(submitData)
     } catch (error) {
-      console.error('❌ Submit error:', error)
+      // Error handling is done in mutation
     }
   }
 
@@ -187,7 +185,7 @@ const EditProduct = () => {
     return (
       <div className="flex items-center justify-center h-64">
         <LoadingSpinner />
-        <span className="ml-3 text-gray-600">🔄 Loading product data to pre-fill form...</span>
+        <span className="ml-3 text-gray-600">Loading product data...</span>
       </div>
     )
   }
@@ -230,12 +228,6 @@ const EditProduct = () => {
           <div className="card-header">
             <h3 className="text-lg font-semibold text-gray-900">📝 Edit Product Details</h3>
             <p className="text-sm text-gray-600">Update essential product information</p>
-            {/* Debug: Show if form is pre-filled */}
-            {formData.name && (
-              <p className="text-xs text-green-600 mt-1">
-                ✅ Form pre-filled with: {formData.name} | {formData.category} | {formData.price}
-              </p>
-            )}
           </div>
           <div className="card-body">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
