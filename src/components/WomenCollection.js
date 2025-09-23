@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './WomenCollection.css';
 
-// Import women collection images  
+// Import women collection images (fallback for static products)
 import women1 from '../ASSETS/womenCollections/women1.jpg';
 import women2 from '../ASSETS/womenCollections/women2.jpg';
 import women3 from '../ASSETS/womenCollections/women3.jpg';
@@ -16,13 +16,41 @@ import women9 from '../ASSETS/womenCollections/women9.jpg';
 const WomenCollection = () => {
   const [visibleItems, setVisibleItems] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
 
+  // Fetch products from backend API
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('🔍 Fetching women collection products from API...');
+        
+        const response = await fetch('http://localhost:5000/api/public/products?category=women&limit=50');
+        const data = await response.json();
+        
+        if (data.success && data.data) {
+          console.log('✅ Fetched products:', data.data.length);
+          setProducts(data.data);
+        } else {
+          console.warn('⚠️ No products found, using fallback static data');
+          setProducts(getStaticWomenProducts());
+        }
+      } catch (error) {
+        console.error('❌ Error fetching products:', error);
+        console.log('🔄 Using fallback static data');
+        setError('Failed to load latest products. Showing cached data.');
+        setProducts(getStaticWomenProducts());
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  const womenProducts = [
+  // Static fallback data (original hardcoded products)
+  const getStaticWomenProducts = () => [
     {
       id: 1,
       name: 'Elegant Silver Ring',
@@ -125,7 +153,7 @@ const WomenCollection = () => {
   ];
 
   const loadMore = () => {
-    setVisibleItems(prev => Math.min(prev + 4, womenProducts.length));
+    setVisibleItems(prev => Math.min(prev + 4, products.length));
   };
 
   if (isLoading) {
@@ -140,12 +168,19 @@ const WomenCollection = () => {
   return (
     <div className="women-collection-page">
       <div className="container">
+        {/* Error Message */}
+        {error && (
+          <div className="error-banner">
+            <p>⚠️ {error}</p>
+          </div>
+        )}
+
         {/* Breadcrumb */}
         <div className="breadcrumb">
           <Link to="/" className="breadcrumb-link">
             <span className="back-arrow">←</span>
           </Link>
-          <h1 className="page-title">WOMEN COLLECTION</h1>
+          <h1 className="page-title">WOMEN COLLECTION ({products.length} items)</h1>
         </div>
 
         {/* Category Filter Navigation */}
@@ -172,7 +207,7 @@ const WomenCollection = () => {
 
         {/* Products Grid */}
         <div className="products-grid">
-          {womenProducts.slice(0, visibleItems).map((product, index) => (
+          {products.slice(0, visibleItems).map((product, index) => (
             <Link 
               to={`/product/${product.id}`} 
               key={product.id} 
@@ -185,13 +220,17 @@ const WomenCollection = () => {
               </div>
               <div className="product-info">
                 <h3 className="product-name">{product.name}</h3>
+                <p className="product-price">{product.price}</p>
+                {product.material && (
+                  <p className="product-material">{product.material}</p>
+                )}
               </div>
             </Link>
           ))}
         </div>
 
         {/* Load More Button */}
-        {visibleItems < womenProducts.length && (
+        {visibleItems < products.length && (
           <div className="load-more-section">
             <button className="load-more-btn" onClick={loadMore}>
               Load More Products

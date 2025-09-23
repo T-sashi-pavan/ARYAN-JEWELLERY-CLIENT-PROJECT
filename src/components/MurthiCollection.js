@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -11,7 +11,12 @@ import murthi5 from '../ASSETS/murthiCollections/murthi5.jpg';
 import murthi6 from '../ASSETS/murthiCollections/murthi6.jpg';
 
 const MurthiCollection = () => {
-  const murthiProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [murthiProducts, setMurthiProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Static fallback data
+  const staticMurthiProducts = [
     {
       id: 1,
       name: 'Silver Ganesh Murthi',
@@ -80,6 +85,52 @@ const MurthiCollection = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchMurthiProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=murthi');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          const allProducts = [...formattedProducts, ...staticMurthiProducts];
+          setMurthiProducts(allProducts);
+        } else {
+          setMurthiProducts(staticMurthiProducts);
+        }
+      } catch (error) {
+        setError('Failed to load products from server. Showing offline products.');
+        setMurthiProducts(staticMurthiProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMurthiProducts();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading Murthi Collection...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bridal-collection-page">
       <div className="container">
@@ -110,6 +161,9 @@ const MurthiCollection = () => {
           </Link>
           <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
             POOJA ITEMS
+          </Link>
+          <Link to="/gift-collection" className="category-filter-btn">
+            GIFT
           </Link>
           <Link to="/lifestyle-collection/living-room" className="category-filter-btn">
             LIVING ROOM

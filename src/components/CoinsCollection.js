@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -11,7 +11,12 @@ import coin5 from '../ASSETS/coinsCollections/coin5.jpg';
 import coin6 from '../ASSETS/coinsCollections/coin6.jpg';
 
 const CoinsCollection = () => {
-  const coinsProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [coinsProducts, setCoinsProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Static fallback data
+  const staticCoinsProducts = [
     {
       id: 1,
       name: 'Silver Commemorative Coin',
@@ -80,6 +85,52 @@ const CoinsCollection = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchCoinsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=coins');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          const allProducts = [...formattedProducts, ...staticCoinsProducts];
+          setCoinsProducts(allProducts);
+        } else {
+          setCoinsProducts(staticCoinsProducts);
+        }
+      } catch (error) {
+        setError('Failed to load products from server. Showing offline products.');
+        setCoinsProducts(staticCoinsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCoinsProducts();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading Coins Collection...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bridal-collection-page">
       <div className="container">
@@ -110,6 +161,9 @@ const CoinsCollection = () => {
           </Link>
           <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
             POOJA ITEMS
+          </Link>
+          <Link to="/gift-collection" className="category-filter-btn">
+            GIFT
           </Link>
           <Link to="/lifestyle-collection/living-room" className="category-filter-btn">
             LIVING ROOM

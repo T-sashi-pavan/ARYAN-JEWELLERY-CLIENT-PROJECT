@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -8,7 +8,51 @@ import bridal3 from '../ASSETS/bridalCollections/bridal3.jpg';
 import bridal8 from '../ASSETS/bridalCollections/bridal8.jpg';
 
 const ChainsCollection = () => {
-  const chainsProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [chainsProducts, setChainsProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchChainsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?subcategory=chains');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            const formattedProducts = data.map(product => ({
+              id: product._id,
+              name: product.name,
+              image: product.images && product.images.length > 0 ? product.images[0] : staticChainsProducts[0]?.image,
+              price: `₹${product.price.toLocaleString()}`,
+              originalPrice: product.originalPrice ? `₹${product.originalPrice.toLocaleString()}` : '',
+              category: product.subcategory || 'chains',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || ''
+            }));
+            setChainsProducts(formattedProducts);
+          } else {
+            setChainsProducts(staticChainsProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setChainsProducts(staticChainsProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching chains products:', error);
+        setError('Failed to load products');
+        setChainsProducts(staticChainsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchChainsProducts();
+  }, []);
+
+  // Static fallback data
+  const staticChainsProducts = [
     {
       id: 'chains_1',
       name: 'Traditional Silver Chain',

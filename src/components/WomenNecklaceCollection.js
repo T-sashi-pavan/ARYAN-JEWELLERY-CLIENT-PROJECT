@@ -2,20 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../components/BridalCollection.css';
 
-// Import women necklace images  
+// Import women necklace images (fallback for static products)
 import women3 from '../ASSETS/womenCollections/women3.jpg';
 import women6 from '../ASSETS/womenCollections/women6.jpg';
 import women7 from '../ASSETS/womenCollections/women7.jpg';
 
 const WomenNecklaceCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
 
+  // Fetch products from backend API
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('🔍 Fetching women necklace products from API...');
+        
+        const response = await fetch('http://localhost:5000/api/public/products?category=women&subcategory=necklace&limit=50');
+        const data = await response.json();
+        
+        if (data.success && data.data && data.data.length > 0) {
+          console.log('✅ Fetched necklace products:', data.data.length);
+          setProducts(data.data);
+        } else {
+          console.warn('⚠️ No necklace products found, using fallback static data');
+          setProducts(getStaticNecklaceProducts());
+        }
+      } catch (error) {
+        console.error('❌ Error fetching necklace products:', error);
+        console.log('🔄 Using fallback static data');
+        setError('Failed to load latest products. Showing cached data.');
+        setProducts(getStaticNecklaceProducts());
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
-  const necklaceProducts = [
+  // Static fallback data (original hardcoded products)
+  const getStaticNecklaceProducts = () => [
     {
       id: 3,
       name: 'Silver Bridal Set',
@@ -66,6 +94,13 @@ const WomenNecklaceCollection = () => {
   return (
     <div className="bridal-collection-page">
       <div className="container">
+        {/* Error Message */}
+        {error && (
+          <div className="error-banner">
+            <p>⚠️ {error}</p>
+          </div>
+        )}
+
         {/* Breadcrumb */}
         <div className="breadcrumb">
           <Link to="/" className="breadcrumb-link">
@@ -74,7 +109,7 @@ const WomenNecklaceCollection = () => {
           <span className="breadcrumb-separator">|</span>
           <Link to="/women-collection" className="breadcrumb-link">Women Collection</Link>
           <span className="breadcrumb-separator">|</span>
-          <h1 className="page-title">NECKLACE</h1>
+          <h1 className="page-title">NECKLACE ({products.length} items)</h1>
         </div>
 
         {/* Category Filter Navigation */}
@@ -101,7 +136,7 @@ const WomenNecklaceCollection = () => {
 
         {/* Products Grid */}
         <div className="products-grid">
-          {necklaceProducts.map(product => (
+          {products.map(product => (
             <Link 
               key={product.id}
               to={`/product/${product.id}`}

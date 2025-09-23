@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -8,7 +8,51 @@ import bridal6 from '../ASSETS/bridalCollections/bridal6.jpg';
 import bridal9 from '../ASSETS/bridalCollections/bridal9.jpg';
 
 const BraceletsCollection = () => {
-  const braceletsProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [braceletsProducts, setBraceletsProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBraceletsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?subcategory=bracelets');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            const formattedProducts = data.map(product => ({
+              id: product._id,
+              name: product.name,
+              image: product.images && product.images.length > 0 ? product.images[0] : staticBraceletsProducts[0]?.image,
+              price: `₹${product.price.toLocaleString()}`,
+              originalPrice: product.originalPrice ? `₹${product.originalPrice.toLocaleString()}` : '',
+              category: product.subcategory || 'bracelets',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || ''
+            }));
+            setBraceletsProducts(formattedProducts);
+          } else {
+            setBraceletsProducts(staticBraceletsProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setBraceletsProducts(staticBraceletsProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching bracelets products:', error);
+        setError('Failed to load products');
+        setBraceletsProducts(staticBraceletsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBraceletsProducts();
+  }, []);
+
+  // Static fallback data
+  const staticBraceletsProducts = [
     {
       id: 'bracelets_1',
       name: 'Diamond Cut Bracelet',

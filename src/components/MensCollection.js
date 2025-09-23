@@ -16,13 +16,11 @@ import men9 from '../ASSETS/menCollections/men9.jpg';
 const MensCollection = () => {
   const [visibleItems, setVisibleItems] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
+  const [mensItems, setMensItems] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const mensItems = [
+  // Static fallback data
+  const staticMensItems = [
     {
       id: 1,
       name: 'Silver Ring',
@@ -125,8 +123,53 @@ const MensCollection = () => {
   ];
 
   useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
+    const fetchMensProducts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching men\'s products from API...');
+        
+        const response = await fetch('http://localhost:5000/api/public/products?category=men');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('API Response for men\'s products:', data);
+        
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          
+          console.log(`Found ${formattedProducts.length} men's products from API`);
+          
+          // Combine API products with static products
+          const allProducts = [...formattedProducts, ...staticMensItems];
+          setMensItems(allProducts);
+        } else {
+          console.log('No men\'s products found in API, using static data');
+          setMensItems(staticMensItems);
+        }
+      } catch (error) {
+        console.error('Error fetching men\'s products:', error);
+        setError('Failed to load products from server. Showing offline products.');
+        setMensItems(staticMensItems);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMensProducts();
   }, []);
 
   const loadMore = () => {
@@ -167,6 +210,25 @@ const MensCollection = () => {
           <Link to="/mens-collection/rings" className="category-filter-btn">
             RINGS
           </Link>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="error-message" style={{
+            background: '#fff3cd',
+            border: '1px solid #ffecb5',
+            color: '#856404',
+            padding: '0.75rem 1.25rem',
+            marginBottom: '1rem',
+            borderRadius: '0.25rem'
+          }}>
+            {error}
+          </div>
+        )}
+
+        {/* Product Count */}
+        <div style={{ marginBottom: '1rem', color: '#666' }}>
+          Showing {Math.min(visibleItems, mensItems.length)} of {mensItems.length} products
         </div>
 
         {/* Products Grid */}

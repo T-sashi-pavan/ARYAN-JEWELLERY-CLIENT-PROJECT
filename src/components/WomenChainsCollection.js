@@ -9,13 +9,11 @@ import women4 from '../ASSETS/womenCollections/women4.jpg';
 
 const WomenChainsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [chainsProducts, setChainsProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const chainsProducts = [
+  // Static fallback data
+  const staticChainsProducts = [
     {
       id: 8,
       name: 'Silver Chain',
@@ -53,6 +51,43 @@ const WomenChainsCollection = () => {
       description: 'Bold chain design that makes a statement with any outfit'
     }
   ];
+
+  useEffect(() => {
+    const fetchWomenChainsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=women&subcategory=chains');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          const allProducts = [...formattedProducts, ...staticChainsProducts];
+          setChainsProducts(allProducts);
+        } else {
+          setChainsProducts(staticChainsProducts);
+        }
+      } catch (error) {
+        setError('Failed to load products from server. Showing offline products.');
+        setChainsProducts(staticChainsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchWomenChainsProducts();
+  }, []);
 
   if (isLoading) {
     return (

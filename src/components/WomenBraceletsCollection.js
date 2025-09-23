@@ -9,13 +9,11 @@ import women3 from '../ASSETS/womenCollections/women3.jpg';
 
 const WomenBraceletsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [braceletsProducts, setBraceletsProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const braceletsProducts = [
+  // Static fallback data
+  const staticBraceletsProducts = [
     {
       id: 4,
       name: 'Traditional Bangles',

@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Heart, ShoppingCart, Menu, X, ChevronDown } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
-import { useSearch, getSearchSuggestions } from '../utils/searchUtils';
+import { useSearch } from '../hooks/useSearch';
+import { getSearchSuggestions } from '../utils/searchUtils';
 import logo from '../ASSETS/LOGO.png';
 
 // Import bridal collection images for dropdown
@@ -31,6 +32,7 @@ import murthi1 from '../ASSETS/murthiCollections/murthi1.jpg';
 import decorative1 from '../ASSETS/decorativeCollections/decorative1.jpg';
 import poojaitems1 from '../ASSETS/poojaitemsCollections/poojaitems1.jpg';
 import livingroom1 from '../ASSETS/livingroomCollections/livingroom1.jpg';
+import gift1 from '../ASSETS/giftCollections/gift1.jpg';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -175,6 +177,12 @@ const Header = () => {
       image: poojaitems1,
       description: 'Religious silver items',
       route: '/lifestyle-collection/pooja-items'
+    },
+    {
+      name: 'Gift Collections',
+      image: gift1,
+      description: 'Perfect gift items',
+      route: '/gift-collection'
     },
     {
       name: 'Living Room Collections',
@@ -488,9 +496,9 @@ const Header = () => {
                     </button>
                   )}
                   <div className={`${isMobile ? 'd-flex flex-column gap-3' : 'd-flex flex-column gap-1'}`} style={isMobile ? {paddingTop: '70px', maxHeight: '250px', overflowY: 'auto'} : {}}>
-                    {bridalCategories.map((category, index) => (
+                    {bridalCategories.map((category) => (
                       <Link 
-                        key={index}
+                        key={category.name}
                         to={category.route} 
                         className={`text-decoration-none d-flex align-items-center gap-2 p-2 rounded-2 text-dark border ${isMobile ? 'border-2 border-light-subtle bg-white shadow-sm' : 'border-transparent'}`}
                         style={isMobile ? {transition: 'all 0.3s ease', fontSize: '1rem', fontWeight: '600'} : {transition: 'all 0.3s ease'}}
@@ -584,9 +592,9 @@ const Header = () => {
                     </button>
                   )}
                   <div className={`${isMobile ? 'd-flex flex-column gap-3' : 'd-flex flex-column gap-1'}`} style={isMobile ? {paddingTop: '70px'} : {}}>
-                    {womenCategories.map((category, index) => (
+                    {womenCategories.map((category) => (
                       <Link 
-                        key={index}
+                        key={category.name}
                         to={category.route}
                         className={`text-decoration-none d-flex align-items-center gap-2 p-2 rounded-2 text-dark border ${isMobile ? 'border-2 border-light-subtle bg-white shadow-sm' : 'border-transparent'}`}
                         style={isMobile ? {transition: 'all 0.3s ease'} : {transition: 'all 0.3s ease'}}
@@ -680,9 +688,9 @@ const Header = () => {
                     </button>
                   )}
                   <div className={`${isMobile ? 'd-flex flex-column gap-3' : 'd-flex flex-column gap-1'}`} style={isMobile ? {paddingTop: '70px'} : {}}>
-                    {menCategories.map((category, index) => (
+                    {menCategories.map((category) => (
                       <Link 
-                        key={index}
+                        key={category.name}
                         to={category.route}
                         className={`text-decoration-none d-flex align-items-center gap-2 p-2 rounded-2 text-dark border ${isMobile ? 'border-2 border-light-subtle bg-white shadow-sm' : 'border-transparent'}`}
                         style={isMobile ? {transition: 'all 0.3s ease'} : {transition: 'all 0.3s ease'}}
@@ -776,9 +784,9 @@ const Header = () => {
                     </button>
                   )}
                   <div className={`${isMobile ? 'd-flex flex-column gap-3' : 'd-flex flex-column gap-1'}`} style={isMobile ? {paddingTop: '70px'} : {}}>
-                    {lifestyleCategories.map((category, index) => (
+                    {lifestyleCategories.map((category) => (
                       <Link 
-                        key={index}
+                        key={category.name}
                         to={category.route}
                         className={`text-decoration-none d-flex align-items-center gap-2 p-2 rounded-2 text-dark border ${isMobile ? 'border-2 border-light-subtle bg-white shadow-sm' : 'border-transparent'}`}
                         style={isMobile ? {transition: 'all 0.3s ease'} : {transition: 'all 0.3s ease', padding: '3px 6px'}}

@@ -9,13 +9,11 @@ import women1 from '../ASSETS/womenCollections/women1.jpg';
 
 const WomenNoseRingsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [noseRingsProducts, setNoseRingsProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const noseRingsProducts = [
+  // Static fallback data
+  const staticNoseRingsProducts = [
     {
       id: 5,
       name: 'Silver Ear Pins',
@@ -53,6 +51,43 @@ const WomenNoseRingsCollection = () => {
       description: 'Beautiful traditional nose ring with intricate silver work and design'
     }
   ];
+
+  useEffect(() => {
+    const fetchWomenNoseRingsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=women&subcategory=nose-rings');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          const allProducts = [...formattedProducts, ...staticNoseRingsProducts];
+          setNoseRingsProducts(allProducts);
+        } else {
+          setNoseRingsProducts(staticNoseRingsProducts);
+        }
+      } catch (error) {
+        setError('Failed to load products from server. Showing offline products.');
+        setNoseRingsProducts(staticNoseRingsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchWomenNoseRingsProducts();
+  }, []);
 
   if (isLoading) {
     return (

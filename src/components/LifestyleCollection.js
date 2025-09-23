@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -14,7 +14,51 @@ import lifestyle8 from '../ASSETS/lifestyleCollections/lifestyle8.jpg';
 import lifestyle9 from '../ASSETS/lifestyleCollections/lifestyle9.png';
 
 const LifestyleCollection = () => {
-  const lifestyleProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [lifestyleProducts, setLifestyleProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLifestyleProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=lifestyle');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data && data.data.length > 0) {
+            const formattedProducts = data.data.map(product => ({
+              id: product._id || product.id,
+              name: product.name,
+              image: product.image || (staticLifestyleProducts[0]?.image),
+              price: product.price,
+              offer: product.offer || '',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || '',
+              category: product.category
+            }));
+            setLifestyleProducts(formattedProducts);
+          } else {
+            setLifestyleProducts(staticLifestyleProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setLifestyleProducts(staticLifestyleProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching lifestyle products:', error);
+        setError('Failed to load products');
+        setLifestyleProducts(staticLifestyleProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLifestyleProducts();
+  }, []);
+
+  // Static fallback data
+  const staticLifestyleProducts = [
     {
       id: 1,
       name: 'Silver Dinner Set',
@@ -144,6 +188,9 @@ const LifestyleCollection = () => {
           </Link>
           <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
             POOJA ITEMS
+          </Link>
+          <Link to="/gift-collection" className="category-filter-btn">
+            GIFT
           </Link>
           <Link to="/lifestyle-collection/living-room" className="category-filter-btn">
             LIVING ROOM

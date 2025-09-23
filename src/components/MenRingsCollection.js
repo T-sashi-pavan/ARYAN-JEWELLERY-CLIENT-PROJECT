@@ -13,13 +13,11 @@ import men9 from '../ASSETS/menCollections/men9.jpg';
 
 const MenRingsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [ringsProducts, setRingsProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const ringsProducts = [
+  // Static fallback data
+  const staticRingsProducts = [
     {
       id: 1,
       name: 'Silver Ring',
@@ -101,10 +99,60 @@ const MenRingsCollection = () => {
       category: 'rings',
       subcategory: 'men-rings',
       size: 'Multiple Sizes',
-      material: '925 Sterling Silver',
-      description: 'Contemporary designer ring with unique pattern and modern styling'
+      material: '925 Sterling Silver with Design Elements',
+      description: 'Designer ring with intricate patterns and modern aesthetic appeal'
     }
   ];
+
+  useEffect(() => {
+    const fetchMenRingsProducts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching men\'s rings products from API...');
+        
+        const response = await fetch('http://localhost:5000/api/public/products?category=men&subcategory=rings');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('API Response for men\'s rings products:', data);
+        
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          
+          console.log(`Found ${formattedProducts.length} men's rings products from API`);
+          
+          // Combine API products with static products
+          const allProducts = [...formattedProducts, ...staticRingsProducts];
+          setRingsProducts(allProducts);
+        } else {
+          console.log('No men\'s rings products found in API, using static data');
+          setRingsProducts(staticRingsProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching men\'s rings products:', error);
+        setError('Failed to load products from server. Showing offline products.');
+        setRingsProducts(staticRingsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMenRingsProducts();
+  }, []);
 
   if (isLoading) {
     return (

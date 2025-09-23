@@ -36,8 +36,18 @@ import WomenNoseRingsCollection from './components/WomenNoseRingsCollection';
 import MenChainsCollection from './components/MenChainsCollection';
 import MenBraceletsCollection from './components/MenBraceletsCollection';
 import MenRingsCollection from './components/MenRingsCollection';
+// Import new bridal subcategory components
+import BridalNecklaceCollection from './components/BridalNecklaceCollection';
+import BridalBraceletsCollection from './components/BridalBraceletsCollection';
+import BridalChainsCollection from './components/BridalChainsCollection';
+import BridalPayalCollection from './components/BridalPayalCollection';
+import BridalNoseRingsCollection from './components/BridalNoseRingsCollection';
 import { WishlistProvider } from './context/WishlistContext';
 import { CartProvider } from './context/CartContext';
+// Import admin panel components
+import ProductManagement from './components/ProductManagement';
+import AddProduct from './components/AddProduct';
+import AdminAccess from './components/AdminAccess';
 
 function App() {
   return (
@@ -56,11 +66,11 @@ function App() {
               } />
               <Route path="/bridal-collection" element={<BridalCollection />} />
               {/* Bridal subcategory routes */}
-              <Route path="/bridal-collection/payal" element={<PayalCollection />} />
-              <Route path="/bridal-collection/chains" element={<ChainsCollection />} />
-              <Route path="/bridal-collection/bracelets" element={<BraceletsCollection />} />
-              <Route path="/bridal-collection/necklace" element={<NecklaceCollection />} />
-              <Route path="/bridal-collection/nose-rings" element={<NoseRingsCollection />} />
+              <Route path="/bridal-collection/necklace" element={<BridalNecklaceCollection />} />
+              <Route path="/bridal-collection/bracelets" element={<BridalBraceletsCollection />} />
+              <Route path="/bridal-collection/chains" element={<BridalChainsCollection />} />
+              <Route path="/bridal-collection/payal" element={<BridalPayalCollection />} />
+              <Route path="/bridal-collection/nose-rings" element={<BridalNoseRingsCollection />} />
               <Route path="/women-collection" element={<WomenCollection />} />
               {/* Women's subcategory routes */}
               <Route path="/women-collection/payal" element={<WomenPayalCollection />} />
@@ -91,6 +101,11 @@ function App() {
               <Route path="/wishlist" element={<Wishlist />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/search" element={<SearchResults />} />
+              {/* Admin panel routes */}
+              <Route path="/admin" element={<AdminAccess />} />
+              <Route path="/admin/products" element={<ProductManagement />} />
+              <Route path="/admin/add-product" element={<AddProduct />} />
+              <Route path="/admin/edit-product/:id" element={<AddProduct />} />
             </Routes>
             <Footer />
           </div>

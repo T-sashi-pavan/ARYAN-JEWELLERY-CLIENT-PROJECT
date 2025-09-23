@@ -9,13 +9,11 @@ import women5 from '../ASSETS/womenCollections/women5.jpg';
 
 const WomenPayalCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [payalProducts, setPayalProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const payalProducts = [
+  // Static fallback data
+  const staticPayalProducts = [
     {
       id: 9,
       name: 'Designer Anklets',
@@ -53,6 +51,43 @@ const WomenPayalCollection = () => {
       description: 'Contemporary ankle chain perfect for modern women'
     }
   ];
+
+  useEffect(() => {
+    const fetchWomenPayalProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=women&subcategory=payal');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          const allProducts = [...formattedProducts, ...staticPayalProducts];
+          setPayalProducts(allProducts);
+        } else {
+          setPayalProducts(staticPayalProducts);
+        }
+      } catch (error) {
+        setError('Failed to load products from server. Showing offline products.');
+        setPayalProducts(staticPayalProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchWomenPayalProducts();
+  }, []);
 
   if (isLoading) {
     return (

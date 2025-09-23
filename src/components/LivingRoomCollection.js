@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -11,7 +11,51 @@ import livingroom5 from '../ASSETS/livingroomCollections/livingroom5.jpg';
 import livingroom6 from '../ASSETS/livingroomCollections/livingroom6.jpg';
 
 const LivingRoomCollection = () => {
-  const livingRoomProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [livingRoomProducts, setLivingRoomProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchLivingRoomProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=livingroom');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data && data.data.length > 0) {
+            const formattedProducts = data.data.map(product => ({
+              id: product._id || product.id,
+              name: product.name,
+              image: product.image || (staticLivingRoomProducts[0]?.image),
+              price: product.price,
+              offer: product.offer || '',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || '',
+              category: product.category
+            }));
+            setLivingRoomProducts(formattedProducts);
+          } else {
+            setLivingRoomProducts(staticLivingRoomProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setLivingRoomProducts(staticLivingRoomProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching living room products:', error);
+        setError('Failed to load products');
+        setLivingRoomProducts(staticLivingRoomProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLivingRoomProducts();
+  }, []);
+
+  // Static fallback data
+  const staticLivingRoomProducts = [
     {
       id: 1,
       name: 'Silver Wall Mirror',
@@ -110,6 +154,9 @@ const LivingRoomCollection = () => {
           </Link>
           <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
             POOJA ITEMS
+          </Link>
+          <Link to="/gift-collection" className="category-filter-btn">
+            GIFT
           </Link>
           <Link to="/lifestyle-collection/living-room" className="category-filter-btn active">
             LIVING ROOM

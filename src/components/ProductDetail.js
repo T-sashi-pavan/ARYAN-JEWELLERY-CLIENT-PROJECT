@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link, useParams } from 'react-router-dom';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
-import { Heart } from 'lucide-react';
 import { ALL_PRODUCTS } from '../utils/searchUtils';
 import './ProductDetail.css';
 
@@ -57,7 +56,11 @@ import women7 from '../ASSETS/womenCollections/women7.jpg';
 import women8 from '../ASSETS/womenCollections/women8.jpg';
 import men1 from '../ASSETS/menCollections/men1.webp';
 import men2 from '../ASSETS/menCollections/men2.jpg';
+import men3 from '../ASSETS/menCollections/men3.jpg';
+import men4 from '../ASSETS/menCollections/men4.jpg';
 import men5 from '../ASSETS/menCollections/men5.jpg';
+import men6 from '../ASSETS/menCollections/men6.jpg';
+import men7 from '../ASSETS/menCollections/men7.jpg';
 import men8 from '../ASSETS/menCollections/men8.jpg';
 
 const ProductDetail = () => {
@@ -883,43 +886,10 @@ const ProductDetail = () => {
                 {isInCart(product.id) ? 'In Cart' : 'Add to Cart'}
               </button>
               <button 
+                className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
                 onClick={handleAddToWishlist}
-                style={{
-                  background: isInWishlist(product.id) ? '#e74c3c' : 'transparent',
-                  color: isInWishlist(product.id) ? 'white' : '#e74c3c',
-                  border: '2px solid #e74c3c',
-                  padding: '15px 30px',
-                  borderRadius: '8px',
-                  fontSize: '16px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  flex: '1',
-                  display: 'block',
-                  visibility: 'visible',
-                  opacity: '1',
-                  minWidth: '180px',
-                  minHeight: '50px'
-                }}
-                onMouseEnter={(e) => {
-                  if (!isInWishlist(product.id)) {
-                    e.target.style.background = '#e74c3c';
-                    e.target.style.color = 'white';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isInWishlist(product.id)) {
-                    e.target.style.background = 'transparent';
-                    e.target.style.color = '#e74c3c';
-                  }
-                }}
               >
-                <Heart 
-                  size={16} 
-                  fill={isInWishlist(product.id) ? 'currentColor' : 'none'} 
-                  className="me-2"
-                />
-                {isInWishlist(product.id) ? 'In Wishlist' : 'Add to Wishlist'}
+                {isInWishlist(product.id) ? '♥ In Wishlist' : '♡ Add to Wishlist'}
               </button>
             </div>
           </div>

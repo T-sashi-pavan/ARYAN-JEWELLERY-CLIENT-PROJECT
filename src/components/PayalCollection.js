@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -8,7 +8,51 @@ import bridal4 from '../ASSETS/bridalCollections/bridal4.jpg';
 import bridal7 from '../ASSETS/bridalCollections/bridal7.jpg';
 
 const PayalCollection = () => {
-  const payalProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [payalProducts, setPayalProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPayalProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?subcategory=payal');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            const formattedProducts = data.map(product => ({
+              id: product._id,
+              name: product.name,
+              image: product.images && product.images.length > 0 ? product.images[0] : staticPayalProducts[0]?.image,
+              price: `₹${product.price.toLocaleString()}`,
+              originalPrice: product.originalPrice ? `₹${product.originalPrice.toLocaleString()}` : '',
+              category: product.subcategory || 'payal',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || ''
+            }));
+            setPayalProducts(formattedProducts);
+          } else {
+            setPayalProducts(staticPayalProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setPayalProducts(staticPayalProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching payal products:', error);
+        setError('Failed to load products');
+        setPayalProducts(staticPayalProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPayalProducts();
+  }, []);
+
+  // Static fallback data
+  const staticPayalProducts = [
     {
       id: 'payal_1',
       name: 'Royal Silver Payal',

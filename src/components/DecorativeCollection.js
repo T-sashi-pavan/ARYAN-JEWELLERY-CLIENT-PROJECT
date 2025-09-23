@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -11,7 +11,51 @@ import decorative5 from '../ASSETS/decorativeCollections/decorative5.jpg';
 import decorative6 from '../ASSETS/decorativeCollections/decorative6.jpg';
 
 const DecorativeCollection = () => {
-  const decorativeProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [decorativeProducts, setDecorativeProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchDecorativeProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=decorative');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data && data.data.length > 0) {
+            const formattedProducts = data.data.map(product => ({
+              id: product._id || product.id,
+              name: product.name,
+              image: product.image || (staticDecorativeProducts[0]?.image),
+              price: product.price,
+              offer: product.offer || '',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || '',
+              category: product.category
+            }));
+            setDecorativeProducts(formattedProducts);
+          } else {
+            setDecorativeProducts(staticDecorativeProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setDecorativeProducts(staticDecorativeProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching decorative products:', error);
+        setError('Failed to load products');
+        setDecorativeProducts(staticDecorativeProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchDecorativeProducts();
+  }, []);
+
+  // Static fallback data
+  const staticDecorativeProducts = [
     {
       id: 1,
       name: 'Silver Decorative Vase',
@@ -110,6 +154,9 @@ const DecorativeCollection = () => {
           </Link>
           <Link to="/lifestyle-collection/pooja-items" className="category-filter-btn">
             POOJA ITEMS
+          </Link>
+          <Link to="/gift-collection" className="category-filter-btn">
+            GIFT
           </Link>
           <Link to="/lifestyle-collection/living-room" className="category-filter-btn">
             LIVING ROOM

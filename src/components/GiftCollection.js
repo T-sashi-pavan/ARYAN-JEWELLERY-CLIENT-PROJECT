@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './GiftCollection.css';
 
@@ -11,7 +11,51 @@ import gift5 from '../ASSETS/giftCollections/gift5.jpg';
 import gift6 from '../ASSETS/giftCollections/gift6.jpg';
 
 const GiftCollection = () => {
-  const giftProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [giftProducts, setGiftProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchGiftProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=gift');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data && data.data.length > 0) {
+            const formattedProducts = data.data.map(product => ({
+              id: product._id || product.id,
+              name: product.name,
+              image: product.image || (staticGiftProducts[0]?.image),
+              price: product.price,
+              offer: product.offer || '',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || '',
+              category: product.category
+            }));
+            setGiftProducts(formattedProducts);
+          } else {
+            setGiftProducts(staticGiftProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setGiftProducts(staticGiftProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching gift products:', error);
+        setError('Failed to load products');
+        setGiftProducts(staticGiftProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchGiftProducts();
+  }, []);
+
+  // Static fallback data
+  const staticGiftProducts = [
     {
       id: 1,
       name: 'Silver Gift Set',

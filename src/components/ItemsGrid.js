@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ItemsGrid.css';
 
-// Import product images
+// Import product images (fallback images)
 import women1 from '../ASSETS/womenCollections/women1.jpg';
 import women2 from '../ASSETS/womenCollections/women2.jpg';
 import men1 from '../ASSETS/menCollections/men1.webp';
@@ -13,7 +13,59 @@ import lifestyle4 from '../ASSETS/lifestyleCollections/lifestyle4.webp';
 import lifestyle5 from '../ASSETS/lifestyleCollections/lifestyle5.jpg';
 
 const ItemsGrid = () => {
-  const items = [
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching featured products...');
+        
+        const response = await fetch('http://localhost:5000/api/public/products?featured=true&limit=8');
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Featured products API response:', data);
+          
+          if (data.success && data.data && Array.isArray(data.data) && data.data.length > 0) {
+            const formattedProducts = data.data.map(product => ({
+              id: product._id || product.id,
+              name: product.name,
+              image: product.image,
+              category: product.category,
+              subcategory: product.subcategory,
+              price: product.price,
+              originalPrice: product.originalPrice,
+              size: product.size || '',
+              material: product.material || '',
+              description: product.description || ''
+            }));
+            console.log('Formatted featured products:', formattedProducts);
+            setFeaturedProducts(formattedProducts);
+          } else {
+            console.log('No featured products found, using static data');
+            setFeaturedProducts(staticItems);
+          }
+        } else {
+          console.warn('Featured products API response not ok, using static data');
+          setFeaturedProducts(staticItems);
+        }
+      } catch (error) {
+        console.error('Error fetching featured products:', error);
+        setError('Failed to load featured products');
+        setFeaturedProducts(staticItems);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
+  // Static fallback data
+  const staticItems = [
     {
       id: 1,
       name: 'Women\'s Elegant Necklace',
@@ -104,27 +156,64 @@ const ItemsGrid = () => {
     }
   ];
 
+  if (isLoading) {
+    return (
+      <section className="items-grid-section">
+        <div className="container">
+          <h2 className="section-title">Featured Products</h2>
+          <div className="loading-message">Loading featured products...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="items-grid-section">
+        <div className="container">
+          <h2 className="section-title">Featured Products</h2>
+          <div className="error-message">Error: {error}</div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="items-grid-section">
       <div className="container">
         <h2 className="section-title">Featured Products</h2>
-        <div className="items-grid">
-          {items.map((item) => (
-            <Link 
-              key={item.id} 
-              to={`/product/${item.id}`} 
-              state={{ product: item }}
-              className="item-card"
-            >
-              <div className="item-image">
-                <img src={item.image} alt={item.name} />
-              </div>
-              <div className="item-info">
-                <h3 className="item-name">{item.name}</h3>
-              </div>
-            </Link>
-          ))}
-        </div>
+        {featuredProducts.length === 0 ? (
+          <div className="no-products-message">No featured products available at the moment.</div>
+        ) : (
+          <div className="items-grid">
+            {featuredProducts.map((item) => (
+              <Link 
+                key={item.id} 
+                to={`/product/${item.id}`} 
+                state={{ product: item }}
+                className="item-card"
+              >
+                <div className="item-image">
+                  <img 
+                    src={item.image} 
+                    alt={item.name}
+                    onError={(e) => {
+                      // Fallback to a default image if the API image fails to load
+                      e.target.src = lifestyle1;
+                    }}
+                  />
+                </div>
+                <div className="item-info">
+                  <h3 className="item-name">{item.name}</h3>
+                  <p className="item-price">{item.price}</p>
+                  {item.originalPrice && (
+                    <p className="item-original-price">{item.originalPrice}</p>
+                  )}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -8,7 +8,51 @@ import bridal8 from '../ASSETS/bridalCollections/bridal8.jpg';
 import bridal4 from '../ASSETS/bridalCollections/bridal4.jpg';
 
 const NoseRingsCollection = () => {
-  const noseRingsProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [noseRingsProducts, setNoseRingsProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNoseRingsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?subcategory=nose-rings');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            const formattedProducts = data.map(product => ({
+              id: product._id,
+              name: product.name,
+              image: product.images && product.images.length > 0 ? product.images[0] : staticNoseRingsProducts[0]?.image,
+              price: `₹${product.price.toLocaleString()}`,
+              originalPrice: product.originalPrice ? `₹${product.originalPrice.toLocaleString()}` : '',
+              category: product.subcategory || 'noserings',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || ''
+            }));
+            setNoseRingsProducts(formattedProducts);
+          } else {
+            setNoseRingsProducts(staticNoseRingsProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setNoseRingsProducts(staticNoseRingsProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching nose rings products:', error);
+        setError('Failed to load products');
+        setNoseRingsProducts(staticNoseRingsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNoseRingsProducts();
+  }, []);
+
+  // Static fallback data
+  const staticNoseRingsProducts = [
     {
       id: 'noserings_1',
       name: 'Antique Nose Ring',

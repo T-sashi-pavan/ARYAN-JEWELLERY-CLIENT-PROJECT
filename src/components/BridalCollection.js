@@ -15,13 +15,11 @@ import bridal9 from '../ASSETS/bridalCollections/bridal9.jpg';
 const BridalCollection = () => {
   const [visibleItems, setVisibleItems] = useState(8);
   const [isLoading, setIsLoading] = useState(true);
+  const [bridalProducts, setBridalProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const bridalProducts = [
+  // Static fallback data
+  const staticBridalProducts = [
     {
       id: 1,
       name: 'Royal Bridal Necklace Set',
@@ -112,6 +110,56 @@ const BridalCollection = () => {
     }
   ];
 
+  useEffect(() => {
+    const fetchBridalProducts = async () => {
+      try {
+        setIsLoading(true);
+        console.log('Fetching bridal products from API...');
+        
+        const response = await fetch('http://localhost:5000/api/public/products?category=bridal');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('API Response for bridal products:', data);
+        
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          
+          console.log(`Found ${formattedProducts.length} bridal products from API`);
+          
+          // Combine API products with static products
+          const allProducts = [...formattedProducts, ...staticBridalProducts];
+          setBridalProducts(allProducts);
+        } else {
+          console.log('No bridal products found in API, using static data');
+          setBridalProducts(staticBridalProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching bridal products:', error);
+        setError('Failed to load products from server. Showing offline products.');
+        setBridalProducts(staticBridalProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBridalProducts();
+  }, []);
+
   const loadMore = () => {
     setVisibleItems(prev => Math.min(prev + 4, bridalProducts.length));
   };
@@ -142,17 +190,17 @@ const BridalCollection = () => {
             <Link to="/bridal-collection" className="filter-btn active">
               ALL
             </Link>
-            <Link to="/bridal-collection/payal" className="filter-btn">
-              PAYAL
-            </Link>
-            <Link to="/bridal-collection/chains" className="filter-btn">
-              CHAINS
+            <Link to="/bridal-collection/necklace" className="filter-btn">
+              NECKLACES
             </Link>
             <Link to="/bridal-collection/bracelets" className="filter-btn">
               BRACELETS
             </Link>
-            <Link to="/bridal-collection/necklace" className="filter-btn">
-              NECKLACE
+            <Link to="/bridal-collection/chains" className="filter-btn">
+              CHAINS
+            </Link>
+            <Link to="/bridal-collection/payal" className="filter-btn">
+              PAYALS
             </Link>
             <Link to="/bridal-collection/nose-rings" className="filter-btn">
               NOSE RINGS

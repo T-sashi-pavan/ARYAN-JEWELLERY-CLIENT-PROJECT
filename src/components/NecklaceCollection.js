@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './BridalCollection.css';
 
@@ -8,7 +8,51 @@ import bridal6 from '../ASSETS/bridalCollections/bridal6.jpg';
 import bridal2 from '../ASSETS/bridalCollections/bridal2.jpg';
 
 const NecklaceCollection = () => {
-  const necklaceProducts = [
+  const [isLoading, setIsLoading] = useState(true);
+  const [necklaceProducts, setNecklaceProducts] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNecklaceProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?subcategory=necklace');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.length > 0) {
+            const formattedProducts = data.map(product => ({
+              id: product._id,
+              name: product.name,
+              image: product.images && product.images.length > 0 ? product.images[0] : staticNecklaceProducts[0]?.image,
+              price: `₹${product.price.toLocaleString()}`,
+              originalPrice: product.originalPrice ? `₹${product.originalPrice.toLocaleString()}` : '',
+              category: product.subcategory || 'necklace',
+              size: product.size || '',
+              material: product.material || product.composition || '',
+              description: product.description || ''
+            }));
+            setNecklaceProducts(formattedProducts);
+          } else {
+            setNecklaceProducts(staticNecklaceProducts);
+          }
+        } else {
+          console.warn('API response not ok, using static data');
+          setNecklaceProducts(staticNecklaceProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching necklace products:', error);
+        setError('Failed to load products');
+        setNecklaceProducts(staticNecklaceProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchNecklaceProducts();
+  }, []);
+
+  // Static fallback data
+  const staticNecklaceProducts = [
     {
       id: 'necklace_1',
       name: 'Royal Bridal Necklace Set',

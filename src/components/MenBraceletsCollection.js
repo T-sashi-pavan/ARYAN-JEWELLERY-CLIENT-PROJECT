@@ -9,13 +9,11 @@ import men8 from '../ASSETS/menCollections/men8.jpg';
 
 const MenBraceletsCollection = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [braceletsProducts, setBraceletsProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Simulate loading
-    setTimeout(() => setIsLoading(false), 500);
-  }, []);
-
-  const braceletsProducts = [
+  // Static fallback data
+  const staticBraceletsProducts = [
     {
       id: 5,
       name: 'Silver Chain Bracelet',
@@ -53,6 +51,43 @@ const MenBraceletsCollection = () => {
       description: 'Heavy-duty link bracelet with bold design and premium craftsmanship'
     }
   ];
+
+  useEffect(() => {
+    const fetchMenBraceletsProducts = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('http://localhost:5000/api/public/products?category=men&subcategory=bracelets');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.success && data.data && Array.isArray(data.data)) {
+          const formattedProducts = data.data.map(product => ({
+            id: product.id || product._id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            originalPrice: product.originalPrice,
+            category: product.category,
+            subcategory: product.subcategory,
+            size: product.size,
+            material: product.material,
+            description: product.description
+          }));
+          const allProducts = [...formattedProducts, ...staticBraceletsProducts];
+          setBraceletsProducts(allProducts);
+        } else {
+          setBraceletsProducts(staticBraceletsProducts);
+        }
+      } catch (error) {
+        setError('Failed to load products from server. Showing offline products.');
+        setBraceletsProducts(staticBraceletsProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMenBraceletsProducts();
+  }, []);
 
   if (isLoading) {
     return (
