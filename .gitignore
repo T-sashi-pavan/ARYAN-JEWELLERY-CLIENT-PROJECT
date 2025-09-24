@@ -1,11 +1,13 @@
 # Dependencies
 node_modules/
-/.pnp
-.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Production build
-/build
-/dist
+# Production builds
+build/
+dist/
+out/
 
 # Environment variables
 .env
@@ -14,17 +16,31 @@ node_modules/
 .env.test.local
 .env.production.local
 
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs
+*.log
+
 # Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
 
 # Coverage directory used by tools like istanbul
 coverage/
@@ -39,15 +55,6 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
-# Optional eslint cache
-.eslintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
 # Optional REPL history
 .node_repl_history
 
@@ -61,65 +68,14 @@ jspm_packages/
 .cache
 .parcel-cache
 
-# Next.js build output
+# next.js build output
 .next
 
-# Nuxt.js build / generate output
+# nuxt.js build output
 .nuxt
-dist
 
-# Storybook build outputs
-.out
-.storybook-out
+# vuepress build output
+.vuepress/dist
 
-# Temporary folders
-tmp/
-temp/
-
-# Editor directories and files
-.vscode/
-.idea/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# React specific
-/src/**/*.css.map
-/src/**/*.js.map
-
-# Testing
-/coverage
-
-# Misc
-*.tgz
-*.tar.gz
+# Serverless directories
+.serverless
